@@ -9,6 +9,7 @@ from sklearn.metrics import r2_score, mean_squared_error
 from sklearn.model_selection import train_test_split
 import sklearn.linear_model as skl
 
+
 def FrankeFunction(x, y):
     term1 = 0.75 * np.exp(-(0.25 * (9 * x - 2) ** 2) - 0.25 * ((9 * y - 2) ** 2))
     term2 = 0.75 * np.exp(-((9 * x + 1) ** 2) / 49.0 - 0.1 * (9 * y + 1))
@@ -45,7 +46,7 @@ class Data:
 
         noiseval = np.zeros(self.n)
         if self.noise == 1:
-            noiseval = 0.1*np.random.normal(0, 1, self.n)
+            noiseval = 0.1 * np.random.normal(0, 1, self.n)
 
         z = FrankeFunction(self.x, self.y) + noiseval
         self.z = z
@@ -90,8 +91,6 @@ class Data:
         self.MSE_SKL = MSE(Data.z_train, Data.ytilde)
 
 
-
-
 Data = Data(p=10)  # Initiate with polynomial degree
 Data.GenerateDataFF(
     N=100, noise=1
@@ -102,6 +101,6 @@ Data.Predict()
 Data.Test()
 Data.SklReg()
 
-print("MSE SKL Train: %f"%Data.MSE_SKL)
-print("MSE Own Train: %f"%Data.MSE_train)
-print("MSE Own Test:  %f"%Data.MSE_test)
+print("MSE SKL Train: %f" % Data.MSE_SKL)
+print("MSE Own Train: %f" % Data.MSE_train)
+print("MSE Own Test:  %f" % Data.MSE_test)
