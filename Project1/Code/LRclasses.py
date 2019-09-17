@@ -30,9 +30,10 @@ def MSE(z1, z2):
 
 
 class Data:
-    def __init__(self, p=5,k=10):
+    def __init__(self, p=5, k=10):
         self.p = p  # Degree of polynomial
-        self.kfolds  = k
+        self.kfolds = k
+
     def GenerateDataFF(self, N=30, noise=0):
         self.N = N
         self.n = N ** 2  # Total number of data points
@@ -100,10 +101,10 @@ class Data:
         if self.n > 4:
             self.r2_SKL = r2(Data.z_train, Data.ytilde)
         cv_results = cross_validate(clf, self.X, self.z, cv=self.kfolds)
-        print(cv_results['test_score'])
-            
+        print(cv_results["test_score"])
+
     def xval(self):
-        k=self.kfolds
+        k = self.kfolds
         self.kscores = np.zeros((2, k))
         kfold = KFold(k, shuffle=True)
         j = 0
@@ -118,7 +119,7 @@ class Data:
             j += 1
 
 
-Data = Data(p=5,k=3)  # Initiate with polynomial degree
+Data = Data(p=5, k=3)  # Initiate with polynomial degree
 Data.GenerateDataFF(
     N=100, noise=1
 )  # N - square of number of data points, set noise == 1 to add noise
