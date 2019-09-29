@@ -159,11 +159,97 @@ Lasso regression, including use of resampling. Start by fitting polynomials to F
 Having established the model and method, the models are further evaluated using resamling
 techniques such as cross-validation.
 
+
+choice of modelling based on insight. Terrain possbily polynomial ? use franke function to test algorithms. 
 \paragraph{Project flow:} This project starts by introducing 
 \paragraph{Main findings}
 
 
 \section{Methods}
+\subsection{Multiple Linear Regression}
+
+
+A multiple variable polynomial of the form
+
+
+
+
+The linearity in multiple linear regression relates to the linear relationship between the regression coefficients $\beta_i$. 
+
+
+Linear regression models the relationship between the response or target and the predictors linearly. In this project, three different methods are applied to fit the model to the data. Ordinary Least Squares (OLS), Ridge, and Lasso. Since this project assumes that the 
+
+
+In order to apply these methods effectively, the regression problem is represented by a matrix vector multipl
+
+Using a polynomial fit of degree $p$, the 
+
+Later in this project, 
+\begin{equation}
+x_1, x_2
+\end{equation} 
+
+\begin{equation}
+A=\begin{bmatrix}
+    1       & x_1 & x_1^2 & \dots & x_1^{m-1} \\
+    2       & x_2 & x_2^2 & \dots & x_2^{m-1} \\
+    \hdotsfor{5} \\
+    n       & x_n & x_3^2 & \dots & x_n^{m-1}
+\end{bmatrix}
+\end{equation}
+corresponding to the choice of $m$ may be constructed, along with a vector $\bm{x} =[c_1,c_2, \dots,c_m]$, containing the coefficients of the polynomial. If $\bm{b}=[y_1,y_2,\dots,y_n]$, then $S=\sum_{i=1}^n (p(x)-y_i)$ may be expressed as $S=||A\bf x - \bf b ||^2_2$. In order to minimize $S$, this assignment utilizes two methods: a QR factorization of $A$, and solving the normal equations $A^TAx=A^Tb$ using Cholesky factorization and forward substitution.
+
+Cost function e define a function which gives a measure of the spread between the values yi (which represent hopefully the exact values) and the parameterized values , namely
+
+hva er tilde y, epsilon etc.
+
+\subsubsection{Ordinary Least Squares (OLS)}
+OLS fits a function by minimizing the sum of the squares of the errors between a model and a data set. The sum of tThis results in the cost function
+\begin{equation}
+C(\bm{\beta})=\frac{1}{n}\sum_{i=1}^n(y_i-\tilde{y}_i)^2=\frac{1}{n}(\bm{y}-\bm{X}^T\bm{\beta})^T(\bm{y}-\bm{X}^T\bm{\beta})
+\label{eq:OLScost}
+\end{equation}
+Which, if A has full column rank, has a unique solution \citep{Ascher}[p.144] which satisfies the normal equations:
+\begin{equation}
+(\bm{X}^T\bm{X})\bm{b}=\bm{X}^T \bm{y}
+\label{eq:normeq}
+\end{equation}
+This corresponds to finding the minima of the derivative of the cost function with respect to $\bm{\beta}$. To which the solution is \begin{equation}
+\bm{\beta}^{OLS}= (\bm{X}^T\bm{X})^{-1}\bm{X}^T \bm{y}=\bm{A}^{\dagger}\bm{y}.
+\end{equation}
+This matrix inversion may then be carried out using for example SVD or LU decomposion. Alternatively, minimizing \eqref{eq:OLScost} may be accomplished using orthogonal transformation with QR decomposition, the details of which may be found in chapter one of Uri M. Ascher and Chen Grief's book  \cite{Ascher}. The choice between the two approaches hinges on computational stability versus computational speed.
+
+\paragraph*{Computational Speed:}
+The two approaches are as mentioned dissimilar in computational cost, measured in floating point operations (flops) - especially in overdetermined cases, where the matrix $\bm{X}\in {\Bbb R}^{n,m}$, has $m<n$.
+The normal equation solution uses $mn^2
++ (1/3)n^3$ flops \citep{Ascher}[p.146], while the QR decomposition requires $2mn^2−(2/3)n^3$ flops  \citep{Ascher}[p.155]. Which means that the normal equations method is significantly faster than the QR approach.
+
+
+\paragraph*{Computational Stability:}
+The conditioning of the two approaches, or stability with respect to input perturbation, are measured in conditioning number of the matrix representing the problem, $K(\bm{X})$. Higher $K(\bm{X})$ means less stable. 
+\begin{equation}
+K(\bm{X})=||\bm{X}^{-1}|| \times ||\bm{X}||
+\end{equation}
+In order to acquire the normal equations, the product of $\bm{X}$ and it's transpose is used. Hence, it's conditioning number goes as $K(\bm{X}^T\bm{X})=K(\bm{X})^2$. This squaring of the conditioning number is not required for the QR approach, which means that the QR method has a lower conditioning number, and is thus the more stable method.
+'
+
+choice of model - regression type - linear etc. polynomials - understanding of the problem at hand.
+choice of minimization evaluation of betas type of regression method, OLS etc.
+\subsubsection{Ridge Regression}
+Alterations to the OLS cost function \eqref{eq:OLScost} may be done in order to assert control of the  \hyperref[S:M_Biasvar]{bias variance trade off}. One such alteration is known as Ridge Regression, with the following cost function \citep{MehtaPankaj2019Ahli}[p.22]:
+
+\begin{equation}
+C(\bm{\beta})=\frac{1}{n}(\bm{y}-\bm{X}^T\bm{\beta})^T(\bm{y}-\bm{X}^T\bm{\beta})+\lambda \bm{\beta}^T\bm{\beta}
+\label{eq:RIDGEcost}
+\end{equation}
+
+
+\subsubsection{Lasso Regression}
+\subsection{Re-sampling techniques}
+\subsection{Bias Variance trade-off} \label{S:M_Biasvar}
+
+
+\subsection{Algorithms}
 \subsection{Franke's function}
 Describe Franke's function.
 \begin{align}
@@ -171,21 +257,11 @@ f(x,y) &= \frac{3}{4}\exp{\left(-\frac{(9x-2)^2}{4} - \frac{(9y-2)^2}{4}\right)}
 &+\frac{1}{2}\exp{\left(-\frac{(9x-7)^2}{4} - \frac{(9y-3)^2}{4}\right)} -\frac{1}{5}\exp{\left(-(9x-4)^2 - (9y-7)^2\right) }.
 \label{eq:FrankeFunction}
 \end{align}
-\subsection{Regression methods}
-\subsubsection{Ordinary Least Squares (OLS)}
-\subsubsection{Ridge Regression}
-\subsubsection{Lasso Regression}
-\subsection{Re-sampling techniques}
-\subsection{Bias Variance tradeoff}
-
-
-\subsection{Algorithm implementation}
-
 \section{Results}
 
 \section{Discussion of results}
 
-
+\cite{MHJ_LinReg}
 
 \subsection{Conclusions}
 
