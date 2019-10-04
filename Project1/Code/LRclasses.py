@@ -9,6 +9,8 @@ from sklearn.model_selection import train_test_split, cross_validate
 import sklearn.linear_model as skl
 from sklearn.model_selection import KFold
 
+import Read_Write_Terrain
+
 
 def FrankeFunction(x, y):
     term1 = 0.75 * np.exp(-(0.25 * (9 * x - 2) ** 2) - 0.25 * ((9 * y - 2) ** 2))
@@ -48,6 +50,16 @@ class Data:
             noiseval = 0.5 * np.random.normal(0, 1, self.n)
         z = FrankeFunction(self.x, self.y) + noiseval
         self.z = z
+
+    def GenerateDataTerrain(self, terrain):
+        n,m=np.shape(terrain)
+        #er det smart med linspace paa 1?
+        y=np.linspace(1,n,n)
+        x=np.linspace(1,m,m)
+        x,y=np.meshgrid(x,y)
+        self.x = np.ravel(x)
+        self.y = np.ravel(y)
+        self.z=np.ravel(terrain1)
 
     def CreateDesignMatrix(self):
         """  Sets up design matrix X. Splits X in training and test data"""
@@ -104,7 +116,7 @@ class Data:
         ytilde = clf.predict(self.X_train)
         self.MSE_SKL = MSE(Data.z_train, ytilde)
         self.r2_SKL = 0
-        if self.n > 4:
+        #if self.n > 4:
             self.r2_SKL = r2(Data.z_train, ytilde)
         cv_results = cross_validate(clf, self.X, self.z, cv=k)
         print("OLS score \n",cv_results["test_score"])
@@ -139,6 +151,7 @@ class Data:
 
 
 np.random.seed(3)
+"""
 Data = Data(p=5)  # Initiate with polynomial degree
 Data.GenerateDataFF(
     N=100, noise=1
@@ -150,10 +163,21 @@ Data.Test_Predict()
 Data.Skl_Lasso()
 Data.Skl_OLS()
 #Data.SklOLS()
-"""
-print("MSE SKL Train: %f" % Data.MSE_SKL)
-print("MSE Own Train: %f" % Data.MSE_train)
-print("MSE Own Test:  %f" % Data.MSE_test)"""
+
+#print("MSE SKL Train: %f" % Data.MSE_SKL)
+#print("MSE Own Train: %f" % Data.MSE_train)
+#print("MSE Own Test:  %f" % Data.MSE_test)
 Data.Kfold_Crossvalidation()
 #print(Data.kscores)
 Data.Kfold_Crossvalidation(method=1, llambda=1, k=10)
+"""
+Data = Data(p=5)
+terrain1=Read_Write_Terrain.read_terrain()
+print(np.shape(terrain1))
+Read_Write_Terrain.plot_terrain(terrain1)
+
+Data.GenerateDataTerrain(terrain1)
+Data.CreateDesignMatrix()
+Data.OLS()
+Data.Skl_OLS()
+print("MSE SKL Train: %f" % Data.MSE_SKL)

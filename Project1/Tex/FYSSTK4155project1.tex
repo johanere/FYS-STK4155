@@ -233,6 +233,8 @@ K(\bm{X})=||\bm{X}^{-1}|| \times ||\bm{X}||
 In order to acquire the normal equations, the product of $\bm{X}$ and it's transpose is used. Hence, it's conditioning number goes as $K(\bm{X}^T\bm{X})=K(\bm{X})^2$. This squaring of the conditioning number is not required for the QR approach, which means that the QR method has a lower conditioning number, and is thus the more stable method.
 '
 
+confidence interval for beta hastie et all p.47
+
 choice of model - regression type - linear etc. polynomials - understanding of the problem at hand.
 choice of minimization evaluation of betas type of regression method, OLS etc.
 \subsubsection{Ridge Regression}
@@ -251,14 +253,20 @@ C(\bm{\beta})=\frac{1}{n}(\bm{y}-\bm{X}^T\bm{\beta})^T(\bm{y}-\bm{X}^T\bm{\beta}
 
 \subsection{Algorithms}
 \subsection{Franke's function}
-Describe Franke's function.
-\begin{align}
-f(x,y) &= \frac{3}{4}\exp{\left(-\frac{(9x-2)^2}{4} - \frac{(9y-2)^2}{4}\right)}+\frac{3}{4}\exp{\left(-\frac{(9x+1)^2}{49}- \frac{(9y+1)}{10}\right)} \\
-&+\frac{1}{2}\exp{\left(-\frac{(9x-7)^2}{4} - \frac{(9y-3)^2}{4}\right)} -\frac{1}{5}\exp{\left(-(9x-4)^2 - (9y-7)^2\right) }.
-\label{eq:FrankeFunction}
-\end{align}
-\section{Results}
-
+Describe Franke's function. \newline
+{\small
+\begin{tabular}{llllllllllllllll}
+\hline
+ Polynomial degree   & $\beta_{0} $      & $\beta_{1} $      & $\beta_{2} $      & $\beta_{3} $        & $\beta_{4} $       & $\beta_{5} $        & $\beta_{6} $       & $\beta_{7} $       & $\beta_{8} $      & $\beta_{9} $       & $\beta_{10} $       & $\beta_{11} $      & $\beta_{12} $      & $\beta_{13} $      & $\beta_{14} $      \\
+\hline
+ $ 0 $               & $ 0.44 \pm 0.13 $ & -                 & -                 & -                   & -                  & -                   & -                  & -                  & -                 & -                  & -                   & -                  & -                  & -                  & -                  \\
+ $ 1 $               & $ 0.44 \pm 0.13 $ & $ 6.06 \pm 1.08 $ & $ 4.44 \pm 0.99 $ & -                   & -                  & -                   & -                  & -                  & -                 & -                  & -                   & -                  & -                  & -                  & -                  \\
+ $ 2 $               & $ 0.44 \pm 0.13 $ & $ 6.06 \pm 1.08 $ & $ 4.44 \pm 0.99 $ & $ -27.72 \pm 3.38 $ & $ -3.67 \pm 2.71 $ & $ -16.86 \pm 3.24 $ & -                  & -                  & -                 & -                  & -                   & -                  & -                  & -                  & -                  \\
+ $ 3 $               & $ 0.44 \pm 0.13 $ & $ 6.06 \pm 1.08 $ & $ 4.44 \pm 0.99 $ & $ -27.72 \pm 3.38 $ & $ -3.67 \pm 2.71 $ & $ -16.86 \pm 3.24 $ & $ 37.79 \pm 4.67 $ & $ 11.37 \pm 3.80 $ & $ 2.55 \pm 3.50 $ & $ 18.15 \pm 4.33 $ & -                   & -                  & -                  & -                  & -                  \\
+ $ 4 $               & $ 0.44 \pm 0.13 $ & $ 6.06 \pm 1.08 $ & $ 4.44 \pm 0.99 $ & $ -27.72 \pm 3.38 $ & $ -3.67 \pm 2.71 $ & $ -16.86 \pm 3.24 $ & $ 37.79 \pm 4.67 $ & $ 11.37 \pm 3.80 $ & $ 2.55 \pm 3.50 $ & $ 18.15 \pm 4.33 $ & $ -16.90 \pm 2.32 $ & $ -6.50 \pm 2.03 $ & $ -1.94 \pm 2.13 $ & $ -1.61 \pm 1.93 $ & $ -6.07 \pm 2.03 $ \\
+\hline
+\end{tabular}
+}
 \section{Discussion of results}
 
 \cite{MHJ_LinReg}
