@@ -5,7 +5,7 @@ final,                   % draft: marks overfull hboxes, figures with paths
 
 \listfiles               %  print all files needed to compile this document
 
-
+%\usepackage[a4paper, total={6in, 8in}]{geometry}
 \usepackage[totoc]{idxlayout}   % for index in the toc
 \usepackage[nottoc]{tocbibind}  % for references/bibliography in the toc
 
@@ -99,7 +99,7 @@ final,                   % draft: marks overfull hboxes, figures with paths
 
 \usepackage{natbib}
 
-
+\usepackage[toc,page]{appendix} % appenix
 %-------------------- end preamble ----------------------
 
 \begin{document}
@@ -161,60 +161,59 @@ techniques such as cross-validation.
 
 
 choice of modelling based on insight. Terrain possbily polynomial ? use franke function to test algorithms. 
+
+Linear regression models the relationship between the response or target and the predictors linearly. In this project, three different methods are applied to fit the model to the data. Ordinary Least Squares (OLS), Ridge, and Lasso. Since this project assumes that the 
+
+ Trying to find the relationship between an independent and dependent variables chose approximation ,a..a.s
+
+it is normal to use y for predictors in litteratur,and x0 x1 etc. but for shorthand purposes, x1x2 are called xy, thus z=y in this project.
 \paragraph{Project flow:} This project starts by introducing 
 \paragraph{Main findings}
 
 
 \section{Methods}
 \subsection{Multiple Linear Regression}
-
-
-A multiple variable polynomial of the form
-
-
-
-
-The linearity in multiple linear regression relates to the linear relationship between the regression coefficients $\beta_i$. 
-
-
-Linear regression models the relationship between the response or target and the predictors linearly. In this project, three different methods are applied to fit the model to the data. Ordinary Least Squares (OLS), Ridge, and Lasso. Since this project assumes that the 
-
-
-In order to apply these methods effectively, the regression problem is represented by a matrix vector multipl
-
-Using a polynomial fit of degree $p$, the 
-
-Later in this project, 
-\begin{equation}
-x_1, x_2
-\end{equation} 
+Usually, insights into the underlying mechanisms of the origins of a data set, will guide the the choices one makes when trying to model the relationship between the dependent and independent variables. If such insights suggest a linear relationship between response and target, the model describing that relationship should reflect this. When modeling for one response, this means using multiple linear regression, while for more than one response, this would mean using multivariate linear regression. A response $y$, with approximation $\tilde{y}$, on predictor $x$ with a $m-1$ degree linear approximation may be expressed as
 
 \begin{equation}
-A=\begin{bmatrix}
+\displaystyle z=\sum_{j=0}^{m-1} \beta_j f_j(x)+\epsilon = \tilde{z}+\epsilon  
+\label{m.linapox}
+\end{equation}
+
+, where $\epsilon$ is the residual error between the model and the true response \cite{MurphyKevin}[p.19]. When the target-predictor relationship can be modeled by power functions, \eqref{m.linapox} leads to a polynomial fit, ie $f_j(x)=x^{j-1}$. For a data set $\{z_i,x_i\} _{i=0}^{n-1}$, where $y_i$ is the response on predictor $x_i$, \eqref{m.linapox} results in $n$ equations. In order to effectively solve for the regression coefficients ($\beta_j$), the set of equations may be represented by a the matrix-vector multiplication. For a polynomial of order $m-1$, $\bm{\beta}=[\beta_0,\beta_1,..\beta_{m-1}]^T$, and for $n-1$ data points,  $\bm{z}=[z_0,z_1,..z_{n-1}]^T$, while $ \epsilon= [\epsilon,\epsilon,..\epsilon{n-1}]^T$. Lastly, the $n \times m $ matrix
+
+\begin{equation}
+\bm{X}=\begin{bmatrix}
+    1       & x_0 & x_0^2 & \dots & x_0^{m-1} \\
     1       & x_1 & x_1^2 & \dots & x_1^{m-1} \\
-    2       & x_2 & x_2^2 & \dots & x_2^{m-1} \\
     \hdotsfor{5} \\
-    n       & x_n & x_3^2 & \dots & x_n^{m-1}
+    1       & x_{n-1} & x_{n-1}^2 & \dots & x_{n-1}^{m-1}
 \end{bmatrix}
 \end{equation}
-corresponding to the choice of $m$ may be constructed, along with a vector $\bm{x} =[c_1,c_2, \dots,c_m]$, containing the coefficients of the polynomial. If $\bm{b}=[y_1,y_2,\dots,y_n]$, then $S=\sum_{i=1}^n (p(x)-y_i)$ may be expressed as $S=||A\bf x - \bf b ||^2_2$. In order to minimize $S$, this assignment utilizes two methods: a QR factorization of $A$, and solving the normal equations $A^TAx=A^Tb$ using Cholesky factorization and forward substitution.
+, known as a Vandermonde Matrix \citep{Ascher}[p. 147-148], yield the vector matrix product:
+\begin{equation}
+\bm{z}=\bm{X}\bm{\beta}+\bm{\epsilon}
+\label{eq:vandermondeex}
+\end{equation}
 
-Cost function e define a function which gives a measure of the spread between the values yi (which represent hopefully the exact values) and the parameterized values , namely
-
-hva er tilde y, epsilon etc.
+An outtake of the methods which may be applied to \eqref{eq:vandermondeex} in order to solve for the regression coefficients are discussed later. However, the Vandermonde Matrix - which is a special case of what is generally known as a design matrix - is limited to a univariate polynomials. If instead the response $z_i$ is on two predictors ($x_i$ and $y_i$), such as will later be used in this project, a bivariate polynomial approximation of $z$  will result in a design matrix $\bm{X}$ where row $i$ is on the form $ [1,      x_i , y_i , x_i^2 , y_i^2 ,x_iy_i... ]$, with a total of $d=\bigl(\begin{smallmatrix}
+  m+2 \\
+  m
+\end{smallmatrix}\bigr)$ coefficients.  
 
 \subsubsection{Ordinary Least Squares (OLS)}
-OLS fits a function by minimizing the sum of the squares of the errors between a model and a data set. The sum of tThis results in the cost function
+OLS fits a function by minimizing the sum of the squares of the errors between a model and a data set. This results in the cost function 
 \begin{equation}
 C(\bm{\beta})=\frac{1}{n}\sum_{i=1}^n(y_i-\tilde{y}_i)^2=\frac{1}{n}(\bm{y}-\bm{X}^T\bm{\beta})^T(\bm{y}-\bm{X}^T\bm{\beta})
 \label{eq:OLScost}
 \end{equation}
-Which, if A has full column rank, has a unique solution \citep{Ascher}[p.144] which satisfies the normal equations:
+which, if A has full column rank, has a unique solution \citep{Ascher}[p.144] which satisfies the normal equations:
 \begin{equation}
 (\bm{X}^T\bm{X})\bm{b}=\bm{X}^T \bm{y}
 \label{eq:normeq}
 \end{equation}
-This corresponds to finding the minima of the derivative of the cost function with respect to $\bm{\beta}$. To which the solution is \begin{equation}
+Solving this corresponds to finding the minima of the derivative of the cost function with respect to $\bm{\beta}$:
+\begin{equation}
 \bm{\beta}^{OLS}= (\bm{X}^T\bm{X})^{-1}\bm{X}^T \bm{y}=\bm{A}^{\dagger}\bm{y}.
 \end{equation}
 This matrix inversion may then be carried out using for example SVD or LU decomposion. Alternatively, minimizing \eqref{eq:OLScost} may be accomplished using orthogonal transformation with QR decomposition, the details of which may be found in chapter one of Uri M. Ascher and Chen Grief's book  \cite{Ascher}. The choice between the two approaches hinges on computational stability versus computational speed.
@@ -231,45 +230,92 @@ The conditioning of the two approaches, or stability with respect to input pertu
 K(\bm{X})=||\bm{X}^{-1}|| \times ||\bm{X}||
 \end{equation}
 In order to acquire the normal equations, the product of $\bm{X}$ and it's transpose is used. Hence, it's conditioning number goes as $K(\bm{X}^T\bm{X})=K(\bm{X})^2$. This squaring of the conditioning number is not required for the QR approach, which means that the QR method has a lower conditioning number, and is thus the more stable method.
-'
+
+\subsection{Shrinkage methods}
+Alterations to the OLS cost function \eqref{eq:OLScost} may be done in order to assert control of the  \hyperref[S:M_Biasvar]{bias variance trade off}. Specifically, in order to reduce the variability of prediction errors one may observe when fitting complex models. Shrinkage methods introduce a penalty parameter $\lambda$, which effectively shrinks the regression coefficients. In this project, two such shrinkage methods are used, Ridge Regression and Lasso Regression. 
+
+
+\subsubsection{Ridge Regression}
+Ridge Regression cost function \citep{MehtaPankaj2019Ahli}[p.22] minimizes the square of the residual sum with a penalty term proportional to the square of the coefficients:
+\begin{equation}
+C(\bm{\beta})=\frac{1}{n}(\bm{z}-\bm{X}^T\bm{\beta})^T(\bm{z}-\bm{X}^T\bm{\beta})+\lambda \bm{\beta}^T\bm{\beta}
+\label{eq:RIDGEcost}
+\end{equation}
+Where $ \lambda \geq 0$ is the penalty constant. This parameter may decrease variance when compared to OLS, and may therefor also reduce the prediction error of the model \citep{HastieTrevor2009TEoS}[p.61-62.]. Originally however, this $\lambda$ parameter was introduced to address rank deficiency \citep{HastieTrevor2009TEoS}[p.64] - which it does, as the method adds a non-zero constant to the diagonal elements. \\
+The cost function \eqref{eq:RIDGEcost} results in the following expression for the regression coefficients:
+\begin{equation}
+\bm{\beta}^{Ridge}=(\bm{X}^T\bm{X}+\lambda\bm{I})^{-1}\bm{X}^T\bm{z}
+\end{equation}
+
+\subsubsection{Lasso Regression}
+\subsection{Re-sampling techniques}
+Thus, in order to find a well suited $\lambda$, it is common to split the data set into training data and a test data. Such a split allows for 
+
+
+. After splitting the data, the training data is then used to find values for the coefficients, and 
+
+By doing so, the estimation of the response may be evaluated 
+
+, shrink parm. MSE on a split set. test train. evaluate at test. IOT effectively doso, resampling. K-fold - test kfold på stort sett først.
+BAYESAN og6.6
+
+\subsection{Model evaluation} 
+There are, as outlined above, several regression models to chose from. These models all have parameters that impacts their predictions, such as the number of polynomial coefficients and the regularization parameter. As there are many choices, a measurement of how well a regression model predicts the response corresponding to a real data point is needed. One such measurement is the mean square error:
+\begin{equation}
+MSE=\displaystyle \frac{1}{n}\sum_{i=0}^{n-1} (z_i - \tilde{z_i})^2 
+\end{equation}
+This is a natural measurement to use, both because it's simple and because the cost function is based on this measurement when solving the normal equations. However, the MSE is data specific. An alternative is using the $R^2$, which is a normalized measurement:
+\begin{equation}
+R^2(\bm{z},\bm{\tilde{z}})=1-\frac{\sum_{i=0}^{n-1} (z_i - \tilde{z_i})^2 }{\sum_{i=0}^{n-1} (z_i - \bar{z_i})^2 }
+\end{equation}
+, where $\bar{y}$ is the mean value of $\bm{y}$. As it is independent of scale, $R^2$ always returns a value between zero and one, making it easy to interpret. \newline
+Another way to measure how well the model works is by finding the confidence intervals for the regression coefficients. Following the train of thought from \citep{HastieTrevor2009TEoS}[p.47-49]: When using the normal equations for OLS, these may be found by using an analytic expression for the variances of the coefficients
+\begin{equation}
+Var(\bm{\beta})=(\bm{X}^T\bm{X})^{-1}\hat{\sigma}^2
+\end{equation}
+Where if $\sigma$ is unknown, an unbiased estimate $\hat{\sigma}$ should be used. Having obtained the variance of the regression coefficients, the $95\% $ confidence interval (CI) of $\beta_i$ may be found by 
+\begin{equation}
+CI_{0.95}(\beta_i)=\beta_i-19.6 v_j^{1/2}\sigma,\beta_i+19.6 v_j^{1/2}\sigma
+\label{eq:M_conf_beta}
+\end{equation}
+Where $v_j$ is the diagonal element of row $j$ of the matrix $(\bm{X}^T\bm{X})^{-1}$.
+
+
+\subsubsection{Bias Variance trade-off}
+\label{S:M_Biasvar}
+For a response $\bm{y}=\bm{f}+\bm{\epsilon}$, with $\mathbb{E}[{\bm{\epsilon}}]=0$ and $Var[\bm{\epsilon}]=\sigma^2$, the expected mean square error (MSE) of a regression model fit $\bm{\tilde{y}}$ from an input $\bm{x}=\bm{x}_0$ may be calculated by (see \hyperref[APP_1]{appendix 1}):
+\begin{equation}
+\mathbb{E}\left[(\bm{y}-\bm{\tilde{y}})^2\right]=\frac{1}{n}\sum_i(f_i-\mathbb{E}\left[\bm{\tilde{y}}\right])^2+\frac{1}{n}\sum_i(\tilde{y}_i-\mathbb{E}\left[\bm{\tilde{y}}\right])^2+\sigma^2.
+\end{equation}
+
+\begin{comment}
+The first term is the variance of the target around its true mean f(x0), and
+cannot be avoided no matter how well we estimate f(x0), unless σ2
+ε = 0.
+The second term is the squared bias, the amount by which the average of
+our estimate differs from the true mean; the last term is the variance; the
+expected squared deviation of ˆf(x0) around its mean. Typically the more
+complex we make the model ˆf, the lower the (squared) bias but the higher
+the variance.
+\end{comment}
+
+
+\subsection{Algorithm implementation}
+
+\subsubsection{Evaluating the implementation}
+In order to evaluate the implementation of the OLS algorithm
+
+ $Var(\beta)=(\bm{X}^T\bm{X})^{-1} \sigma^2$.
 
 confidence interval for beta hastie et all p.47
 
 choice of model - regression type - linear etc. polynomials - understanding of the problem at hand.
 choice of minimization evaluation of betas type of regression method, OLS etc.
-\subsubsection{Ridge Regression}
-Alterations to the OLS cost function \eqref{eq:OLScost} may be done in order to assert control of the  \hyperref[S:M_Biasvar]{bias variance trade off}. One such alteration is known as Ridge Regression, with the following cost function \citep{MehtaPankaj2019Ahli}[p.22]:
-
-\begin{equation}
-C(\bm{\beta})=\frac{1}{n}(\bm{y}-\bm{X}^T\bm{\beta})^T(\bm{y}-\bm{X}^T\bm{\beta})+\lambda \bm{\beta}^T\bm{\beta}
-\label{eq:RIDGEcost}
-\end{equation}
 
 
-\subsubsection{Lasso Regression}
-\subsection{Re-sampling techniques}
-\subsection{Bias Variance trade-off} \label{S:M_Biasvar}
-
-
-\subsection{Algorithms}
 \subsection{Franke's function}
-Describe Franke's function. \newline
-{\small
-\begin{tabular}{llllllllllllllll}
-\hline
- Polynomial degree   & $\beta_{0} $      & $\beta_{1} $      & $\beta_{2} $      & $\beta_{3} $        & $\beta_{4} $       & $\beta_{5} $        & $\beta_{6} $       & $\beta_{7} $       & $\beta_{8} $      & $\beta_{9} $       & $\beta_{10} $       & $\beta_{11} $      & $\beta_{12} $      & $\beta_{13} $      & $\beta_{14} $      \\
-\hline
- $ 0 $               & $ 0.44 \pm 0.13 $ & -                 & -                 & -                   & -                  & -                   & -                  & -                  & -                 & -                  & -                   & -                  & -                  & -                  & -                  \\
- $ 1 $               & $ 0.44 \pm 0.13 $ & $ 6.06 \pm 1.08 $ & $ 4.44 \pm 0.99 $ & -                   & -                  & -                   & -                  & -                  & -                 & -                  & -                   & -                  & -                  & -                  & -                  \\
- $ 2 $               & $ 0.44 \pm 0.13 $ & $ 6.06 \pm 1.08 $ & $ 4.44 \pm 0.99 $ & $ -27.72 \pm 3.38 $ & $ -3.67 \pm 2.71 $ & $ -16.86 \pm 3.24 $ & -                  & -                  & -                 & -                  & -                   & -                  & -                  & -                  & -                  \\
- $ 3 $               & $ 0.44 \pm 0.13 $ & $ 6.06 \pm 1.08 $ & $ 4.44 \pm 0.99 $ & $ -27.72 \pm 3.38 $ & $ -3.67 \pm 2.71 $ & $ -16.86 \pm 3.24 $ & $ 37.79 \pm 4.67 $ & $ 11.37 \pm 3.80 $ & $ 2.55 \pm 3.50 $ & $ 18.15 \pm 4.33 $ & -                   & -                  & -                  & -                  & -                  \\
- $ 4 $               & $ 0.44 \pm 0.13 $ & $ 6.06 \pm 1.08 $ & $ 4.44 \pm 0.99 $ & $ -27.72 \pm 3.38 $ & $ -3.67 \pm 2.71 $ & $ -16.86 \pm 3.24 $ & $ 37.79 \pm 4.67 $ & $ 11.37 \pm 3.80 $ & $ 2.55 \pm 3.50 $ & $ 18.15 \pm 4.33 $ & $ -16.90 \pm 2.32 $ & $ -6.50 \pm 2.03 $ & $ -1.94 \pm 2.13 $ & $ -1.61 \pm 1.93 $ & $ -6.07 \pm 2.03 $ \\
-\hline
-\end{tabular}
-}
+Describe Franke's function.
 \section{Discussion of results}
-
-\cite{MHJ_LinReg}
 
 \subsection{Conclusions}
 
@@ -278,5 +324,11 @@ Describe Franke's function. \newline
 \bibliography{ref}
 \bibliographystyle{plain}
 
+\begin{appendices}
+\chapter{Some Appendix} \label{APP_1}
+Following \citep{HastieTrevor2009TEoS}[p.223]
+følg https://stats.stackexchange.com/questions/204115/understanding-bias-variance-tradeoff-derivation
+
+\end{appendices}
 
 \end{document}

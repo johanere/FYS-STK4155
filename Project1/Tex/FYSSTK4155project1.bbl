@@ -6,6 +6,13 @@ Uri~M. Ascher and Chen Greif.
 \newblock In {\em A First Course on Numerical Methods}, pages 141--166. Society
   for Industrial and Applied Mathematics, 2011.
 
+\bibitem{HastieTrevor2009TEoS}
+Trevor Hastie, Robert Tibshirani, and Jerome Friedman.
+\newblock {\em The Elements of Statistical Learning: Data Mining, Inference,
+  and Prediction}.
+\newblock Springer Series in Statistics. Springer New York, New York, NY,
+  second edition edition, 2009.
+
 \bibitem{MHJ_LinReg}
 Morten Hjorth-Jensen.
 \newblock Lectures notes in fys-stk4155. data analysis and machine learning:
@@ -17,5 +24,11 @@ Pankaj Mehta, Marin Bukov, Ching-Hao Wang, Alexandre~G.R. Day, Clint
 \newblock A high-bias, low-variance introduction to machine learning for
   physicists.
 \newblock {\em Physics Reports}, 810:1--124, 2019.
+
+\bibitem{MurphyKevin}
+Kevin~P. Murphy.
+\newblock {\em Machine learning : a probabilistic perspective}.
+\newblock Adaptive computation and machine learning. MIT Press, Cambridge,
+  2012.
 
 \end{thebibliography}
