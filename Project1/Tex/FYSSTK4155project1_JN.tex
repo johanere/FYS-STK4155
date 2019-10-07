@@ -5,7 +5,7 @@ final,                   % draft: marks overfull hboxes, figures with paths
 
 \listfiles               %  print all files needed to compile this document
 
-%\usepackage[a4paper, total={6in, 8in}]{geometry}
+\usepackage[a4paper, total={6in, 8in}]{geometry}
 \usepackage[totoc]{idxlayout}   % for index in the toc
 \usepackage[nottoc]{tocbibind}  % for references/bibliography in the toc
 
@@ -317,61 +317,70 @@ f(x,y) &= \frac{3}{4}\exp{\left(-\frac{(9x-2)^2}{4} - \frac{(9y-2)^2}{4}\right)}
 \end{equation}
 , defined on the domain $x,y\in [0,1]$. 
 
-\subsection{Method implementation}
-The regression methods are implemented into a program using Python 2.7, with numpy and Scikit-learn. The code is object oriented, with object methods for data analysis. In the program, the OLS and Ridge regression methods is self written, while Lasso uses the Scikit-learn.
+\subsection{Code implementation}
+The regression methods are implemented into a program using Python 2.7, using numpy and Scikit-learn. The code is structured around a program which contains a data class, with methods for different regression procedures, as well as data generation and data reading. The results presented in the following section are produced using their own smaller programs, which draw on the classes from the main program. The class method for Lasso uses the Scikit-learn, while OLS and Ridge do not. Additionally, the k-Fold CV draws on some utility from Scikit-learn, such as dividing folds.
 
-
-
-\subsubsection{Evaluating the implementation}
-In order to test the implementation of the OLS regression, terrain data is generated using Franke's Function \eqref{eq:Frankes}, with $30x30$ points. The initial test uses polynomials of up to fifth order, directly fitted for the entirety of the data set. The accuracy of the fit is then evaluated by MSE, $R^2$, and a $95\%$ confidence interval for the regression coefficients. 
+\subsubsection{Initial evaluation of OLS implementation}
+In order to make an initial evaluation implementation of the OLS regression, terrain data is generated using Franke's Function \eqref{eq:Frankes}, with $30 \times 30$ grid points. One data set with no noise, one with noise $\sim N(0,1)$ and one with $\sim N(0,0.3)$. Polynomials of up to fifth order are directly fitted using the entire data set, and the accuracy of the model fittings are recorded in terms of MSE and $R^2$, as well as $95\%$ confidence interval for the regression coefficients. 
 
 \section{Results}
-\subsection{Initial testing}
-\begin{table}
+\subsection{Initial evaluation of OLS implementation}
+Below, MSE and $R^2$ values for the initial evaluation of the OLS is presented in table \ref{table:OLS_mse_r2} for polynomials up to degree five, using the  $30 \times 30$ Franke's Function generated data set with noise $\sim N(0,0.3)$. Similar tables for noise $\sim N(0,1)$ and no noise can be foind in \hyperref[APP_2]{appendix 2}. These tables clearly show that both $R^2$ values and MSE decrease with increased model complexity up to the fifth degree, and that both measurements increase with increased noise. 
+%MSE r2 TABLE
+\begin{table}[h!]
 \begin{center}
 \begin{tabular}{lll}
 \hline
- Polynomial degree   & $R^2$    & MSE      \\
+ Polynomial degree   & $R^2$      & MSE        \\
 \hline
- $ 1 $               & $ 0.63 $ & $ 0.04 $ \\
- $ 2 $               & $ 0.70 $ & $ 0.03 $ \\
- $ 3 $               & $ 0.83 $ & $ 0.02 $ \\
- $ 4 $               & $ 0.87 $ & $ 0.01 $ \\
- $ 5 $               & $ 0.89 $ & $ 0.01 $ \\
+ $ 1 $               & $ 0.3521 $ & $ 0.1169 $ \\
+ $ 2 $               & $ 0.3947 $ & $ 0.1093 $ \\
+ $ 3 $               & $ 0.4519 $ & $ 0.0989 $ \\
+ $ 4 $               & $ 0.4904 $ & $ 0.0920 $ \\
+ $ 5 $               & $ 0.5032 $ & $ 0.0897 $ \\
 \hline
 \end{tabular}
 \end{center}
+\caption{MSE and $R^2$ scores for OLS on  Franke's Function generated responses using a $30\times 30$ grid with noise $\sim N(0,0.3)$ }
+\label{table:OLS_mse_r2}
 \end{table}
 
-\begin{figure}[!htb]
+Figure \ref{fig:betas_all} shows the spread of confidence intervals for a 1. order up to 5. order fitting using OLS on the $30 \times 30$ Franke's Function generated grid with noise $\sim N(0,0.3)$.
+
+%CI of BETA
+\begin{figure}[!h]
         \centering 
-         \includegraphics[scale=0.7]{../Results/betas_franke_all.pdf} 
+         \includegraphics[scale=0.7]{../Results/Part_a/betas_franke_all_noise03.pdf} 
         \caption{$95\%$ confidence intervals for the OLS regression coefficients for polynomials of order one to five, using the Franke's Function generated response on a $30\times 30$ grid}
         \label{fig:betas_all}   
 \end{figure}  
 
-\begin{figure}[!htb]
+%CI of BETA for P=5
+\begin{figure}[!h]
         \centering 
-         \includegraphics[scale=0.7]{../Results/betas_franke_p5.pdf} 
+         \includegraphics[scale=0.7]{../Results/Part_a/Part_abetas_franke_p5_noise03.pdf} 
         \caption{$95\%$ confidence intervals for the OLS regression coefficients for a polynomial of order five, using the Franke's Function generated response on a $30\times 30$ grid}
         \label{fig:betas_all}   
 \end{figure}  
 
-\begin{figure}[!htb]
+%BIAS VAR 
+\begin{figure}[!h]
         \centering 
          \includegraphics[scale=0.7]{../Results/bias_var.pdf} 
         \caption{Comparison of Bias vs Variance, using the Franke's Function generated response on a $30\times 30$ grid, averaged over 80 runs, as a function of model complexity in terms of polynomial degree, $p$}
         \label{fig:betas_all}   
 \end{figure}  
 
-\begin{figure}[!htb]
+%BIAS VAR MSE
+\begin{figure}[!h]
         \centering 
          \includegraphics[scale=0.7]{../Results/bias_var_MSE.pdf} 
         \caption{Comparison of MSE for training and test data, using the Franke's Function generated response on a $30\times 30$ grid, averaged over 80 runs, as a function of model complexity in terms of polynomial degree, $p$}
         \label{fig:betas_all}   
 \end{figure}  
-\section{Discussion of results}
 
+\section{Discussion of results}
+0.3 noise used to illustrate regression with noise, without having so much noise that the regression runs the risk of not fitting very well at all.
 \subsection{Conclusions}
 
 
@@ -380,9 +389,46 @@ In order to test the implementation of the OLS regression, terrain data is gener
 \bibliographystyle{plain}
 
 \begin{appendices}
-\chapter{Some Appendix} \label{APP_1}
+\section*{Appendix 1.} \label{APP_1}
 Following \citep{HastieTrevor2009TEoS}[p.223]
 følg https://stats.stackexchange.com/questions/204115/understanding-bias-variance-tradeoff-derivation
+
+\section*{Appendix 2.} \label{APP_2}
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{lll}
+\hline
+ Polynomial degree   & $R^2$      & MSE        \\
+\hline
+ $ 1 $               & $ 0.7405 $ & $ 0.0176 $ \\
+ $ 2 $               & $ 0.8140 $ & $ 0.0126 $ \\
+ $ 3 $               & $ 0.9115 $ & $ 0.0060 $ \\
+ $ 4 $               & $ 0.9561 $ & $ 0.0030 $ \\
+ $ 5 $               & $ 0.9840 $ & $ 0.0011 $ \\
+\hline
+\end{tabular}
+\end{center}
+\caption{MSE and $R^2$ scores for OLS on  Franke's Function generated responses using a $30\times 30$ grid without noise}
+\label{table:OLS_mse_r2}
+\end{table}
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{lll}
+\hline
+ Polynomial degree   & $R^2$      & MSE        \\
+\hline
+ $ 1 $               & $ 0.0865 $ & $ 0.9102 $ \\
+ $ 2 $               & $ 0.0999 $ & $ 0.8968 $ \\
+ $ 3 $               & $ 0.1099 $ & $ 0.8868 $ \\
+ $ 4 $               & $ 0.1145 $ & $ 0.8822 $ \\
+ $ 5 $               & $ 0.1285 $ & $ 0.8683 $ \\
+\hline
+\end{tabular}
+\end{center}
+\caption{MSE and $R^2$ scores for OLS on  Franke's Function generated responses using a $30\times 30$ grid with noise $\sim N(0,1)$ }
+\label{table:OLS_mse_r2}
+\end{table}
 
 \end{appendices}
 

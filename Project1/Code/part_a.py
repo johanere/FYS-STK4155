@@ -8,18 +8,16 @@ p_min = 1
 p_max = 6
 n = p_max - p_min
 p = np.arange(p_min, p_max)
-
-MSE_train = np.zeros(n)
-MSE_test = np.zeros(n)
-
+noise=1
+noise_label="1" #label to avoid . in file name
 beta = np.zeros((n, 21))
 betaints = np.zeros((n, 21))
 coefficients = np.zeros(6)
-mse = np.zeros(n)  # 0 = mse, 1=r2
+mse = np.zeros(n)
 r2 = np.zeros(n)
 
 FF_terrain = lr.Data(0)
-FF_terrain.GenerateDataFF(30, 30, 0.1)
+FF_terrain.GenerateDataFF(30, 30, noise)
 for i in range(n):
     FF_terrain.CreateDesignMatrix(p[i], split="False")
     FF_terrain.OLS_SVD()
@@ -37,11 +35,11 @@ table = []
 headers = ["Polynomial degree", "$R^2$", "MSE"]
 for j in range(0, n):
     line = ["$ %s $" % (j + 1)]
-    line.append("$ %.2f $" % r2[j])
-    line.append("$ %.2f $" % mse[j])
+    line.append("$ %.4f $" % r2[j])
+    line.append("$ %.4f $" % mse[j])
     table.append(line)
 
-with open("../Results/part_a_r2_mse.txt", "w") as outputfile:
+with open("../Results/Part_a/r2_mse_noise%s.txt"%noise_label, "w") as outputfile:
     outputfile.write(tabulate(table, headers, tablefmt="latex_raw"))
 
 
@@ -63,7 +61,7 @@ for i in range(0, 5):
     ax[i].set_xlim([0, 21])
     ax[i].set_ylabel("%s. order\n $ CI_{0.95}(\\beta_j) $ " % (i + 1))
 
-plt.savefig("..\\Results\\betas_franke_all.pdf", bbox_inches="tight")
+plt.savefig("../Results/Part_a/betas_franke_all_noise%s.pdf"%noise_label, bbox_inches="tight")
 
 points = int(coefficients[4])
 x = np.arange(0, points, 1)
@@ -76,4 +74,4 @@ for j in range(0, points):
 plt.errorbar(x, y, yerr=error, fmt=".k")
 plt.xticks(range(21), ticks)
 plt.ylabel("$ CI_{0.95}(\\beta_j) $ ")
-plt.savefig("..\\Results\\betas_franke_p5.pdf", bbox_inches="tight")
+plt.savefig("../Results/Part_a/Part_abetas_franke_p5_noise%s.pdf"%noise_label, bbox_inches="tight")

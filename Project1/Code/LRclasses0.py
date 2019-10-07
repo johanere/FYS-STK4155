@@ -125,13 +125,13 @@ class Data:
         z = self.z_train
         self.beta = SVDinv(X.T.dot(X)).dot(X.T).dot(z)
 
-    def Ridge(self, ridge_lambda=0):
+    def Ridge(self, lmd=0):
         """Stores a beta vector using Ridge on currently set training data. Provide Lambda"""
         X = self.X_train
         z = self.z_train
         dim = np.shape(np.linalg.pinv(X.T.dot(X)))[0]
         self.beta = (
-            SVDinv((X.T.dot(X)) + np.identity(dim) * ridge_lambda).dot(X.T).dot(z)
+            SVDinv((X.T.dot(X)) + np.identity(dim) * lmd).dot(X.T).dot(z)
         )
 
     def Train_Predict(self):
@@ -161,31 +161,21 @@ class Data:
 
     def Skl_OLS(self, k=10):
         clf = skl.LinearRegression().fit(self.X_train, self.z_train)
-        ytilde = clf.predict(self.X_train)
-        self.MSE_SKL = MSE(self.z_train, ytilde)
-        self.r2_SKL = 0
-        if self.n > 4:
-            self.r2_SKL = r2(self.z_train, ytilde)
-        cv_results = cross_validate(clf, self.X, self.z, cv=k)
+        self.z_train_predict = clf.predict(self.X_train)
 
-        # print("OLS score \n",cv_results["test_score"])
+    def Skl_Lasso(self, lmd, k=0):
+        lasso = skl.Lasso(alpha=lmd).fit(self.X_train, self.z_train)
+        self.z_train_predict = lasso.predict(self.X_train)
+        self.MSE_train = MSE(self.z_train, self.z_train_predict)
+        self.r2_train = 0
+        if self.N > 4:
+            self.r2_train = r2(self.z_train, self.z_train_predict)
 
-    def Skl_Lasso(self, k=10):
-        lasso = skl.Lasso().fit(self.X_train, self.z_train)
-        ytilde = lasso.predict(self.X_train)
-        self.MSE_SKL_Lasso_train = MSE(self.z_train, ytilde)
-        self.r2_SKL_Lasso = 0
-        if self.n > 4:
-            self.r2_SKL_Lasso = r2(self.z_train, ytilde)
-        # cv_results = cross_validate(lasso, self.X, self.z, cv=k)
-        # print("Lasso score \n", cv_results["test_score"])
-
-    def Kfold_Crossvalidation(self, method=0, llambda=0, k=10):
-        "k fold cross validation. 0-OLS, 1-Ridge. Gets MSE from test predict"
-        kscores_mse = np.zeros(k)
-        kscores_r2 = np.zeros(k)
+    def Kfold_Crossvalidation(self, lmd, k=10):
+        kscores_mse = np.zeros((2,k))
+        kscores_r2 = np.zeros((2,k))
         kfold = KFold(k, shuffle=True)
-        "Retain original train/test split"
+        """Retain original train/test split"""
         X = self.X
         z = self.z
         full_X_train = self.X_train
@@ -197,19 +187,19 @@ class Data:
         for train_inds, test_inds in kfold.split(full_X_train):
             self.X_train, self.X_test = X[train_inds], X[test_inds]
             self.z_train, self.z_test = z[train_inds], z[test_inds]
-            if method == 0:
-                self.OLS()
-            if method == 1:
-                self.Ridge(llambda)
+            self.Ridge(lmd) #Run ridge
             self.Train_Predict()
             self.Test_Predict()
-            kscores_mse[j] = self.MSE_test
-            kscores_r2[j] = self.r2_test
+            kscores_mse[0,j] = self.MSE_train #store values for Ridge
+            kscores_r2[0,j] = self.r2_train
+            self.Skl_Lasso(lmd) #Run lasso
+            kscores_mse[1,j] = self.MSE_test  #store values for  Lasso
+            kscores_r2[1,j] = self.r2_test
             j += 1
 
-        self.mse_kf = np.mean(kscores_mse)
-        self.r2_kf = np.mean(kscores_r2)
-        "reset training and test sets incase other methods are to be applied"
+        self.mse_kf = np.mean(kscores_mse,axis=1, keepdims=True)
+        self.r2_kf = np.mean(kscores_r2,axis=1, keepdims=True)
+        """Reset to original train/test split"""
         self.X_train = full_X_train
         self.X_test = full_X_test
         self.z_train = full_Z_train
