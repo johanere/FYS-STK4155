@@ -5,7 +5,7 @@ from tabulate import tabulate
 import LRclasses0 as lr
 
 p_min = 1
-p_max = 6
+p_max = 2
 n = p_max - p_min
 p = np.arange(p_min, p_max)
 
@@ -20,6 +20,7 @@ r2 = np.zeros(n)
 
 FF_terrain = lr.Data(0)
 FF_terrain.GenerateDataFF(30, 30, 0.1)
+
 for i in range(n):
     FF_terrain.CreateDesignMatrix(p[i], split="False")
     FF_terrain.OLS_SVD()
@@ -43,37 +44,3 @@ for j in range(0, n):
 
 with open("../Results/part_a_r2_mse.txt", "w") as outputfile:
     outputfile.write(tabulate(table, headers, tablefmt="latex_raw"))
-
-
-plt.style.use("seaborn-whitegrid")
-fig, ax = plt.subplots(nrows=5, ncols=1, sharex=True)
-ticks = []
-for i in range(0, 21):
-    ticks.append("$\\beta_{%s}$" % i)
-plt.xticks(range(21), ticks)
-for i in range(0, 5):
-    points = int(coefficients[i])
-    x = np.arange(0, points, 1)
-    y = np.zeros(points)
-    error = np.zeros(points)
-    for j in range(0, points):
-        error[j] = betaints[i, j]  # /beta[i,j]
-        y[j] = beta[i, j]
-    ax[i].errorbar(x, y, yerr=error, fmt=".k")
-    ax[i].set_xlim([0, 21])
-    ax[i].set_ylabel("%s. order\n $ CI_{0.95}(\\beta_j) $ " % (i + 1))
-
-plt.savefig("..\\Results\\betas_franke_all.pdf", bbox_inches="tight")
-
-points = int(coefficients[4])
-x = np.arange(0, points, 1)
-y = np.zeros(points)
-error = np.zeros(points)
-plt.figure()
-for j in range(0, points):
-    error[j] = betaints[i, j]  # /beta[i,j]
-    y[j] = beta[i, j]
-plt.errorbar(x, y, yerr=error, fmt=".k")
-plt.xticks(range(21), ticks)
-plt.ylabel("$ CI_{0.95}(\\beta_j) $ ")
-plt.savefig("..\\Results\\betas_franke_p5.pdf", bbox_inches="tight")

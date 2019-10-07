@@ -169,6 +169,8 @@ Linear regression models the relationship between the response or target and the
  Trying to find the relationship between an independent and dependent variables chose approximation ,a..a.s
 
 it is normal to use y for predictors in litteratur,and x0 x1 etc. but for shorthand purposes, x1x2 are called xy, thus z=y in this project.
+
+In general, re-sampling techniques use a limited training set to perform multiple model fittings, treating a subset of the available data as training data and another subset as test data. The purpose of this is to obtain additional information not available when doing only one model fit \citep{2017introstatlearn}[p.175]. There are many such techniques, such as \textit{cross-validation} and \textit{bootstrap}, of which cross-validation is used in this project.
 \paragraph{Project flow:} This project starts by introducing 
 \paragraph{Main findings}
 
@@ -265,29 +267,22 @@ The minimization problem based on this cost function has solutions which are non
 \paragraph{A general comparison between Ridge and Lasso} may be studied further in literature, such a \citep{2017introstatlearn}[p.223-224], on which the following is based. Simply put, Ridge regression leads to better prediction when performed on data where there are few predictors of roughly the same importance. However, for a large set of predictors, where a smaller subset of predictors are significantly stronger linked to the response than the rest, Lasso performs better. Especially so when the response has low dependency on the remaining subset.In this regard, it is however important to note that when analyzing a real data set, the number of significant predictors is unknown a priori. Therefor, in order to determine the method of regression, the use of re-sampling techniques such as cross validation or bootstrap is advisable.
 
  
-\subsection{Re-sampling techniques}
-Thus, in order to find a well suited $\lambda$, it is common to split the data set into training data and a test data. Such a split allows for 
+\subsection{Re-sampling procedure: k-Fold Cross-Validation}
+As other re-sampling procedures, the k-Fold Cross-Validation (KfCV)uses a limited training set to perform multiple model fittings in order to obtain additional information about model parameters \citep{2017introstatlearn}[p.175]. In the case of this specific procedure, this is achieved by splitting the data into $k$, approximately equaled sized groups, normally after shuffling the data sets. Then, the first of those $k$ sets is treated as a test set, or validation set, while the remaining $k-1$ sets are used to fit the model. This is then repeated $k$ times, using a new subset for validation in each iteration \citep{2017introstatlearn}[p.181]. In each iteration$ i$ , the mean square error, $MSE_i$ \eqref{eq:MSE}, is calculated using the validation group as $\bm{z}$. After all iterations are complete, the Cross-Validation estimate is computed by:
+\begin{equation}
+CV_(k)=\frac{1}{k}\sum MSE_i
+\end{equation}
 
-5 introduction to statistical
-
-Lasso
-. After splitting the data, the training data is then used to find values for the coefficients, and 
-
-By doing so, the estimation of the response may be evaluated 
-
-, shrink parm. MSE on a split set. test train. evaluate at test. IOT effectively doso, resampling. K-fold - test kfold på stort sett først.
-BAYESAN og6.6
+One of the applications of this procedure is finding a suitable value for the shrinkage parameter $\lambda$. Rather than For each value of a variety of $\lambda$-values, a KfCV is carried out, and the $CV_(k)(\lambda)$ computed. Thus, the $\lambda$ which produced the lowest $CV_(k)(\lambda)$ may be applied in the finished regression based on the original data set.
 
 \subsection{Model evaluation} 
 There are, as outlined above, several regression models to chose from. These models all have parameters that impacts their predictions, such as the number of polynomial coefficients and the regularization parameter. As there are many choices, a measurement of how well a regression model predicts the response corresponding to a real data point is needed. One such measurement is the mean square error:
 \begin{equation}
-MSE=\displaystyle \frac{1}{n}\sum_{i=0}^{n-1} (z_i - \tilde{z_i})^2 
-\label{eq:MSE}
+MSE=\displaystyle \frac{1}{n}\sum_{i=0}^{n-1} \label{eq:MSE}
 \end{equation}
 This is a natural measurement to use, both because it's simple and because the cost function is based on this measurement when solving the normal equations. However, the MSE is data specific. An alternative is using the $R^2$, which is a normalized measurement:
 \begin{equation}
 R^2(\bm{z},\bm{\tilde{z}})=1-\frac{\sum_{i=0}^{n-1} (z_i - \tilde{z_i})^2 }{\sum_{i=0}^{n-1} (z_i - \bar{z_i})^2 }
-\label{eq:R2}
 \end{equation}
 , where $\bar{y}$ is the mean value of $\bm{y}$. As it is independent of scale, $R^2$ always returns a value between zero and one, making it easy to interpret. \newline
 Another way to measure how well the model works is by finding the confidence intervals for the regression coefficients. Following the train of thought from \citep{HastieTrevor2009TEoS}[p.47-49]: When using the normal equations for OLS, these may be found by using an analytic expression for the variances of the coefficients
@@ -305,10 +300,76 @@ Where $v_j$ is the diagonal element of row $j$ of the matrix $(\bm{X}^T\bm{X})^{
 \subsubsection{Bias Variance trade-off}
 \label{S:M_Biasvar}
 For a response $\bm{y}=\bm{f}+\bm{\epsilon}$, with $\mathbb{E}[{\bm{\epsilon}}]=0$ and $Var[\bm{\epsilon}]=\sigma^2$, the expected mean square error (MSE) of a regression model fit $\bm{\tilde{y}}$ from an input may be calculated by (see \hyperref[APP_1]{appendix 1}):
+\begin{align}
+\mathbb{E}\left[(\bm{y}-\bm{\tilde{y}})^2\right]&=\frac{1}{n}\sum_i(f_i-\mathbb{E}\left[\bm{\tilde{y}}\right])^2+\frac{1}{n}\sum_i(\tilde{y}_i-\mathbb{E}\left[\bm{\tilde{y}}\right])^2+\sigma^2 \label{eq:Biasvar}\\
+&=\mathit{Bias}^2(\bm{\tilde{y}})+\mathit{Var}(\bm{\tilde{y}})+Error
+\end{align}
+As indicates above, the first term is the squared bias. This corresponds to the average of how much the predicted response, $\mathbb{E}\left[\bm{\tilde{y}}\right]$, deviates from the true mean of the real response, $f_i$. The second term is the variance, or the squared expected difference of the predictions about their mean \citep{2017introstatlearn}[p.223]. When fitting a model to a particular data set, increased complexity or flexibility will tend to make highly accurate predictions on the data set. This corresponds to having a low bias. Simultaneously, such a model fit would have very high variance - or to put it differently, if small variations were made in the data set, the resulting model would drastically change. On the other hand, if the model does not predict accurately on it's own training data, the bias would be high, while the variance would be low - perturbations in input would result in only minor changes of the regression.
+
+\subsection{Franke's function}
+A popular function for evaluation of polynomial approximations is the The Franke's function. Named after Richard Franke's, and published in his report "\textit{A Critical Comparison of Some Methods for Interpolation of Scattered Data}" \cite{FrankeRichard1979ACCo}, the function is a weighted sum of four exponential;
+\begin{equation}
+\begin{split}
+f(x,y) &= \frac{3}{4}\exp{\left(-\frac{(9x-2)^2}{4} - \frac{(9y-2)^2}{4}\right)}+\frac{3}{4}\exp{\left(-\frac{(9x+1)^2}{49}- \frac{(9y+1)}{10}\right)} \\
+&+\frac{1}{2}\exp{\left(-\frac{(9x-7)^2}{4} - \frac{(9y-3)^2}{4}\right)} -\frac{1}{5}\exp{\left(-(9x-4)^2 - (9y-7)^2\right) }
+\end{split}
+\label{eq:Frankes}
+\end{equation}
+, defined on the domain $x,y\in [0,1]$. 
+
+\subsection{Method implementation}
+The regression methods are implemented into a program using Python 2.7, with numpy and Scikit-learn. The code is object oriented, with object methods for data analysis. In the program, the OLS and Ridge regression methods is self written, while Lasso uses the Scikit-learn.
 
 
 
+\subsubsection{Evaluating the implementation}
+In order to test the implementation of the OLS regression, terrain data is generated using Franke's Function \eqref{eq:Frankes}, with $30x30$ points. The initial test uses polynomials of up to fifth order, directly fitted for the entirety of the data set. The accuracy of the fit is then evaluated by MSE, $R^2$, and a $95\%$ confidence interval for the regression coefficients. 
 
+\section{Results}
+\subsection{Initial testing}
+\begin{table}
+\begin{center}
+\begin{tabular}{lll}
+\hline
+ Polynomial degree   & $R^2$    & MSE      \\
+\hline
+ $ 1 $               & $ 0.63 $ & $ 0.04 $ \\
+ $ 2 $               & $ 0.70 $ & $ 0.03 $ \\
+ $ 3 $               & $ 0.83 $ & $ 0.02 $ \\
+ $ 4 $               & $ 0.87 $ & $ 0.01 $ \\
+ $ 5 $               & $ 0.89 $ & $ 0.01 $ \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{figure}[!htb]
+        \centering 
+         \includegraphics[scale=0.7]{../Results/betas_franke_all.pdf} 
+        \caption{$95\%$ confidence intervals for the OLS regression coefficients for polynomials of order one to five, using the Franke's Function generated response on a $30\times 30$ grid}
+        \label{fig:betas_all}   
+\end{figure}  
+
+\begin{figure}[!htb]
+        \centering 
+         \includegraphics[scale=0.7]{../Results/betas_franke_p5.pdf} 
+        \caption{$95\%$ confidence intervals for the OLS regression coefficients for a polynomial of order five, using the Franke's Function generated response on a $30\times 30$ grid}
+        \label{fig:betas_all}   
+\end{figure}  
+
+\begin{figure}[!htb]
+        \centering 
+         \includegraphics[scale=0.7]{../Results/bias_var.pdf} 
+        \caption{Comparison of Bias vs Variance, using the Franke's Function generated response on a $30\times 30$ grid, averaged over 80 runs, as a function of model complexity in terms of polynomial degree, $p$}
+        \label{fig:betas_all}   
+\end{figure}  
+
+\begin{figure}[!htb]
+        \centering 
+         \includegraphics[scale=0.7]{../Results/bias_var_MSE.pdf} 
+        \caption{Comparison of MSE for training and test data, using the Franke's Function generated response on a $30\times 30$ grid, averaged over 80 runs, as a function of model complexity in terms of polynomial degree, $p$}
+        \label{fig:betas_all}   
+\end{figure}  
 \section{Discussion of results}
 
 \subsection{Conclusions}
