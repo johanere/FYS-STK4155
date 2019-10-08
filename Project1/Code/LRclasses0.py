@@ -60,8 +60,7 @@ class Data:
             self.img_n, self.img_m=np.shape(terrain)
             Read_Write_Terrain.plot_terrain(self.terrain,"Training terrain") #plot current terrain
             Read_Write_Terrain.plot_terrain(self.template,"Full terrain") #plot current terrain
-            print("Original shape",np.shape(self.template))
-            print("Reduced shape" ,np.shape(self.terrain))
+
 
     def GenerateDataFF(self, n=20, m=20, noise=0.1):
         """Generates an MxN-grid and computes targets [with noise] from Franke Function. Provide N and noise [true]/false"""
@@ -113,7 +112,8 @@ class Data:
         predicted_terrain=np.reshape(predicted_terrain,(self.img_n,self.img_m))
         mse=MSE(self.template,predicted_terrain)
         r2_rep=r2(self.template,predicted_terrain)
-        Read_Write_Terrain.plot_terrain(predicted_terrain,"Predicted terrain using %s with p=%s, MSE=%.0f,$R^2=%.4f$"%(method,self.p,mse,r2_rep)) #plot current terrain
+        self.predicted_terrain=predicted_terrain
+        #Read_Write_Terrain.plot_terrain(predicted_terrain,"Predicted terrain using %s with p=%s, MSE=%.0f,$R^2=%.4f$"%(method,self.p,mse,r2_rep)) #plot current terrain
 
     def CreateDesignMatrix(
         self, p, split="True"

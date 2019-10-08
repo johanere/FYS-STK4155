@@ -142,7 +142,7 @@ Regression analysis and re-sampling methods
 
 % --- begin date ---
 \begin{center}
-Sep 30, 2019
+Oct 8, 2019
 \end{center}
 % --- end date ---
 
@@ -154,9 +154,23 @@ Sep 30, 2019
 \newpage
 
 \section{Introduction}
+Linear regression models are popular machine learning tools. Especially for educational purposes. Methods employing such models use a set of data consisting of measurements of one or more independent variables, or predictors, and a corresponding dependent variable, or response. Estimating the relationship between the response and the predictors is the aim of regression analysis. This is achieved by minimizing what is known as a cost function - a function which describes the error between the model and the real data. For example, the most well known cost function is probably taking the sum of the square of the error. By representing this minimization problem on a matrix-vector form, methods from linear algebra may be applied, which greatly increases how easily one can find suitable  parameters for the regression model.%mer her eller?? 
+The aim of this project is to examine some of the properties of a, a specific type of linear regression models, namely bivariate polynomial regression. In addition, this projects seeks to examine the suitability of such models in predicting digital geographical terrain data.
+\paragraph{Project flow:}
+The project starts by doing a cursory mathematical description of multiple linear regression. How the problem may be represented on a matrix-vector form, as well as introducing key terminology and concepts.
+\paragraph{Main findings:}
+\paragraph{Tools used:} 
+
+This project observed that polynomial fits using linear regression of order four to eight appeared to give the most accurate predictions on the Franke's Function generated data for a $30 \times 30$ geography with MSE $\sim 0.89$ when the response suffered from noise $\sim N(0,0.3)$. The project simultaneously observed $R^2$ scores$\leq 0$ for polynomials of the third, fourth and fifth order when the same core program was used in predicting real world terrain on a scale of kilometers with $3601 \times 1801$ resolution, based on a training set over the same area with resolution $121 \times 61$. The project is therefor inconclusive on these polynomial complexities for the selected geographies, and assumes an implementation error in the core program developed for the purpose of this project. After further testing on the same data, this project goes on to conclude that linear regression using second order polynomials are capable of of predicting geography with a resolution of  $3601 \times 1801$ terrain based on training data with $121 \times 61$ resolution up to a level of accuracy corresponding to predicting an average of $16\%$ percent deviation on terrain height for a $500 \times 500$ square.
+
+
+
 The main aim of this project is to study in more detail various regression methods,
 including the Ordinary Least Squares (OLS) method, Ridge regression and finally
 Lasso regression, including use of resampling. Start by fitting polynomials to Franke's function (see Methods). 
+
+
+
 
 Having established the model and method, the models are further evaluated using resamling
 techniques such as cross-validation.
@@ -425,10 +439,10 @@ Figure \ref{fig:bias_var_OLS} shows averaged mean MSE from kFCV using OLS of var
 \end{figure}  
 
 \subsection{Predicting real terrain data}
-\ref{fig:realdatapoly} shows the $R^2$ training and test scores for OLS regression on the reduced terrain data from Møsvatn Austfjell in Norway, using $10$-fold Cross Validation. The plot clearly indicates that a second order polynomial fit may give the best accuracy ($R^2\sim 0.75)$ , while also indicating a complete model collapse when using a third order polynomial. Higher order polynomials ($6-12$) have slightly lower $R^2$ scores at $R^2\sim 0.7$.
+\ref{fig:realdatapoly} shows the $R^2$ training and test scores for OLS regression on the reduced terrain data from Møsvatn Austfjell in Norway, using $10$-fold Cross Validation. The plot clearly indicates that a second order polynomial fit may give the best accuracy ($R^2\sim 0.75)$ , while also indicating a complete model collapse when using a third order polynomial. This seems to be a trend, as similar geography data from Stavanger, Norway (see figure \ref{fig:realdatapoly1} in \hyperref[APP_1]{appendix 2}) results in $R^2 \approx0 $ for both third, fourth and fifth degree polynomials. Higher order polynomials ($6-12$) have slightly lower $R^2$ scores at $R^2\sim 0.7$.
 \begin{figure}[!h]
         \centering 
-         \includegraphics[scale=0.7]{../Results/Part_g/OLSr2_terraintest.pdf} 
+         \includegraphics[scale=0.7]{../Results/Part_g/OLSr2_terraintest2.pdf} 
         \caption{$R^2$ score for OLS fit to reduced ($121 \times 61$)real terrain data (Møsvatn Austfjell, Norway) as a function of complexity}
         \label{fig:realdatapoly}   
 \end{figure}  
@@ -447,7 +461,7 @@ Ridge Regression for $p=2$ using 10-Fold Cross Validation for $20$ evenly spaced
 
 \section{Discussion of results}
 \subsection{OLS implementation}
-As Franke's Function does not describe a planar terrain, the increased $R^2$ score and decreased MSE with increased model complexity  is no surprise.  The small, and approximately stationary values of $\beta_1$ and $\beta_2$  is neither surprising, as \ref{fig:franke} suggests that there are no general drastic changes associated with $x$ and $y$ to the power of one. However, \ref{fig:franke} indicates that values of $x$ and $y$ close to zero should produce a high response. In speculative terms, it is possible that the large positive coefficients are a result of this - especially because they correspond to high powers of the domain variables. On the large(($\pm \sim 20$) confidence intervals observed on those coefficients it is, in the same uncertain terms, possible that perturbation on higher powers of $x$ and $y$ cause large intervals. 
+As the Franke's Function does not describe a planar terrain (see figure \ref{fig:franke}), the increased $R^2$ score and decreased MSE with increased model complexity  is no surprise.  The small, and approximately stationary values of $\beta_1$ and $\beta_2$  is neither surprising, as \ref{fig:franke} suggests that there are no general drastic changes associated with $x$ and $y$ to the power of one. However, \ref{fig:franke} indicates that values of $x$ and $y$ close to zero should produce a high response. In speculative terms, it is possible that the large positive coefficients are a result of this - especially because they correspond to high powers of the domain variables. On the large($\pm \sim 20$) confidence intervals observed on those coefficients it is, in the same uncertain terms, possible that perturbation on higher powers of $x$ and $y$ cause large intervals. 
 
 \subsection{k-Fold CV}
 The initial decrease in mean MSE follows the trend seen in the OLS implementation testing.  As was observed previously, and again in the kFCV test, a complexity corresponding to a fifth order polynomial appears to be the most accurate, with a minimum mean MSE $\sim 0.89$. This holds true for $k=5,10,20,40$ - albeit $k=5$ exhibits significant inaccuracy relative to the other $k$-values, especially so when complexity further increases. Lower $k$ values mean larger subset for both training and testing, but fever iterations. This may possibly results in less bias, as the training folds become closer to the entirety of the data. Simultaneously, this may also increase variance, although this is not explicitly shown in the results. Tendencies related to the bias-variance trade-off are however present. As increases in $k$ are also more computationally expensive, $k=10$ appears to be a suitable value.
@@ -459,8 +473,11 @@ Following the trend observed in the initial k-Fold Cross-Validation test, a clea
 Surprisingly, $\lambda > 0$ appears to produce the increasingly inaccurate results for both Lasso and Ridge regression on the evaluation data sets. For Lasso, increasing values for $\lambda$ seems to produce especially inaccurate predictions, with a significant, almost step-wise, increase after $\lambda=0$. This may indicate that OLS regression, that is, no shrinkage, is the preferred regression method for the Franke's Function generated data. Going by the description of these procedures in the methods sections however, one would not necessarily be inclined to expect this. This means that there is a distinct possibility that the implementation of the two algorithms is faulty. In this regard, it is also worth mentioning that for $\lambda=0$, the Lasso Method produces convergence warnings. In either case, the best MSE test scores achieved by either model for any complexity previously tested is, for values other than $\lambda=0$, worse than OLS. As this parameter evaluation is only superficial, these results carry no implication beyond indicating that OLS is the preferred regression method when using the programs written for the purpose of this project. 
 
 \subsection{Predicting real terrain data}
-Initial evaluation of model complexity when using OLS indicates that either a seconder order, or a higher order ($6-12$) polynomial should be used in the model, with $R^2$ scores $R^2\sim 0.7$ on test data from the reduced terrain data. Visual inspection of the prediction on the full geography shows that the model has captured some key aspects of the terrain, such as the darker region in the bottom left and top left, and the brighter regions top right. At the same time, the polynomial fit is too course to properly predict other easily recognizable features such as the dark streaks in the center of the geography. A $R^2$ score of $0.6522$ seems reasonable for the chosen method. It is however counter intuitive that Ridge Regression using $\lambda=0.26$ should produce the same result as the OLS regression, since $\lambda=0$ corresponds to OLS - which would have been the optimal $\lambda$ if OLS and Ridge were truly equal on optimal fit. This further indicates faulty implementation.
+Initial evaluation of model complexity when using OLS indicates that either a seconder order, or a higher order ($6-12$) polynomial should be used in the model, with $R^2$ scores $R^2\sim 0.7$ on test data from the reduced terrain data. Visual inspection of the prediction on the full geography shows that the model has captured some key aspects of the terrain, such as the darker region in the bottom left and top left, and the brighter regions top right. A rough analysis of the prediction on each $500 \times 500$ square would suggests an average of $\approx 55$ meters error per $500 \times 500$ square, in a terrain with a mean height of $\approx 333$ meters, which constitutes an average deviation in predicted and actual height per square of approximately $17\%$. However, this is clearly not the case on all such square, as the lower left corner clearly shows. The polynomial fit is too course to properly predict other easily recognizable features such as the dark streaks in the center of the geography. A $R^2$ score of $0.6522$ seems reasonable for the chosen method. It is however counter intuitive that Ridge Regression using $\lambda=0.26$ should produce the same result as the OLS regression, since $\lambda=0$ corresponds to OLS - which would have been the optimal $\lambda$ if OLS and Ridge were truly equal on optimal fit. This further indicates faulty implementation. In addition the calculation of negative $R^2$ values (set to 0 in the results), clearly indicate some fault.
+
 \subsection{Conclusions}
+This project observed that polynomial fits using linear regression of order four to eight appeared to give the most accurate predictions on the Franke's Function generated data for a $30 \times 30$ geography with MSE $\sim 0.89$ when the response suffered from noise $\sim N(0,0.3)$. The project simultaneously observed $R^2$ scores$\leq 0$ for polynomials of the third, fourth and fifth order when the same core program was used in predicting real world terrain on a scale of kilometers with $3601 \times 1801$ resolution, based on a training set over the same area with resolution $121 \times 61$. The project is therefor inconclusive on these polynomial complexities for the selected geographies, and assumes an implementation error in the core program developed for the purpose of this project. After further testing on the same data, this project goes on to conclude that linear regression using second order polynomials are capable of of predicting geography with a resolution of  $3601 \times 1801$ terrain based on training data with $121 \times 61$ resolution up to a level of accuracy corresponding to predicting an average of $16\%$ percent deviation on terrain height for a $500 \times 500$ square.
+
 
 
 
@@ -522,6 +539,14 @@ I have not had the time to prove the bias-var relationship. I plan on citing \ci
         \caption{OLS Prediction on full geodata $p=2$.}
         \label{fig:OLS_full}   
 \end{figure}  
+
+\begin{figure}[!h]
+        \centering 
+         \includegraphics[scale=0.7]{../Results/Part_g/OLSr2_terraintest1.pdf} 
+        \caption{$R^2$ score for OLS fit to reduced ($121 \times 61$)real terrain data (Stavanger Norway) as a function of complexity}
+        \label{fig:realdatapoly1}   
+\end{figure}  
+
 
 \end{appendices}
 

@@ -13,8 +13,8 @@ r2_train=np.zeros(n)
 r2_test=np.zeros(n)
 
 plt.style.use("seaborn-whitegrid")
-
-Terrain2 = lr.Data(2)
+dataset=1
+Terrain2 = lr.Data(dataset)
 Terrain2.GenerateDataTerrain()
 
 for j in range(0,n):
@@ -32,7 +32,7 @@ plt.plot(p, r2_test, "k--", p, r2_train, "k:")
 plt.legend(("$R^2$ Test", "$R^2$ Training"))
 plt.xlabel("Model complexity --->")
 plt.ylabel("$R^2$")
-plt.savefig("../Results/Part_g/OLSr2_terraintest.pdf", bbox_inches="tight")
+plt.savefig("../Results/Part_g/OLSr2_terraintest%s.pdf"%dataset, bbox_inches="tight")
 plt.show()
 
 p=2
@@ -54,6 +54,5 @@ for i in range(0,n_lmd):
         bestr2=r2_train[i]
         bestlambda=lmd[i]
 
-print(r2_train)
 print(bestlambda)
 print(bestr2)
