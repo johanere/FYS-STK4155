@@ -13,9 +13,9 @@ def read_terrain(terrain):
 # Show the terrain
 
 
-def plot_terrain(terrain):
+def plot_terrain(terrain,title):
     plt.figure()
-    plt.title("Terrain over Norway 1")
+    plt.title(title)
     plt.imshow(terrain, cmap="gray")
     plt.xlabel("X")
     plt.ylabel("Y")

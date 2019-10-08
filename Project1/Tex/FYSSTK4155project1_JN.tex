@@ -340,6 +340,16 @@ Upon concluding that $k=10$ is a suitable number of folds, the kFCV method using
 
 \subsubsection{Ridge and Lasso implementation testing}
 Lasso and Ridge regression is in this project tested and evaluated simultaneously. Using a selected complexities and a range of $\lambda=0$ to $1$, Ridge and Lasso regression is carried out with $10$-fold Cross Validation on the same $30 \times 30$ grid as previously. The MSE values for training and test data for the two regression methods are measured and plotted as functions of $\lambda$, in order to discuss their aptness for terrain prediction.
+\subsection{Predicting real terrain data}
+Having done, in varying depth, parameter and method evaluations, the core program is now used to predict real terrain data. Using digital terrain data over Møsvatn Austfjell, in Norway, provided through the  \href{https://github.com/CompPhysics/MachineLearning/tree/master/doc/Projects/2019/Project1/DataFiles}{course github page }. First, the  $3601 \times 1801$ terrain is reduced to $121 \times 61$ by selecting every $30$'th grid value, then a 10-Fold Cross Validation using OLS is carried out for a range of complexities. Based on $R^2$ scores for training data, a suitable polynomial degree is then chosen, and the corresponding model fit used to predict the full $3601 \times 1801$ terrain.
+
+\begin{figure}[!h]
+        \centering 
+         \includegraphics[scale=0.5]{../Results/Part_g/terrain_full_reduced.png} 
+        \caption{Terrain data from Møsvatn Austfjell, Norway. ((left) $3601 \times 1801$ - used for comparison with model prediction. (right) $121 \times 61$ - used for model fitting. }
+        \label{fig:full_terrain}   
+\end{figure}  
+
 \section{Results}
 \subsection{OLS implementation}
 Below, MSE and $R^2$ values for the initial evaluation of the OLS is presented in table \ref{table:OLS_mse_r2} for polynomials up to degree five, using the  $30 \times 30$ Franke's Function generated data set with noise $\sim N(0,0.3)$. Similar tables for noise $\sim N(0,1)$ and no noise can be foind in \hyperref[APP_2]{appendix 2}. These tables clearly show that both $R^2$ values and MSE decrease with increased model complexity up to the fifth degree, and that both measurements increase with increased noise.  
@@ -413,6 +423,28 @@ Figure \ref{fig:bias_var_OLS} shows averaged mean MSE from kFCV using OLS of var
         \caption{Test and training MSE for a range of $\lambda \in [0,1]$, for Ridge and Lasso regression using $k=10$ fold CV, over selected complexities}
         \label{fig:ridgelasso_kfold}   
 \end{figure}  
+
+\subsection{Predicting real terrain data}
+\ref{fig:realdatapoly} shows the $R^2$ training and test scores for OLS regression on the reduced terrain data from Møsvatn Austfjell in Norway, using $10$-fold Cross Validation. The plot clearly indicates that a second order polynomial fit may give the best accuracy ($R^2\sim 0.75)$ , while also indicating a complete model collapse when using a third order polynomial. Higher order polynomials ($6-12$) have slightly lower $R^2$ scores at $R^2\sim 0.7$.
+\begin{figure}[!h]
+        \centering 
+         \includegraphics[scale=0.7]{../Results/Part_g/OLSr2_terraintest.pdf} 
+        \caption{$R^2$ score for OLS fit to reduced ($121 \times 61$)real terrain data (Møsvatn Austfjell, Norway) as a function of complexity}
+        \label{fig:realdatapoly}   
+\end{figure}  
+
+
+\ref{fig:compare_ols_pred_ter} shows a visual comparison between full $3601 \times 1801$  predicted terrain, reduced training data ($121 \times 61$) and true geography. In more qualitative terms, the $R^2$ for the prediction with respect to the true geography is $0.6522$ with the shown model fit.
+
+\begin{figure}[!h]
+        \centering 
+         \includegraphics[scale=0.4]{../Results/Part_g/predicted_compare.png} 
+        \caption{Predicted $3601 \times 1801$  terrain (right) from Møsvatn Austfjell, Norway , based on OLS regression with a seconder order polynomial on reduced ($121 \times 61$) data (center) from complete $3601 \times 1801$ data of the geography.}
+        \label{fig:compare_ols_pred_ter}   
+\end{figure}  
+
+Ridge Regression for $p=2$ using 10-Fold Cross Validation for $20$ evenly spaced values of $\lambda \in [0,1]$ gave an $R^2$ score of $0.76$ ($\lambda=0.26$). Using this $\lambda$ value, the full terrain data was prediction, which resulted in an identical results for a seconder order polynomial fit (see figures \ref{fig:Ridge_full} and \ref{fig:OLS_full} \hyperref[APP_1]{appendix 2}): 
+
 \section{Discussion of results}
 \subsection{OLS implementation}
 As Franke's Function does not describe a planar terrain, the increased $R^2$ score and decreased MSE with increased model complexity  is no surprise.  The small, and approximately stationary values of $\beta_1$ and $\beta_2$  is neither surprising, as \ref{fig:franke} suggests that there are no general drastic changes associated with $x$ and $y$ to the power of one. However, \ref{fig:franke} indicates that values of $x$ and $y$ close to zero should produce a high response. In speculative terms, it is possible that the large positive coefficients are a result of this - especially because they correspond to high powers of the domain variables. On the large(($\pm \sim 20$) confidence intervals observed on those coefficients it is, in the same uncertain terms, possible that perturbation on higher powers of $x$ and $y$ cause large intervals. 
@@ -424,9 +456,10 @@ The initial decrease in mean MSE follows the trend seen in the OLS implementatio
 Following the trend observed in the initial k-Fold Cross-Validation test, a clear indication of bias-variance trade-off is observed for complex models using OLS regression. Averaging MSE $\sim 0.095$ on 4th-7th order polynomials, the test data MSE then increases towards MSE $\sim 1$ for further increased complexity, while the training MSE continues to decrease. This is highly likely due to the better reproduction of training data at the cost of general validity on other samples from the same main population. The exact optimum polynomial degree is difficult to ascertain, although the simulations points towards a fifth order. Due to the averaging over 50 data sets, this candidate for optimal complexity is somewhat strengthened, but this is at the same time only for the specific $30 \times 30$ grid with noise $\sim N(0,0.3)$. Due to this fact, this project reaches no specific conclusions on optimal polynomial degree. However, if the Franke's Function generated grid is somewhat representative for terrain data, polynomials above the 4th order, and below the 8th order appears to be preferable.
 
 \subsection{Ridge and Lasso}
-Surprisingly, $\lambda > 0$ appears to produce the increasingly inaccurate results for both Lasso and Ridge regression on the evaluation data sets. For Lasso, increasing values for $\lambda$ seems to produce especially inaccurate predictions, with a significant, almost step-wise, increase after $\lambda=0$. This may indicate that OLS regression, that is, no shrinkage, is the preferred regression method for the Franke's Function generated data. Going by the description of these procedures in the methods sections however, one would not necessarily be inclined to expect this. This means that there is a distinct possibility that the implementation of the two algorithms is faulty. As this parameter evaluation is only superficial, these results carry no implication beyond indicating that OLS is the preferred regression method when using the programs written for the purpose of this project. It is also worth mentioning that for $\lambda=0$, the Lasso Method produces convergence warnings.
+Surprisingly, $\lambda > 0$ appears to produce the increasingly inaccurate results for both Lasso and Ridge regression on the evaluation data sets. For Lasso, increasing values for $\lambda$ seems to produce especially inaccurate predictions, with a significant, almost step-wise, increase after $\lambda=0$. This may indicate that OLS regression, that is, no shrinkage, is the preferred regression method for the Franke's Function generated data. Going by the description of these procedures in the methods sections however, one would not necessarily be inclined to expect this. This means that there is a distinct possibility that the implementation of the two algorithms is faulty. In this regard, it is also worth mentioning that for $\lambda=0$, the Lasso Method produces convergence warnings. In either case, the best MSE test scores achieved by either model for any complexity previously tested is, for values other than $\lambda=0$, worse than OLS. As this parameter evaluation is only superficial, these results carry no implication beyond indicating that OLS is the preferred regression method when using the programs written for the purpose of this project. 
 
-
+\subsection{Predicting real terrain data}
+Initial evaluation of model complexity when using OLS indicates that either a seconder order, or a higher order ($6-12$) polynomial should be used in the model, with $R^2$ scores $R^2\sim 0.7$ on test data from the reduced terrain data. Visual inspection of the prediction on the full geography shows that the model has captured some key aspects of the terrain, such as the darker region in the bottom left and top left, and the brighter regions top right. At the same time, the polynomial fit is too course to properly predict other easily recognizable features such as the dark streaks in the center of the geography. A $R^2$ score of $0.6522$ seems reasonable for the chosen method. It is however counter intuitive that Ridge Regression using $\lambda=0.26$ should produce the same result as the OLS regression, since $\lambda=0$ corresponds to OLS - which would have been the optimal $\lambda$ if OLS and Ridge were truly equal on optimal fit. This further indicates faulty implementation.
 \subsection{Conclusions}
 
 
@@ -436,8 +469,7 @@ Surprisingly, $\lambda > 0$ appears to produce the increasingly inaccurate resul
 
 \begin{appendices}
 \section*{Appendix 1.} \label{APP_1}
-Following \citep{HastieTrevor2009TEoS}[p.223]
-følg https://stats.stackexchange.com/questions/204115/understanding-bias-variance-tradeoff-derivation
+I have not had the time to prove the bias-var relationship. I plan on citing \citep{HastieTrevor2009TEoS}[p.223] while following along in the tracks of: https://stats.stackexchange.com/questions/204115/understanding-bias-variance-tradeoff-derivation
 
 \section*{Appendix 2.} \label{APP_2}
 \begin{table}[h!]
@@ -476,6 +508,20 @@ følg https://stats.stackexchange.com/questions/204115/understanding-bias-varian
 \label{table:OLS_mse_r2}
 \end{table}
 
+
+\begin{figure}[!h]
+        \centering 
+         \includegraphics[scale=0.7]{../Results/Part_g/Ridge_full.pdf} 
+        \caption{Ridge Prediction on full geodata $p=2$}
+        \label{fig:Ridge_full}   
+\end{figure}  
+
+\begin{figure}[!h]
+        \centering 
+         \includegraphics[scale=0.7]{../Results/Part_g/OLS_full.pdf} 
+        \caption{OLS Prediction on full geodata $p=2$.}
+        \label{fig:OLS_full}   
+\end{figure}  
 
 \end{appendices}
 

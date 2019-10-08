@@ -48,11 +48,20 @@ class Data:
     def __init__(self, terrainsource="../DataFiles//SRTM_data_Norway_1.tif"):
         """Initiates class. Load provided name of terrain data. 0 if no data is needed"""
         if terrainsource != 0:
+            if terrainsource==1:
+                terrainsource="../DataFiles//SRTM_data_Norway_1.tif"
+            if terrainsource==2:
+                terrainsource="../DataFiles//SRTM_data_Norway_2.tif"
             terrain = Read_Write_Terrain.read_terrain(
                 terrainsource
             )  # Load terrain matrix
+            self.template=terrain
             self.terrain = terrain[::30, ::30]
-            # Read_Write_Terrain.plot_terrain(self.terrain) #plot current terrain
+            self.img_n, self.img_m=np.shape(terrain)
+            Read_Write_Terrain.plot_terrain(self.terrain,"Training terrain") #plot current terrain
+            Read_Write_Terrain.plot_terrain(self.template,"Full terrain") #plot current terrain
+            print("Original shape",np.shape(self.template))
+            print("Reduced shape" ,np.shape(self.terrain))
 
     def GenerateDataFF(self, n=20, m=20, noise=0.1):
         """Generates an MxN-grid and computes targets [with noise] from Franke Function. Provide N and noise [true]/false"""
@@ -78,18 +87,33 @@ class Data:
         self.n = n  # Total number of data points Y-direction
         self.m = m  # Total number of data points in X-direction
         self.N = m * n
-        print(n, m)
-        # er det smart med linspace paa 1?
-        y = np.arange(0, n, 1)
-        x = np.arange(0, m, 1)
+        y = np.arange(0, n, 1)*30
+        x = np.arange(0, m, 1)*30
         x, y = np.meshgrid(x, y)
         self.x = np.ravel(x)
         self.y = np.ravel(y)
         self.z = np.ravel(terrain)
 
-    def PlotTerrain(self):
-        self.z_predict = self.z_predict.reshape(self.n, self.m)
-        # Read_Write_Terrain.plot_terrain(self.z) #plot current terrain
+    def PlotPredicted(self,method):
+        x=np.arange(0,self.img_m,1)
+        y=np.arange(0,self.img_n,1)
+        x, y = np.meshgrid(x, y)
+        x = np.ravel(x)
+        y = np.ravel(y)
+
+        p=self.p
+        N = len(x)
+        l = int((p + 1) * (p + 2) / 2)  # Number of elements in beta
+        X = np.ones((N, l))
+        for i in range(1, p + 1):
+            q = int((i) * (i + 1) / 2)
+            for k in range(i + 1):
+                X[:, q + k] = x ** (i - k) * y ** k
+        predicted_terrain = np.dot(X, self.beta)
+        predicted_terrain=np.reshape(predicted_terrain,(self.img_n,self.img_m))
+        mse=MSE(self.template,predicted_terrain)
+        r2_rep=r2(self.template,predicted_terrain)
+        Read_Write_Terrain.plot_terrain(predicted_terrain,"Predicted terrain using %s with p=%s, MSE=%.0f,$R^2=%.4f$"%(method,self.p,mse,r2_rep)) #plot current terrain
 
     def CreateDesignMatrix(
         self, p, split="True"
@@ -131,7 +155,7 @@ class Data:
         z = self.z_train
         dim = np.shape(np.linalg.pinv(X.T.dot(X)))[0]
         self.beta = (
-            SVDinv((X.T.dot(X)) + np.identity(dim) * lmd).dot(X.T).dot(z)
+            SVDinv(X.T.dot(X) + np.identity(dim) * lmd).dot(X.T).dot(z)
         )
 
     def Train_Predict(self):
@@ -174,7 +198,8 @@ class Data:
     def Kfold_Crossvalidation(self, lmd, k=10,method=1):
         kscores_mse_test = np.zeros((2,k))
         kscores_mse_train = np.zeros((2,k))
-        kscores_r2 = np.zeros((2,k))
+        kscores_r2_test = np.zeros((2,k))
+        kscores_r2_train = np.zeros((2,k))
         kfold = KFold(k, shuffle=True)
         """Retain original train/test split"""
         X = self.X
@@ -194,22 +219,28 @@ class Data:
                 kscores_mse_train[0,j]=self.MSE_train
                 self.Test_Predict()
                 kscores_mse_test[0,j] = self.MSE_test #store values for Ridge
-                kscores_r2[0,j] = self.r2_test
-                self.Skl_Lasso(lmd) #Run lasso
+                kscores_r2_test[0,j] = self.r2_test
+                kscores_r2_train[1,j] = self.r2_train
+                if lmd>0:
+                    self.Skl_Lasso(lmd)
                 kscores_mse_train[1,j]=self.MSE_train
                 kscores_mse_test[1,j] = self.MSE_test  #store values for  Lasso
-                kscores_r2[1,j] = self.r2_test
+                kscores_r2_test[1,j] = self.r2_test
+                kscores_r2_train[1,j] = self.r2_train
             if method==0:
                 self.OLS_SVD()
                 self.Train_Predict()
                 kscores_mse_train[0,j]=self.MSE_train
                 self.Test_Predict()
                 kscores_mse_test[0,j] = self.MSE_test
+                kscores_r2_test[0,j] = self.r2_test
+                kscores_r2_train[0,j] = self.r2_train
 
             j += 1
         self.mse_kf_train = np.mean(kscores_mse_train,axis=1, keepdims=True)
         self.mse_kf = np.mean(kscores_mse_test,axis=1, keepdims=True)
-        self.r2_kf = np.mean(kscores_r2,axis=1, keepdims=True)
+        self.r2_kf = np.mean(kscores_r2_test,axis=1, keepdims=True)
+        self.r2_kf_train = np.mean(kscores_r2_train,axis=1, keepdims=True)
         """Reset to original train/test split"""
         self.X_train = full_X_train
         self.X_test = full_X_test

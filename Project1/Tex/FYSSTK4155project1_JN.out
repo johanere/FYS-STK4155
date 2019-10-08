@@ -14,16 +14,19 @@
 \BOOKMARK [3][-]{subsubsection.2.6.2}{Test of k-Fold Cross Validation implementation}{subsection.2.6}% 14
 \BOOKMARK [3][-]{subsubsection.2.6.3}{Bias-Variance trade-off}{subsection.2.6}% 15
 \BOOKMARK [3][-]{subsubsection.2.6.4}{Ridge and Lasso implementation testing}{subsection.2.6}% 16
-\BOOKMARK [1][-]{section.3}{Results}{}% 17
-\BOOKMARK [2][-]{subsection.3.1}{OLS implementation}{section.3}% 18
-\BOOKMARK [2][-]{subsection.3.2}{Test of k-Fold Cross Validation implementation}{section.3}% 19
-\BOOKMARK [2][-]{subsection.3.3}{Bias-Variance}{section.3}% 20
-\BOOKMARK [2][-]{subsection.3.4}{Ridge and Lasso}{section.3}% 21
-\BOOKMARK [1][-]{section.4}{Discussion of results}{}% 22
-\BOOKMARK [2][-]{subsection.4.1}{OLS implementation}{section.4}% 23
-\BOOKMARK [2][-]{subsection.4.2}{k-Fold CV}{section.4}% 24
-\BOOKMARK [2][-]{subsection.4.3}{Bias-Variance}{section.4}% 25
-\BOOKMARK [2][-]{subsection.4.4}{Ridge and Lasso}{section.4}% 26
-\BOOKMARK [2][-]{subsection.4.5}{Conclusions}{section.4}% 27
-\BOOKMARK [1][-]{section*.6}{References}{}% 28
-\BOOKMARK [1][-]{section*.7}{Appendices}{}% 29
+\BOOKMARK [2][-]{subsection.2.7}{Predicting real terrain data}{section.2}% 17
+\BOOKMARK [1][-]{section.3}{Results}{}% 18
+\BOOKMARK [2][-]{subsection.3.1}{OLS implementation}{section.3}% 19
+\BOOKMARK [2][-]{subsection.3.2}{Test of k-Fold Cross Validation implementation}{section.3}% 20
+\BOOKMARK [2][-]{subsection.3.3}{Bias-Variance}{section.3}% 21
+\BOOKMARK [2][-]{subsection.3.4}{Ridge and Lasso}{section.3}% 22
+\BOOKMARK [2][-]{subsection.3.5}{Predicting real terrain data}{section.3}% 23
+\BOOKMARK [1][-]{section.4}{Discussion of results}{}% 24
+\BOOKMARK [2][-]{subsection.4.1}{OLS implementation}{section.4}% 25
+\BOOKMARK [2][-]{subsection.4.2}{k-Fold CV}{section.4}% 26
+\BOOKMARK [2][-]{subsection.4.3}{Bias-Variance}{section.4}% 27
+\BOOKMARK [2][-]{subsection.4.4}{Ridge and Lasso}{section.4}% 28
+\BOOKMARK [2][-]{subsection.4.5}{Predicting real terrain data}{section.4}% 29
+\BOOKMARK [2][-]{subsection.4.6}{Conclusions}{section.4}% 30
+\BOOKMARK [1][-]{section*.6}{References}{}% 31
+\BOOKMARK [1][-]{section*.7}{Appendices}{}% 32
