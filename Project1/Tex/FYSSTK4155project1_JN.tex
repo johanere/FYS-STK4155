@@ -337,6 +337,9 @@ Following the test of the OLS method, the k-Fold Cross Validation re-sampling me
 
 \subsubsection{Bias-Variance trade-off}
 Upon concluding that $k=10$ is a suitable number of folds, the kFCV method using OLS regression is now applied to $50$ generated data set, similar parameters as previously, with noise $\sim N(0,0.3)$. For each data set, a design matrix is set up, and $k=10$-fold CV is carried out over increasingly complex models with polynomial degrees ranging from 1 to 10. After the $50$ iterations, mean values of the mean MSE (of the kFCV) on test data and training data are calculated. This final mean over the $50$ iterations, are meant to illustrate the bias-variance trade-off, as well as helping in further establishing a suitable complexity for $n \times n$ grids on Franke's Function.
+
+\subsubsection{Ridge and Lasso implementation testing}
+Lasso and Ridge regression is in this project tested and evaluated simultaneously. Using a selected complexities and a range of $\lambda=0$ to $1$, Ridge and Lasso regression is carried out with $10$-fold Cross Validation on the same $30 \times 30$ grid as previously. The MSE values for training and test data for the two regression methods are measured and plotted as functions of $\lambda$, in order to discuss their aptness for terrain prediction.
 \section{Results}
 \subsection{OLS implementation}
 Below, MSE and $R^2$ values for the initial evaluation of the OLS is presented in table \ref{table:OLS_mse_r2} for polynomials up to degree five, using the  $30 \times 30$ Franke's Function generated data set with noise $\sim N(0,0.3)$. Similar tables for noise $\sim N(0,1)$ and no noise can be foind in \hyperref[APP_2]{appendix 2}. These tables clearly show that both $R^2$ values and MSE decrease with increased model complexity up to the fifth degree, and that both measurements increase with increased noise.  
@@ -402,6 +405,14 @@ Figure \ref{fig:bias_var_OLS} shows averaged mean MSE from kFCV using OLS of var
 
 
 
+\subsection{Ridge and Lasso}
+\ref{fig:ridgelasso_kfold} shows test and training MSE for Ridge and Lasso regression for a number of $\lambda$ values for selected complexities, based on the same data set as in the last kFCV examination. Based on the plot $\lambda \rightarrow 0$ seems to produce the most accurate results for Ridge regression, while the choice of $\lambda$ appears somewhat arbitrary in the for Lasso regression. Additionally, MSE (for both test and training) seems to increase drastically for any values of $\lambda>0$.
+\begin{figure}[!h]
+        \centering 
+         \includegraphics[scale=0.35]{../Results/Part_d/ridgelasso_kfold.pdf} 
+        \caption{Test and training MSE for a range of $\lambda \in [0,1]$, for Ridge and Lasso regression using $k=10$ fold CV, over selected complexities}
+        \label{fig:ridgelasso_kfold}   
+\end{figure}  
 \section{Discussion of results}
 \subsection{OLS implementation}
 As Franke's Function does not describe a planar terrain, the increased $R^2$ score and decreased MSE with increased model complexity  is no surprise.  The small, and approximately stationary values of $\beta_1$ and $\beta_2$  is neither surprising, as \ref{fig:franke} suggests that there are no general drastic changes associated with $x$ and $y$ to the power of one. However, \ref{fig:franke} indicates that values of $x$ and $y$ close to zero should produce a high response. In speculative terms, it is possible that the large positive coefficients are a result of this - especially because they correspond to high powers of the domain variables. On the large(($\pm \sim 20$) confidence intervals observed on those coefficients it is, in the same uncertain terms, possible that perturbation on higher powers of $x$ and $y$ cause large intervals. 
@@ -411,6 +422,9 @@ The initial decrease in mean MSE follows the trend seen in the OLS implementatio
 
 \subsection{Bias-Variance}
 Following the trend observed in the initial k-Fold Cross-Validation test, a clear indication of bias-variance trade-off is observed for complex models using OLS regression. Averaging MSE $\sim 0.095$ on 4th-7th order polynomials, the test data MSE then increases towards MSE $\sim 1$ for further increased complexity, while the training MSE continues to decrease. This is highly likely due to the better reproduction of training data at the cost of general validity on other samples from the same main population. The exact optimum polynomial degree is difficult to ascertain, although the simulations points towards a fifth order. Due to the averaging over 50 data sets, this candidate for optimal complexity is somewhat strengthened, but this is at the same time only for the specific $30 \times 30$ grid with noise $\sim N(0,0.3)$. Due to this fact, this project reaches no specific conclusions on optimal polynomial degree. However, if the Franke's Function generated grid is somewhat representative for terrain data, polynomials above the 4th order, and below the 8th order appears to be preferable.
+
+\subsection{Ridge and Lasso}
+Surprisingly, $\lambda > 0$ appears to produce the increasingly inaccurate results for both Lasso and Ridge regression on the evaluation data sets. For Lasso, increasing values for $\lambda$ seems to produce especially inaccurate predictions, with a significant, almost step-wise, increase after $\lambda=0$. This may indicate that OLS regression, that is, no shrinkage, is the preferred regression method for the Franke's Function generated data. Going by the description of these procedures in the methods sections however, one would not necessarily be inclined to expect this. This means that there is a distinct possibility that the implementation of the two algorithms is faulty. As this parameter evaluation is only superficial, these results carry no implication beyond indicating that OLS is the preferred regression method when using the programs written for the purpose of this project. It is also worth mentioning that for $\lambda=0$, the Lasso Method produces convergence warnings.
 
 
 \subsection{Conclusions}
@@ -461,6 +475,7 @@ følg https://stats.stackexchange.com/questions/204115/understanding-bias-varian
 \caption{MSE and $R^2$ scores for OLS on  Franke's Function generated responses using a $30\times 30$ grid with noise $\sim N(0,1)$ }
 \label{table:OLS_mse_r2}
 \end{table}
+
 
 \end{appendices}
 

@@ -1,62 +1,41 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from tabulate import tabulate
+
 
 import LRclasses0 as lr
 
-"""polynomial parameters"""
-p_min = 11
-p_max = 16
-n = p_max - p_min
-p = np.arange(p_min, p_max)
 
-"""lambda paramter"""
-lmd_min=0.1
+p =[3,6,8,12]
+noise=0.3
+
+lmd_min=0
 lmd_max=1
 n_lmd=20
 lmd=np.linspace(lmd_min,lmd_max,n_lmd)
 
-"""placeholders"""
-mse = np.zeros((n,n_lmd))
-r2_ridge =  np.zeros((n,n_lmd))
-r2_lasso =  np.zeros((n,n_lmd))
-coefficients = np.zeros(n)
+mse_ridge=np.zeros((2,n_lmd))
+mse_lasso=np.zeros((2,n_lmd))
 
-"""simulation"""
-FF_terrain = lr.Data(0)
-FF_terrain.GenerateDataFF(30, 30, 0.2)
-for i in range(n): #loop over polynomials
-    print(p[i])
-    FF_terrain.CreateDesignMatrix(p[i], split="False")
-    for j in range(0,n_lmd): #loop over lambdas
-        FF_terrain.Kfold_Crossvalidation(lmd[j],10)
-        mse[i,j]=FF_terrain.mse_kf[0]
-        r2_ridge[i,j]=  FF_terrain.mse_kf[0]
-        r2_lasso[i,j] = FF_terrain.mse_kf[1]
-
-
-"""produce table for ridge MSE"""
-table = []
-headers = ["Polynomial degree"]
-for value in lmd:
-    headers.append("$ MSE(\\lambda=%.2f)$"%value)
-for i in range(0, n):
-    line = ["$ %s $" % (i + 1)]
-    for j in range(0,n_lmd):
-        line.append("$ %.4f $" % mse[i,j])
-    table.append(line)
-
-with open("../Results/part_d_mse.txt", "w") as outputfile:
-    outputfile.write(tabulate(table, headers, tablefmt="latex_raw"))
-
-"""produce subplots of r2 score ridge vs lasso"""
 plt.style.use("seaborn-whitegrid")
-fig, ax = plt.subplots(nrows=5, ncols=1, sharex=True)
-for i in range(0, n):
-    x = lmd
-    y1 = r2_ridge[i,:]
-    y2 =r2_lasso[i,:]
-    ax[i].plot(x, y1, label="Ridge")
-    ax[i].plot(x, y2, "k--",label="Lasso")
-    ax[i].set_ylabel("%s. order\n $ R^2$ " % (i + 1))
-plt.savefig("..\\Results\\r2ridgelasso12.pdf", bbox_inches="tight")
+fig, ax = plt.subplots(nrows=1, ncols=4)
+
+FF_terrain = lr.Data(0)
+FF_terrain.GenerateDataFF(30, 30, noise)
+for j in range(0,4):
+    FF_terrain.CreateDesignMatrix(int(p[j]),split="False")
+    for i in range(0,n_lmd):
+        FF_terrain.Kfold_Crossvalidation(lmd[i],k=10,method=1)
+        mse_ridge[0,i] = mse_ridge[0,i]+FF_terrain.mse_kf[0]
+        mse_ridge[1,i] = mse_ridge[1,i]+FF_terrain.mse_kf_train[0]
+        mse_lasso[0,i] = mse_lasso[0,i]+FF_terrain.mse_kf[1]
+        mse_lasso[1,i] = mse_lasso[1,i]+FF_terrain.mse_kf_train[1]
+
+    mse_ridge=mse_ridge
+    mse_lasso=mse_lasso
+    ax[j].plot(lmd, mse_ridge[1,:], lmd, mse_ridge[0,:] )
+    ax[j].plot(lmd, mse_lasso[1,:], lmd, mse_lasso[0,:] )
+    ax[j].legend(("Ridge Training MSE ", "Ridge Test MSE ","Lasso Training MSE ", "Lasso Test MSE "))
+    ax[j].set_xlabel("$ \\lambda $")
+    ax[j].set_ylabel("MSE")
+    ax[j].title.set_text('complexity of order %s'%p[j])
+plt.show()
