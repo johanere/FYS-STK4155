@@ -31,7 +31,7 @@ for run in range(0, runs):
 MSE_train = MSE_train / float(runs)
 MSE_test = MSE_test / float(runs)
 
-
+plt.style.use("seaborn-whitegrid")
 plt.plot(p, MSE_train, "k--", p, MSE_test, "k:")
 plt.legend(("MSE Training Sample", "MSE Test Sample"))
 plt.xlabel("Model complexity --->")

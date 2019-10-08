@@ -171,7 +171,7 @@ class Data:
         if self.N > 4:
             self.r2_train = r2(self.z_train, self.z_train_predict)
 
-    def Kfold_Crossvalidation(self, lmd, k=10):
+    def Kfold_Crossvalidation(self, lmd, k=10,method=1):
         kscores_mse = np.zeros((2,k))
         kscores_r2 = np.zeros((2,k))
         kfold = KFold(k, shuffle=True)
@@ -187,14 +187,20 @@ class Data:
         for train_inds, test_inds in kfold.split(full_X_train):
             self.X_train, self.X_test = X[train_inds], X[test_inds]
             self.z_train, self.z_test = z[train_inds], z[test_inds]
-            self.Ridge(lmd) #Run ridge
-            self.Train_Predict()
-            self.Test_Predict()
-            kscores_mse[0,j] = self.MSE_train #store values for Ridge
-            kscores_r2[0,j] = self.r2_train
-            self.Skl_Lasso(lmd) #Run lasso
-            kscores_mse[1,j] = self.MSE_test  #store values for  Lasso
-            kscores_r2[1,j] = self.r2_test
+            if method==1:
+                self.Ridge(lmd) #Run ridge
+                self.Train_Predict()
+                self.Test_Predict()
+                kscores_mse[0,j] = self.MSE_test #store values for Ridge
+                kscores_r2[0,j] = self.r2_test
+                self.Skl_Lasso(lmd) #Run lasso
+                kscores_mse[1,j] = self.MSE_test  #store values for  Lasso
+                kscores_r2[1,j] = self.r2_test
+            if method==0:
+                self.OLS_SVD()
+                self.Train_Predict()
+                self.Test_Predict()
+                kscores_mse[0,j] = self.MSE_test
             j += 1
 
         self.mse_kf = np.mean(kscores_mse,axis=1, keepdims=True)

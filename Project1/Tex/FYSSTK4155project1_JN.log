@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.1.3)  8 OCT 2019 02:13
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.1.3)  8 OCT 2019 04:05
 entering extended mode
 **./FYSSTK4155project1_JN.tex
 (FYSSTK4155project1_JN.tex
@@ -1122,36 +1122,36 @@ LaTeX Info: Redefining \selectfont on input line 107.
  [1
 
 {C:/Users/Johan/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 180.
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 183.
 
  (C:\Johan\Miktex\tex\latex\lm\ot1lmr.fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 180.
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 183.
 
 
 (C:\Johan\Miktex\tex\latex\lm\omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 180
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 183
 .
 
 (C:\Johan\Miktex\tex\latex\lm\omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 180
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 183
 .
 
 (C:\Johan\Miktex\tex\latex\lm\omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 180.
+(Font)              <10> on input line 183.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 180.
+(Font)              <7> on input line 183.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 180.
-LaTeX Font Info:    Try loading font information for U+msa on input line 180.
+(Font)              <5> on input line 183.
+LaTeX Font Info:    Try loading font information for U+msa on input line 183.
 
 (C:\Johan\Miktex\tex\latex\amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
@@ -1159,7 +1159,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 (C:\Johan\Miktex\tex\latex\microtype\mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 180.
+LaTeX Font Info:    Try loading font information for U+msb on input line 183.
 
 (C:\Johan\Miktex\tex\latex\amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -1169,19 +1169,19 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 ) [2]
 
 Package amsfonts Warning: Obsolete command \Bbb; \mathbb should be used instead
- on input line 226.
+ on input line 229.
 
 (C:\Johan\Miktex\tex\latex\ucs\uni-34.def
 File: uni-34.def 2013/05/13 UCS: Unicode data U+2200..U+22FF
 ) [3] [4] [5]
-<../Results/Part_a/frankeplot.pdf, id=181, pagebox=cropbox, 462.52798pt x 345.4
+<../Results/Part_a/frankeplot.pdf, id=194, pagebox=cropbox, 462.52798pt x 345.4
 506pt>
 File: ../Results/Part_a/frankeplot.pdf Graphic file (type pdf)
 <use ../Results/Part_a/frankeplot.pdf>
 Package pdftex.def Info: ../Results/Part_a/frankeplot.pdf  used on input line 3
-22. on input line 322.
+25. on input line 325.
 Package pdftex.def Info: Requested size: 323.76736pt x 241.81377pt on input lin
-e 322.
+e 325.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -1190,70 +1190,88 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../Results/Part_a/betas_franke_all_noise03.pdf, id=200, pagebox=cropbox, 420.2
+[7 <../Results/Part_a/frankeplot.pdf>]
+<../Results/Part_a/betas_franke_all_noise03.pdf, id=243, pagebox=cropbox, 420.2
 996pt x 298.98325pt>
 File: ../Results/Part_a/betas_franke_all_noise03.pdf Graphic file (type pdf)
 <use ../Results/Part_a/betas_franke_all_noise03.pdf>
 Package pdftex.def Info: ../Results/Part_a/betas_franke_all_noise03.pdf  used o
-n input line 359. on input line 359.
+n input line 364. on input line 364.
 Package pdftex.def Info: Requested size: 294.2077pt x 209.28683pt on input line
- 359.
-[7 <../Results/Part_a/frankeplot.pdf>]
-<../Results/Part_a/Part_abetas_franke_p5_noise03.pdf, id=231, pagebox=cropbox, 
+ 364.
+<../Results/Part_a/Part_abetas_franke_p5_noise03.pdf, id=244, pagebox=cropbox, 
 409.51869pt x 296.11829pt>
 File: ../Results/Part_a/Part_abetas_franke_p5_noise03.pdf Graphic file (type pd
 f)
 <use ../Results/Part_a/Part_abetas_franke_p5_noise03.pdf>
 Package pdftex.def Info: ../Results/Part_a/Part_abetas_franke_p5_noise03.pdf  u
-sed on input line 367. on input line 367.
+sed on input line 372. on input line 372.
 Package pdftex.def Info: Requested size: 286.66112pt x 207.28137pt on input lin
-e 367.
+e 372.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../Results/bias_var.pdf, id=232, pagebox=cropbox, 409.62848pt x 312.02145pt>
+[8 <../Results/Part_a/betas_franke_all_noise03.pdf>]
+<../Results/Part_b/kfold_foldeval.pdf, id=303, pagebox=cropbox, 414.74133pt x 3
+07.5673pt>
+File: ../Results/Part_b/kfold_foldeval.pdf Graphic file (type pdf)
+<use ../Results/Part_b/kfold_foldeval.pdf>
+Package pdftex.def Info: ../Results/Part_b/kfold_foldeval.pdf  used on input li
+ne 383. on input line 383.
+Package pdftex.def Info: Requested size: 290.31694pt x 215.29564pt on input lin
+e 383.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<../Results/bias_var.pdf, id=304, pagebox=cropbox, 409.62848pt x 312.02145pt>
 File: ../Results/bias_var.pdf Graphic file (type pdf)
 <use ../Results/bias_var.pdf>
-Package pdftex.def Info: ../Results/bias_var.pdf  used on input line 375. on in
-put line 375.
+Package pdftex.def Info: ../Results/bias_var.pdf  used on input line 391. on in
+put line 391.
 Package pdftex.def Info: Requested size: 286.73798pt x 218.41351pt on input lin
-e 375.
+e 391.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../Results/bias_var_MSE.pdf, id=233, pagebox=cropbox, 422.39493pt x 312.02145p
+<../Results/bias_var_MSE.pdf, id=305, pagebox=cropbox, 422.39493pt x 312.02145p
 t>
 File: ../Results/bias_var_MSE.pdf Graphic file (type pdf)
 <use ../Results/bias_var_MSE.pdf>
-Package pdftex.def Info: ../Results/bias_var_MSE.pdf  used on input line 383. o
-n input line 383.
+Package pdftex.def Info: ../Results/bias_var_MSE.pdf  used on input line 399. o
+n input line 399.
 Package pdftex.def Info: Requested size: 295.67442pt x 218.41351pt on input lin
-e 383.
+e 399.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[8 <../Results/Part_a/betas_franke_all_noise03.pdf>] [9 <../Results/Part_a/Part
-_abetas_franke_p5_noise03.pdf> <../Results/bias_var.pdf
+[9 <../Results/Part_a/Part_abetas_franke_p5_noise03.pdf>]
+
+LaTeX Warning: Text page 10 contains only floats.
+
+[10 <../Results/Part_b/kfold_foldeval.pdf> <../Results/bias_var.pdf
 
 pdfTeX warning: pdflatex (file ../Results/bias_var.pdf): PDF inclusion: multipl
 e pdfs with page group included in a single page
->] [10 <../Results/bias_var_MSE.pdf>] (FYSSTK4155project1_JN.bbl)
+>] (FYSSTK4155project1_JN.bbl [11 <../Results/bias_var_MSE.pdf>])
 (C:\Johan\Miktex\tex\latex\ucs\uni-0.def
 File: uni-0.def 2013/05/13 UCS: Unicode data U+0000..U+00FF
 )
-Overfull \hbox (10.87001pt too wide) in paragraph at lines 401--403
+Overfull \hbox (10.87001pt too wide) in paragraph at lines 419--421
 \T1/lmr/m/n/10 (-20) Following [[]][p.223] følg https://stats.stackexchange.com
 /questions/204115/understanding-bias-variance-
  []
 
-[11
 
-] [12]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 443.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 443.
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[12]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 461.
+ [13]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 461.
  (FYSSTK4155project1_JN.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 443.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 461.
 
 
  *File List*
@@ -1393,25 +1411,32 @@ FYSSTK4155project1_JN.out
 ../Results/Part_a/frankeplot.pdf
 ../Results/Part_a/betas_franke_all_noise03.pdf
 ../Results/Part_a/Part_abetas_franke_p5_noise03.pdf
+../Results/Part_b/kfold_foldeval.pdf
 ../Results/bias_var.pdf
 ../Results/bias_var_MSE.pdf
 FYSSTK4155project1_JN.bbl
    uni-0.def    2013/05/13 UCS: Unicode data U+0000..U+00FF
  ***********
 
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 443.
-Package rerunfilecheck Info: File `FYSSTK4155project1_JN.out' has not changed.
-(rerunfilecheck)             Checksum: 5E57630F0FE5F18381C283FACBFD2A1D;1359.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 461.
+
+Package rerunfilecheck Warning: File `FYSSTK4155project1_JN.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `FYSSTK4155project1_JN.out':
+(rerunfilecheck)             Before: 15FC26601B4CCDE3959C9D5BC368C48D;1627
+(rerunfilecheck)             After:  99E157CDEF4F7B4C7DEF57760E595C65;1687.
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 33404 strings out of 493312
- 748448 string characters out of 3144112
- 970051 words of memory out of 3000000
- 36134 multiletter control sequences out of 15000+200000
- 77703 words of font info for 115 fonts, out of 3000000 for 9000
+ 33435 strings out of 493312
+ 748993 string characters out of 3144112
+ 970639 words of memory out of 3000000
+ 36145 multiletter control sequences out of 15000+200000
+ 78201 words of font info for 121 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  69i,17n,98p,1002b,609s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Johan/Miktex/fonts/enc/dvips/lm/lm-rm.enc}{C:/Johan/Miktex/fonts/enc/dvip
@@ -1427,9 +1452,9 @@ C:/Johan/Miktex/fonts/type1/public/lm/lmr7.pfb><C:/Johan/Miktex/fonts/type1/pub
 lic/lm/lmr9.pfb><C:/Johan/Miktex/fonts/type1/public/lm/lmri10.pfb><C:/Johan/Mik
 tex/fonts/type1/public/lm/lmsy10.pfb><C:/Johan/Miktex/fonts/type1/public/lm/lms
 y7.pfb><C:/Johan/Miktex/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on FYSSTK4155project1_JN.pdf (12 pages, 385339 bytes).
+Output written on FYSSTK4155project1_JN.pdf (13 pages, 405272 bytes).
 PDF statistics:
- 500 PDF objects out of 1000 (max. 8388607)
- 73 named destinations out of 1000 (max. 500000)
- 20678 words of extra memory for PDF output out of 20736 (max. 10000000)
+ 559 PDF objects out of 1000 (max. 8388607)
+ 79 named destinations out of 1000 (max. 500000)
+ 20707 words of extra memory for PDF output out of 20736 (max. 10000000)
 

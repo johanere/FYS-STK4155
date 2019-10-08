@@ -172,6 +172,9 @@ it is normal to use y for predictors in litteratur,and x0 x1 etc. but for shorth
 
 In general, re-sampling techniques use a limited training set to perform multiple model fittings, treating a subset of the available data as training data and another subset as test data. The purpose of this is to obtain additional information not available when doing only one model fit \citep{2017introstatlearn}[p.175]. There are many such techniques, such as \textit{cross-validation} and \textit{bootstrap}, of which cross-validation is used in this project.
 \paragraph{Project flow:} This project starts by introducing 
+
+\hyperref[S:Code_impl_init_ols]{the OLS implementation tests}.
+
 \paragraph{Main findings}
 
 
@@ -267,7 +270,7 @@ The minimization problem based on this cost function has solutions which are non
 \paragraph{A general comparison between Ridge and Lasso} may be studied further in literature, such a \citep{2017introstatlearn}[p.223-224], on which the following is based. Simply put, Ridge regression leads to better prediction when performed on data where there are few predictors of roughly the same importance. However, for a large set of predictors, where a smaller subset of predictors are significantly stronger linked to the response than the rest, Lasso performs better. Especially so when the response has low dependency on the remaining subset.In this regard, it is however important to note that when analyzing a real data set, the number of significant predictors is unknown a priori. Therefor, in order to determine the method of regression, the use of re-sampling techniques such as cross validation or bootstrap is advisable.
 
  
-\subsection{Re-sampling procedure: k-Fold Cross-Validation}
+\subsection{Re-sampling procedure: k-Fold Cross-Validation} \label{M:kfold}
 As other re-sampling procedures, the k-Fold Cross-Validation (KfCV)uses a limited training set to perform multiple model fittings in order to obtain additional information about model parameters \citep{2017introstatlearn}[p.175]. In the case of this specific procedure, this is achieved by splitting the data into $k$, approximately equaled sized groups, normally after shuffling the data sets. Then, the first of those $k$ sets is treated as a test set, or validation set, while the remaining $k-1$ sets are used to fit the model. This is then repeated $k$ times, using a new subset for validation in each iteration \citep{2017introstatlearn}[p.181]. In each iteration$ i$ , the mean square error, $MSE_i$ \eqref{eq:MSE}, is calculated using the validation group as $\bm{z}$. After all iterations are complete, the Cross-Validation estimate is computed by:
 \begin{equation}
 CV_(k)=\frac{1}{k}\sum MSE_i
@@ -326,9 +329,11 @@ f(x,y) &= \frac{3}{4}\exp{\left(-\frac{(9x-2)^2}{4} - \frac{(9y-2)^2}{4}\right)}
 \subsection{Code implementation}
 The regression methods are implemented into a program using Python 2.7, using numpy and Scikit-learn. The code is structured around a program which contains a data class, with methods for different regression procedures, as well as data generation and data reading. The results presented in the following section are produced using their own smaller programs, which draw on the classes from the main program. The class method for Lasso uses the Scikit-learn, while OLS and Ridge do not. Additionally, the k-Fold CV draws on some utility from Scikit-learn, such as dividing folds.
 
-\subsubsection{Initial evaluation of OLS implementation}
+\subsubsection{Initial evaluation of OLS implementation}\label{S:Code_impl_init_ols}
 In order to make an initial evaluation implementation of the OLS regression, terrain data is generated using Franke's Function \eqref{eq:Frankes}, with $30 \times 30$ grid points. One data set with no noise, one with noise $\sim N(0,1)$ and one with $\sim N(0,0.3)$. Polynomials of up to fifth order are directly fitted using the entire data set, and the accuracy of the model fittings are recorded in terms of MSE and $R^2$, as well as $95\%$ confidence interval for the regression coefficients. 
 
+\subsubsection{Test of k-Fold Cross Validation implementation}
+Following the test of the OLS method, the k-Fold Cross Validation re-sampling method is tested. The aim of this test is to try to establish a suitable number of folds, $k$. A data set using the same parameters as previously, (with noise $\sim N(0,0.3)$) is used. Under increasing model complexity, the data is split up in folds as described in the \hyperref[M:kfold]{methods sections}. For each value of $k$, the average training data MSE is calculated, so that it may be used as a quality measurement. 
 \section{Results}
 \subsection{OLS implementation}
 Below, MSE and $R^2$ values for the initial evaluation of the OLS is presented in table \ref{table:OLS_mse_r2} for polynomials up to degree five, using the  $30 \times 30$ Franke's Function generated data set with noise $\sim N(0,0.3)$. Similar tables for noise $\sim N(0,1)$ and no noise can be foind in \hyperref[APP_2]{appendix 2}. These tables clearly show that both $R^2$ values and MSE decrease with increased model complexity up to the fifth degree, and that both measurements increase with increased noise.  
@@ -369,6 +374,17 @@ Figure \ref{fig:betas_all} shows the spread of confidence intervals for a 1. ord
         \label{fig:betas_fifth}   
 \end{figure}  
 
+\subsection{Test of k-Fold Cross Validation implementation}
+Figre \ref{fig:kfold_kval} shows the average MSE from $k=5,10,20,40$ folds on the same data set. Having already established a decrease in MSE for this type of data set following complexity increase up to fifth order polynomials, the mean MSE values are shown as functions of model complexity in range from $4$ up to $9$, in order to further investigate the complexity-accuracy relationship. It is evident that MSE initially decreases with complexity, before increasing at the sixth order for all values of $k$. In addition, the figure indicates that $k=5$ fold CV yields decreased accuracy in comparison to higher $k$ values, while $k=10,20,$ and $40$ have approximately the same MSE, with a minimum of $\sim 0.89$ at the fifth order of complexity.
+
+
+\begin{figure}[!h]
+        \centering 
+         \includegraphics[scale=0.7]{../Results/Part_b/kfold_foldeval.pdf} 
+        \caption{Comparison of produced average MSE from training data using OLS with k-Fold CV under increasing model complexity for $k=10,20,20,40$. Data originates from Franke's Function generated response on a $30\times 30$ grid}
+        \label{fig:kfold_kval}   
+\end{figure}  
+\subsection{Bias-Variance}
 %BIAS VAR 
 \begin{figure}[!h]
         \centering 
@@ -389,6 +405,8 @@ Figure \ref{fig:betas_all} shows the spread of confidence intervals for a 1. ord
 \subsection{OLS implementation}
 As Franke's Function does not describe a planar terrain, the increased $R^2$ score and decreased MSE with increased model complexity  is no surprise.  The small, and approximately stationary values of $\beta_1$ and $\beta_2$  is neither surprising, as \ref{fig:franke} suggests that there are no general drastic changes associated with $x$ and $y$ to the power of one. However, \ref{fig:franke} indicates that values of $x$ and $y$ close to zero should produce a high response. In speculative terms, it is possible that the large positive coefficients are a result of this - especially because they correspond to high powers of the domain variables. On the large ($\ \pm sim 20$ confidence intervals observed on those coefficients it is, in the same uncertain terms, possible that perturbation on higher powers of $x$ and $y$ cause large intervals.
 
+\subsection{k-Fold CV}
+The initial decrease in mean MSE follows the trend seen in the OLS implementation testing.  As was observed previously, and again in the kFCV test, a complexity corresponding to a fifth order polynomial is again the most accurate, with a minimum mean MSE $\sim 0.89$. This holds true for $k=5,10,20,40$ - albeit $k=5$ exhibits significantly less accuracy relative to the other $k$-values, especially so when complexity further increases. Lower $k$ values mean larger subset for both training and testing, but fever iterations. This may possibly results in less bias, as the training folds become closer to the entirety of the data. Simultaneously, this may also increase variance, although this is not explicitly shown in the results. As increases in $k$ are also more computationally expensive, $k=10$ appears to be a suitable value.
 \subsection{Conclusions}
 
 

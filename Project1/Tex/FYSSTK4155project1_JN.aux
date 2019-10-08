@@ -52,6 +52,7 @@
 \citation{2017introstatlearn}
 \citation{HastieTrevor2009TEoS}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Re-sampling procedure: k-Fold Cross-Validation}{5}{subsection.2.3}}
+\newlabel{M:kfold}{{2.3}{5}{Re-sampling procedure: k-Fold Cross-Validation}{subsection.2.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Model evaluation}{5}{subsection.2.4}}
 \newlabel{eq:MSE}{{12}{5}{Model evaluation}{equation.2.12}{}}
 \citation{2017introstatlearn}
@@ -66,20 +67,29 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces \textup  {\hbox {\mathsurround \z@ \normalfont  (\ignorespaces \ref  {eq:Frankes}\unskip \@@italiccorr )}} $x,y\in [0,1]$ with grid spacing $0.05$}}{7}{figure.1}}
 \newlabel{fig:franke}{{1}{7}{\eqref {eq:Frankes} $x,y\in [0,1]$ with grid spacing $0.05$}{figure.1}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.6.1}Initial evaluation of OLS implementation}{7}{subsubsection.2.6.1}}
+\newlabel{S:Code_impl_init_ols}{{2.6.1}{7}{Initial evaluation of OLS implementation}{subsubsection.2.6.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.6.2}Test of k-Fold Cross Validation implementation}{7}{subsubsection.2.6.2}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Results}{7}{section.3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}OLS implementation}{7}{subsection.3.1}}
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces MSE and $R^2$ scores for OLS on Franke's Function generated responses using a $30\times 30$ grid with noise $\sim N(0,0.3)$ }}{8}{table.1}}
 \newlabel{table:OLS_mse_r2}{{1}{8}{MSE and $R^2$ scores for OLS on Franke's Function generated responses using a $30\times 30$ grid with noise $\sim N(0,0.3)$}{table.1}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces $95\%$ confidence intervals for the OLS regression coefficients for polynomials of order one to five, using the Franke's Function generated response on a $30\times 30$ grid}}{8}{figure.2}}
 \newlabel{fig:betas_all}{{2}{8}{$95\%$ confidence intervals for the OLS regression coefficients for polynomials of order one to five, using the Franke's Function generated response on a $30\times 30$ grid}{figure.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Test of k-Fold Cross Validation implementation}{8}{subsection.3.2}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces $95\%$ confidence intervals for the OLS regression coefficients for a fifth order polynomial, using the Franke's Function generated response on a $30\times 30$ grid}}{9}{figure.3}}
 \newlabel{fig:betas_fifth}{{3}{9}{$95\%$ confidence intervals for the OLS regression coefficients for a fifth order polynomial, using the Franke's Function generated response on a $30\times 30$ grid}{figure.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Comparison of Bias vs Variance, using the Franke's Function generated response on a $30\times 30$ grid, averaged over 80 runs, as a function of model complexity in terms of polynomial degree, $p$}}{9}{figure.4}}
-\newlabel{fig:betas_al123l}{{4}{9}{Comparison of Bias vs Variance, using the Franke's Function generated response on a $30\times 30$ grid, averaged over 80 runs, as a function of model complexity in terms of polynomial degree, $p$}{figure.4}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Comparison of MSE for training and test data, using the Franke's Function generated response on a $30\times 30$ grid, averaged over 80 runs, as a function of model complexity in terms of polynomial degree, $p$}}{10}{figure.5}}
-\newlabel{fig:betas_al123l}{{5}{10}{Comparison of MSE for training and test data, using the Franke's Function generated response on a $30\times 30$ grid, averaged over 80 runs, as a function of model complexity in terms of polynomial degree, $p$}{figure.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Bias-Variance}{9}{subsection.3.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Comparison of produced average MSE from training data using OLS with k-Fold CV under increasing model complexity for $k=10,20,20,40$. Data originates from Franke's Function generated response on a $30\times 30$ grid}}{10}{figure.4}}
+\newlabel{fig:kfold_kval}{{4}{10}{Comparison of produced average MSE from training data using OLS with k-Fold CV under increasing model complexity for $k=10,20,20,40$. Data originates from Franke's Function generated response on a $30\times 30$ grid}{figure.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Comparison of Bias vs Variance, using the Franke's Function generated response on a $30\times 30$ grid, averaged over 80 runs, as a function of model complexity in terms of polynomial degree, $p$}}{10}{figure.5}}
+\newlabel{fig:betas_al123l}{{5}{10}{Comparison of Bias vs Variance, using the Franke's Function generated response on a $30\times 30$ grid, averaged over 80 runs, as a function of model complexity in terms of polynomial degree, $p$}{figure.5}{}}
 \bibdata{ref}
 \bibcite{Ascher}{{1}{}{{}}{{}}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Comparison of MSE for training and test data, using the Franke's Function generated response on a $30\times 30$ grid, averaged over 80 runs, as a function of model complexity in terms of polynomial degree, $p$}}{11}{figure.6}}
+\newlabel{fig:betas_al123l}{{6}{11}{Comparison of MSE for training and test data, using the Franke's Function generated response on a $30\times 30$ grid, averaged over 80 runs, as a function of model complexity in terms of polynomial degree, $p$}{figure.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Discussion of results}{11}{section.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}OLS implementation}{11}{subsection.4.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}k-Fold CV}{11}{subsection.4.2}}
 \bibcite{FrankeRichard1979ACCo}{{2}{}{{}}{{}}}
 \bibcite{HastieTrevor2009TEoS}{{3}{}{{}}{{}}}
 \bibcite{MHJ_LinReg}{{4}{}{{}}{{}}}
@@ -88,15 +98,13 @@
 \bibcite{MurphyKevin}{{7}{}{{}}{{}}}
 \bibstyle{plain}
 \citation{HastieTrevor2009TEoS}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Discussion of results}{11}{section.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}OLS implementation}{11}{subsection.4.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Conclusions}{11}{subsection.4.2}}
-\@writefile{toc}{\contentsline {section}{References}{11}{section*.6}}
-\@writefile{toc}{\contentsline {section}{Appendices}{11}{section*.7}}
-\newlabel{APP_1}{{4.2}{11}{Appendix 1}{section*.8}{}}
 \providecommand\NAT@force@numbers{}\NAT@force@numbers
-\newlabel{APP_2}{{4.2}{12}{Appendix 2}{section*.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Conclusions}{12}{subsection.4.3}}
+\@writefile{toc}{\contentsline {section}{References}{12}{section*.6}}
+\@writefile{toc}{\contentsline {section}{Appendices}{12}{section*.7}}
+\newlabel{APP_1}{{4.3}{12}{Appendix 1}{section*.8}{}}
+\newlabel{APP_2}{{4.3}{12}{Appendix 2}{section*.9}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces MSE and $R^2$ scores for OLS on Franke's Function generated responses using a $30\times 30$ grid without noise}}{12}{table.2}}
 \newlabel{table:OLS_mse_r2}{{2}{12}{MSE and $R^2$ scores for OLS on Franke's Function generated responses using a $30\times 30$ grid without noise}{table.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces MSE and $R^2$ scores for OLS on Franke's Function generated responses using a $30\times 30$ grid with noise $\sim N(0,1)$ }}{12}{table.3}}
-\newlabel{table:OLS_mse_r2}{{3}{12}{MSE and $R^2$ scores for OLS on Franke's Function generated responses using a $30\times 30$ grid with noise $\sim N(0,1)$}{table.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces MSE and $R^2$ scores for OLS on Franke's Function generated responses using a $30\times 30$ grid with noise $\sim N(0,1)$ }}{13}{table.3}}
+\newlabel{table:OLS_mse_r2}{{3}{13}{MSE and $R^2$ scores for OLS on Franke's Function generated responses using a $30\times 30$ grid with noise $\sim N(0,1)$}{table.3}{}}
