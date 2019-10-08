@@ -13,7 +13,7 @@ def read_terrain(terrain):
 # Show the terrain
 
 
-def plot_terrain(terrain,title):
+def plot_terrain(terrain, title):
     plt.figure()
     plt.title(title)
     plt.imshow(terrain, cmap="gray")

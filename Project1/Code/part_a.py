@@ -8,8 +8,8 @@ p_min = 1
 p_max = 6
 n = p_max - p_min
 p = np.arange(p_min, p_max)
-noise=1
-noise_label="1" #label to avoid . in file name
+noise = 1
+noise_label = "1"  # label to avoid . in file name
 beta = np.zeros((n, 21))
 betaints = np.zeros((n, 21))
 coefficients = np.zeros(6)
@@ -39,7 +39,7 @@ for j in range(0, n):
     line.append("$ %.4f $" % mse[j])
     table.append(line)
 
-with open("../Results/Part_a/r2_mse_noise%s.txt"%noise_label, "w") as outputfile:
+with open("../Results/Part_a/r2_mse_noise%s.txt" % noise_label, "w") as outputfile:
     outputfile.write(tabulate(table, headers, tablefmt="latex_raw"))
 
 
@@ -61,7 +61,9 @@ for i in range(0, 5):
     ax[i].set_xlim([0, 21])
     ax[i].set_ylabel("%s. order\n $ CI_{0.95}(\\beta_j) $ " % (i + 1))
 
-plt.savefig("../Results/Part_a/betas_franke_all_noise%s.pdf"%noise_label, bbox_inches="tight")
+plt.savefig(
+    "../Results/Part_a/betas_franke_all_noise%s.pdf" % noise_label, bbox_inches="tight"
+)
 
 points = int(coefficients[4])
 x = np.arange(0, points, 1)
@@ -74,4 +76,7 @@ for j in range(0, points):
 plt.errorbar(x, y, yerr=error, fmt=".k")
 plt.xticks(range(21), ticks)
 plt.ylabel("$ CI_{0.95}(\\beta_j) $ ")
-plt.savefig("../Results/Part_a/Part_abetas_franke_p5_noise%s.pdf"%noise_label, bbox_inches="tight")
+plt.savefig(
+    "../Results/Part_a/Part_abetas_franke_p5_noise%s.pdf" % noise_label,
+    bbox_inches="tight",
+)

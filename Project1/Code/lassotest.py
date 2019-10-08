@@ -11,15 +11,15 @@ n = p_max - p_min
 p = np.arange(p_min, p_max)
 
 """lambda paramter"""
-lmd_min=0.0
-lmd_max=1
-n_lmd=7
-lmd=np.linspace(lmd_min,lmd_max,n_lmd)
+lmd_min = 0.0
+lmd_max = 1
+n_lmd = 7
+lmd = np.linspace(lmd_min, lmd_max, n_lmd)
 
 """placeholders"""
-mse = np.zeros((n,n_lmd))
-r2_ridge =  np.zeros((n,n_lmd))
-r2_lasso =  np.zeros((n,n_lmd))
+mse = np.zeros((n, n_lmd))
+r2_ridge = np.zeros((n, n_lmd))
+r2_lasso = np.zeros((n, n_lmd))
 coefficients = np.zeros(n)
 
 """simulation"""
