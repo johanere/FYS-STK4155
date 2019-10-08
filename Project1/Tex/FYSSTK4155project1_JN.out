@@ -12,13 +12,15 @@
 \BOOKMARK [2][-]{subsection.2.6}{Code implementation}{section.2}% 12
 \BOOKMARK [3][-]{subsubsection.2.6.1}{Initial evaluation of OLS implementation}{subsection.2.6}% 13
 \BOOKMARK [3][-]{subsubsection.2.6.2}{Test of k-Fold Cross Validation implementation}{subsection.2.6}% 14
-\BOOKMARK [1][-]{section.3}{Results}{}% 15
-\BOOKMARK [2][-]{subsection.3.1}{OLS implementation}{section.3}% 16
-\BOOKMARK [2][-]{subsection.3.2}{Test of k-Fold Cross Validation implementation}{section.3}% 17
-\BOOKMARK [2][-]{subsection.3.3}{Bias-Variance}{section.3}% 18
-\BOOKMARK [1][-]{section.4}{Discussion of results}{}% 19
-\BOOKMARK [2][-]{subsection.4.1}{OLS implementation}{section.4}% 20
-\BOOKMARK [2][-]{subsection.4.2}{k-Fold CV}{section.4}% 21
-\BOOKMARK [2][-]{subsection.4.3}{Conclusions}{section.4}% 22
-\BOOKMARK [1][-]{section*.6}{References}{}% 23
-\BOOKMARK [1][-]{section*.7}{Appendices}{}% 24
+\BOOKMARK [3][-]{subsubsection.2.6.3}{Bias-Variance trade-off}{subsection.2.6}% 15
+\BOOKMARK [1][-]{section.3}{Results}{}% 16
+\BOOKMARK [2][-]{subsection.3.1}{OLS implementation}{section.3}% 17
+\BOOKMARK [2][-]{subsection.3.2}{Test of k-Fold Cross Validation implementation}{section.3}% 18
+\BOOKMARK [2][-]{subsection.3.3}{Bias-Variance}{section.3}% 19
+\BOOKMARK [1][-]{section.4}{Discussion of results}{}% 20
+\BOOKMARK [2][-]{subsection.4.1}{OLS implementation}{section.4}% 21
+\BOOKMARK [2][-]{subsection.4.2}{k-Fold CV}{section.4}% 22
+\BOOKMARK [2][-]{subsection.4.3}{Bias-Variance}{section.4}% 23
+\BOOKMARK [2][-]{subsection.4.4}{Conclusions}{section.4}% 24
+\BOOKMARK [1][-]{section*.6}{References}{}% 25
+\BOOKMARK [1][-]{section*.7}{Appendices}{}% 26

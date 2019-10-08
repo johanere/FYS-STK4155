@@ -334,6 +334,9 @@ In order to make an initial evaluation implementation of the OLS regression, ter
 
 \subsubsection{Test of k-Fold Cross Validation implementation}
 Following the test of the OLS method, the k-Fold Cross Validation re-sampling method is tested. The aim of this test is to try to establish a suitable number of folds, $k$. A data set using the same parameters as previously, (with noise $\sim N(0,0.3)$) is used. Under increasing model complexity, the data is split up in folds as described in the \hyperref[M:kfold]{methods sections}. For each value of $k$, the average training data MSE is calculated, so that it may be used as a quality measurement. 
+
+\subsubsection{Bias-Variance trade-off}
+Upon concluding that $k=10$ is a suitable number of folds, the kFCV method using OLS regression is now applied to $50$ generated data set, similar parameters as previously, with noise $\sim N(0,0.3)$. For each data set, a design matrix is set up, and $k=10$-fold CV is carried out over increasingly complex models with polynomial degrees ranging from 1 to 10. After the $50$ iterations, mean values of the mean MSE (of the kFCV) on test data and training data are calculated. This final mean over the $50$ iterations, are meant to illustrate the bias-variance trade-off, as well as helping in further establishing a suitable complexity for $n \times n$ grids on Franke's Function.
 \section{Results}
 \subsection{OLS implementation}
 Below, MSE and $R^2$ values for the initial evaluation of the OLS is presented in table \ref{table:OLS_mse_r2} for polynomials up to degree five, using the  $30 \times 30$ Franke's Function generated data set with noise $\sim N(0,0.3)$. Similar tables for noise $\sim N(0,1)$ and no noise can be foind in \hyperref[APP_2]{appendix 2}. These tables clearly show that both $R^2$ values and MSE decrease with increased model complexity up to the fifth degree, and that both measurements increase with increased noise.  
@@ -375,7 +378,7 @@ Figure \ref{fig:betas_all} shows the spread of confidence intervals for a 1. ord
 \end{figure}  
 
 \subsection{Test of k-Fold Cross Validation implementation}
-Figre \ref{fig:kfold_kval} shows the average MSE from $k=5,10,20,40$ folds on the same data set. Having already established a decrease in MSE for this type of data set following complexity increase up to fifth order polynomials, the mean MSE values are shown as functions of model complexity in range from $4$ up to $9$, in order to further investigate the complexity-accuracy relationship. It is evident that MSE initially decreases with complexity, before increasing at the sixth order for all values of $k$. In addition, the figure indicates that $k=5$ fold CV yields decreased accuracy in comparison to higher $k$ values, while $k=10,20,$ and $40$ have approximately the same MSE, with a minimum of $\sim 0.89$ at the fifth order of complexity.
+Figure \ref{fig:kfold_kval} shows the average MSE from $k=5,10,20,40$ folds on the same data set. Having already established a decrease in MSE for this type of data set following complexity increase up to fifth order polynomials, the mean MSE values are shown as functions of model complexity in range from $4$ up to $9$, in order to further investigate the complexity-accuracy relationship. It is evident that MSE initially decreases with complexity, before increasing at the sixth order for all values of $k$. In addition, the figure indicates that $k=5$ fold CV yields decreased accuracy in comparison to higher $k$ values, while $k=10,20,$ and $40$ have approximately the same MSE, with a minimum of $\sim 0.89$ at the fifth order of complexity.
 
 
 \begin{figure}[!h]
@@ -384,29 +387,32 @@ Figre \ref{fig:kfold_kval} shows the average MSE from $k=5,10,20,40$ folds on th
         \caption{Comparison of produced average MSE from training data using OLS with k-Fold CV under increasing model complexity for $k=10,20,20,40$. Data originates from Franke's Function generated response on a $30\times 30$ grid}
         \label{fig:kfold_kval}   
 \end{figure}  
+
+
 \subsection{Bias-Variance}
-%BIAS VAR 
+Figure \ref{fig:bias_var_OLS} shows averaged mean MSE from kFCV using OLS of varying complexity over $50$ data sets. It is evident from the plots, that - when averaged over many data sets - the MSE from training and test data first decrease proportionally, then diverge, with increased complexity.  For complexity corresponding 4th, 5th, 6th and 7th order polynomials, the averaged test MSE appears to be at a minimum $\sim 0.095$. For polynomials of higher order than $7$, the test MSE increases above $\sim 0.095$ towards $1$.
+
+
 \begin{figure}[!h]
         \centering 
-         \includegraphics[scale=0.7]{../Results/bias_var.pdf} 
-        \caption{Comparison of Bias vs Variance, using the Franke's Function generated response on a $30\times 30$ grid, averaged over 80 runs, as a function of model complexity in terms of polynomial degree, $p$}
-        \label{fig:betas_al123l}   
+         \includegraphics[scale=0.7]{../Results/Part_C/bias_var_50runs.pdf} 
+        \caption{Comparison of kFCV ($k=10$) mean MSE using OLS from training and test data of varying complexity, averaged over $50$ data sets generated from Franke's Function on a $30\times 30$ with noise $\sim N(0,0.3)$.}
+        \label{fig:bias_var_OLS}   
 \end{figure}  
 
-%BIAS VAR MSE
-\begin{figure}[!h]
-        \centering 
-         \includegraphics[scale=0.7]{../Results/bias_var_MSE.pdf} 
-        \caption{Comparison of MSE for training and test data, using the Franke's Function generated response on a $30\times 30$ grid, averaged over 80 runs, as a function of model complexity in terms of polynomial degree, $p$}
-        \label{fig:betas_al123l}   
-\end{figure}  
+
 
 \section{Discussion of results}
 \subsection{OLS implementation}
-As Franke's Function does not describe a planar terrain, the increased $R^2$ score and decreased MSE with increased model complexity  is no surprise.  The small, and approximately stationary values of $\beta_1$ and $\beta_2$  is neither surprising, as \ref{fig:franke} suggests that there are no general drastic changes associated with $x$ and $y$ to the power of one. However, \ref{fig:franke} indicates that values of $x$ and $y$ close to zero should produce a high response. In speculative terms, it is possible that the large positive coefficients are a result of this - especially because they correspond to high powers of the domain variables. On the large ($\ \pm sim 20$ confidence intervals observed on those coefficients it is, in the same uncertain terms, possible that perturbation on higher powers of $x$ and $y$ cause large intervals.
+As Franke's Function does not describe a planar terrain, the increased $R^2$ score and decreased MSE with increased model complexity  is no surprise.  The small, and approximately stationary values of $\beta_1$ and $\beta_2$  is neither surprising, as \ref{fig:franke} suggests that there are no general drastic changes associated with $x$ and $y$ to the power of one. However, \ref{fig:franke} indicates that values of $x$ and $y$ close to zero should produce a high response. In speculative terms, it is possible that the large positive coefficients are a result of this - especially because they correspond to high powers of the domain variables. On the large(($\pm \sim 20$) confidence intervals observed on those coefficients it is, in the same uncertain terms, possible that perturbation on higher powers of $x$ and $y$ cause large intervals. 
 
 \subsection{k-Fold CV}
-The initial decrease in mean MSE follows the trend seen in the OLS implementation testing.  As was observed previously, and again in the kFCV test, a complexity corresponding to a fifth order polynomial is again the most accurate, with a minimum mean MSE $\sim 0.89$. This holds true for $k=5,10,20,40$ - albeit $k=5$ exhibits significantly less accuracy relative to the other $k$-values, especially so when complexity further increases. Lower $k$ values mean larger subset for both training and testing, but fever iterations. This may possibly results in less bias, as the training folds become closer to the entirety of the data. Simultaneously, this may also increase variance, although this is not explicitly shown in the results. As increases in $k$ are also more computationally expensive, $k=10$ appears to be a suitable value.
+The initial decrease in mean MSE follows the trend seen in the OLS implementation testing.  As was observed previously, and again in the kFCV test, a complexity corresponding to a fifth order polynomial appears to be the most accurate, with a minimum mean MSE $\sim 0.89$. This holds true for $k=5,10,20,40$ - albeit $k=5$ exhibits significant inaccuracy relative to the other $k$-values, especially so when complexity further increases. Lower $k$ values mean larger subset for both training and testing, but fever iterations. This may possibly results in less bias, as the training folds become closer to the entirety of the data. Simultaneously, this may also increase variance, although this is not explicitly shown in the results. Tendencies related to the bias-variance trade-off are however present. As increases in $k$ are also more computationally expensive, $k=10$ appears to be a suitable value.
+
+\subsection{Bias-Variance}
+Following the trend observed in the initial k-Fold Cross-Validation test, a clear indication of bias-variance trade-off is observed for complex models using OLS regression. Averaging MSE $\sim 0.095$ on 4th-7th order polynomials, the test data MSE then increases towards MSE $\sim 1$ for further increased complexity, while the training MSE continues to decrease. This is highly likely due to the better reproduction of training data at the cost of general validity on other samples from the same main population. The exact optimum polynomial degree is difficult to ascertain, although the simulations points towards a fifth order. Due to the averaging over 50 data sets, this candidate for optimal complexity is somewhat strengthened, but this is at the same time only for the specific $30 \times 30$ grid with noise $\sim N(0,0.3)$. Due to this fact, this project reaches no specific conclusions on optimal polynomial degree. However, if the Franke's Function generated grid is somewhat representative for terrain data, polynomials above the 4th order, and below the 8th order appears to be preferable.
+
+
 \subsection{Conclusions}
 
 

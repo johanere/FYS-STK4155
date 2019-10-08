@@ -151,13 +151,6 @@ class Data:
             self.r2_test = r2(self.z_test, self.z_test_predict)
         """"Calculate bias and variance"""
 
-        self.error = np.mean(
-            np.mean((self.z_test - self.z_test_predict) ** 2, keepdims=True)
-        )
-        self.bias = np.mean(
-            (self.z_test - np.mean(self.z_test_predict, keepdims=True)) ** 2
-        )
-        self.var = np.mean(np.var(self.z_test_predict, keepdims=True))
 
     def Skl_OLS(self, k=10):
         clf = skl.LinearRegression().fit(self.X_train, self.z_train)
@@ -165,14 +158,22 @@ class Data:
 
     def Skl_Lasso(self, lmd, k=0):
         lasso = skl.Lasso(alpha=lmd).fit(self.X_train, self.z_train)
+        """training values"""
         self.z_train_predict = lasso.predict(self.X_train)
         self.MSE_train = MSE(self.z_train, self.z_train_predict)
         self.r2_train = 0
         if self.N > 4:
             self.r2_train = r2(self.z_train, self.z_train_predict)
+        """test values"""
+        self.z_test_predict = lasso.predict(self.X_test)
+        self.MSE_test = MSE(self.z_test, self.z_test_predict)
+        self.r2_test = 0
+        if self.N > 4:
+            self.r2_test = r2(self.z_test, self.z_test_predict)
 
     def Kfold_Crossvalidation(self, lmd, k=10,method=1):
-        kscores_mse = np.zeros((2,k))
+        kscores_mse_test = np.zeros((2,k))
+        kscores_mse_train = np.zeros((2,k))
         kscores_r2 = np.zeros((2,k))
         kfold = KFold(k, shuffle=True)
         """Retain original train/test split"""
@@ -190,20 +191,24 @@ class Data:
             if method==1:
                 self.Ridge(lmd) #Run ridge
                 self.Train_Predict()
+                kscores_mse_train[0,j]=self.MSE_train
                 self.Test_Predict()
-                kscores_mse[0,j] = self.MSE_test #store values for Ridge
+                kscores_mse_test[0,j] = self.MSE_test #store values for Ridge
                 kscores_r2[0,j] = self.r2_test
                 self.Skl_Lasso(lmd) #Run lasso
-                kscores_mse[1,j] = self.MSE_test  #store values for  Lasso
+                kscores_mse_train[1,j]=self.MSE_train
+                kscores_mse_test[1,j] = self.MSE_test  #store values for  Lasso
                 kscores_r2[1,j] = self.r2_test
             if method==0:
                 self.OLS_SVD()
                 self.Train_Predict()
+                kscores_mse_train[0,j]=self.MSE_train
                 self.Test_Predict()
-                kscores_mse[0,j] = self.MSE_test
-            j += 1
+                kscores_mse_test[0,j] = self.MSE_test
 
-        self.mse_kf = np.mean(kscores_mse,axis=1, keepdims=True)
+            j += 1
+        self.mse_kf_train = np.mean(kscores_mse_train,axis=1, keepdims=True)
+        self.mse_kf = np.mean(kscores_mse_test,axis=1, keepdims=True)
         self.r2_kf = np.mean(kscores_r2,axis=1, keepdims=True)
         """Reset to original train/test split"""
         self.X_train = full_X_train
