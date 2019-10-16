@@ -9,11 +9,7 @@ def read_terrain(terrain):
     terrain1 = imread(terrain)
     return terrain1
 
-
-# Show the terrain
-
-
-def plot_terrain(terrain, title):
+def plot_terrain(terrain,title):
     plt.figure()
     plt.title(title)
     plt.imshow(terrain, cmap="gray")

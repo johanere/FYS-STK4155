@@ -1,0 +1,3 @@
+Citations/ref:
+In article by I-Cheng Yeh, there are no references when presenting the six different data mining techinques, bur rather list a 
+number of references before presentation. Is this a common practice?
