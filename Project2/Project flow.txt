@@ -1,0 +1,12 @@
+1. Classification
+1.1 Logistic Regression
+1.1.1. Import data and familiarize with the scientific article (Article uses lift. Should I use lift?)
+1.1.2. Write Logreg code with the aim of "reproducing logreg analysis in article". (Again, lift?)
+- Define cost function and design matrix
+- Include gradient descent solver IOT find optimal paramters (lift/gain)
+
+
+
+Logistic Regression
+
+NN
