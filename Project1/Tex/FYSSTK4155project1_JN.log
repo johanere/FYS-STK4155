@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.1.3)  8 OCT 2019 17:05
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.1.3)  17 OCT 2019 19:01
 entering extended mode
 **./FYSSTK4155project1_JN.tex
 (FYSSTK4155project1_JN.tex
@@ -1106,15 +1106,20 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 ) [1
 
-{C:/Users/Johan/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2]
+{C:/Users/Johan/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 161.
+(Font)              <10> on input line 159.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 161.
- [3] [4]
+(Font)              <7> on input line 159.
+
+Underfull \hbox (badness 10000) in paragraph at lines 159--160
+
+ []
+
+[2] [3] [4]
 
 Package amsfonts Warning: Obsolete command \Bbb; \mathbb should be used instead
- on input line 219.
+ on input line 227.
 
 (C:\Johan\Miktex\tex\latex\ucs\uni-34.def
 File: uni-34.def 2013/05/13 UCS: Unicode data U+2200..U+22FF
@@ -1124,9 +1129,9 @@ File: uni-34.def 2013/05/13 UCS: Unicode data U+2200..U+22FF
 File: ../Results/Part_a/frankeplot.pdf Graphic file (type pdf)
 <use ../Results/Part_a/frankeplot.pdf>
 Package pdftex.def Info: ../Results/Part_a/frankeplot.pdf  used on input line 3
-12. on input line 312.
+20. on input line 320.
 Package pdftex.def Info: Requested size: 323.76736pt x 241.81377pt on input lin
-e 312.
+e 320.
  [9 <../Results/Part_a/frankeplot.pdf>] [10] (C:\Johan\Miktex\tex\latex\ucs\uni
 -0.def
 File: uni-0.def 2013/05/13 UCS: Unicode data U+0000..U+00FF
@@ -1136,11 +1141,11 @@ File: uni-0.def 2013/05/13 UCS: Unicode data U+0000..U+00FF
 File: ../Results/Part_g/terrain_full_reduced.png Graphic file (type png)
 <use ../Results/Part_g/terrain_full_reduced.png>
 Package pdftex.def Info: ../Results/Part_g/terrain_full_reduced.png  used on in
-put line 335. on input line 335.
+put line 343. on input line 343.
 Package pdftex.def Info: Requested size: 366.61879pt x 326.71982pt on input lin
-e 335.
+e 343.
 
-Overfull \hbox (21.61879pt too wide) in paragraph at lines 335--336
+Overfull \hbox (21.61879pt too wide) in paragraph at lines 343--344
  [][] 
  []
 
@@ -1150,9 +1155,9 @@ Overfull \hbox (21.61879pt too wide) in paragraph at lines 335--336
 File: ../Results/Part_a/betas_franke_all_noise03.pdf Graphic file (type pdf)
 <use ../Results/Part_a/betas_franke_all_noise03.pdf>
 Package pdftex.def Info: ../Results/Part_a/betas_franke_all_noise03.pdf  used o
-n input line 367. on input line 367.
+n input line 375. on input line 375.
 Package pdftex.def Info: Requested size: 294.2077pt x 209.28683pt on input line
- 367.
+ 375.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -1163,9 +1168,9 @@ File: ../Results/Part_a/Part_abetas_franke_p5_noise03.pdf Graphic file (type pd
 f)
 <use ../Results/Part_a/Part_abetas_franke_p5_noise03.pdf>
 Package pdftex.def Info: ../Results/Part_a/Part_abetas_franke_p5_noise03.pdf  u
-sed on input line 375. on input line 375.
+sed on input line 383. on input line 383.
 Package pdftex.def Info: Requested size: 286.66112pt x 207.28137pt on input lin
-e 375.
+e 383.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
@@ -1174,9 +1179,9 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 File: ../Results/Part_b/kfold_foldeval.pdf Graphic file (type pdf)
 <use ../Results/Part_b/kfold_foldeval.pdf>
 Package pdftex.def Info: ../Results/Part_b/kfold_foldeval.pdf  used on input li
-ne 386. on input line 386.
+ne 394. on input line 394.
 Package pdftex.def Info: Requested size: 290.31694pt x 215.29564pt on input lin
-e 386.
+e 394.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
@@ -1195,9 +1200,9 @@ pdf): PDF inclusion: multiple pdfs with page group included in a single page
 File: ../Results/Part_C/bias_var_50runs.pdf Graphic file (type pdf)
 <use ../Results/Part_C/bias_var_50runs.pdf>
 Package pdftex.def Info: ../Results/Part_C/bias_var_50runs.pdf  used on input l
-ine 398. on input line 398.
+ine 406. on input line 406.
 Package pdftex.def Info: Requested size: 290.31694pt x 215.29564pt on input lin
-e 398.
+e 406.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -1207,11 +1212,11 @@ x 693.06927pt>
 File: ../Results/Part_d/ridgelasso_kfold.pdf Graphic file (type pdf)
 <use ../Results/Part_d/ridgelasso_kfold.pdf>
 Package pdftex.def Info: ../Results/Part_d/ridgelasso_kfold.pdf  used on input 
-line 409. on input line 409.
+line 417. on input line 417.
 Package pdftex.def Info: Requested size: 485.66168pt x 242.57788pt on input lin
-e 409.
+e 417.
 
-Overfull \hbox (140.66168pt too wide) in paragraph at lines 409--410
+Overfull \hbox (140.66168pt too wide) in paragraph at lines 417--418
  [][] 
  []
 
@@ -1223,9 +1228,9 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 File: ../Results/Part_g/OLSr2_terraintest2.pdf Graphic file (type pdf)
 <use ../Results/Part_g/OLSr2_terraintest2.pdf>
 Package pdftex.def Info: ../Results/Part_g/OLSr2_terraintest2.pdf  used on inpu
-t line 418. on input line 418.
+t line 426. on input line 426.
 Package pdftex.def Info: Requested size: 283.1041pt x 215.29564pt on input line
- 418.
+ 426.
 [14 <../Results/Part_b/kfold_foldeval.pdf>]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -1234,11 +1239,11 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 File: ../Results/Part_g/predicted_compare.png Graphic file (type png)
 <use ../Results/Part_g/predicted_compare.png>
 Package pdftex.def Info: ../Results/Part_g/predicted_compare.png  used on input
- line 428. on input line 428.
+ line 436. on input line 436.
 Package pdftex.def Info: Requested size: 394.46675pt x 223.43079pt on input lin
-e 428.
+e 436.
 
-Overfull \hbox (49.46675pt too wide) in paragraph at lines 428--429
+Overfull \hbox (49.46675pt too wide) in paragraph at lines 436--437
  [][] 
  []
 
@@ -1254,7 +1259,7 @@ nclusion: multiple pdfs with page group included in a single page
 
 ] [19]
 (FYSSTK4155project1_JN.bbl)
-Overfull \hbox (165.00914pt too wide) in paragraph at lines 462--463
+Overfull \hbox (165.00914pt too wide) in paragraph at lines 470--471
 \T1/lmr/m/n/10 (-20) cit-ing [[]][p.223] while fol-low-ing along in the tracks 
 of: https://stats.stackexchange.com/questions/204115/understanding-
  []
@@ -1265,9 +1270,9 @@ of: https://stats.stackexchange.com/questions/204115/understanding-
 File: ../Results/Part_g/Ridge_full.pdf Graphic file (type pdf)
 <use ../Results/Part_g/Ridge_full.pdf>
 Package pdftex.def Info: ../Results/Part_g/Ridge_full.pdf  used on input line 5
-04. on input line 504.
+12. on input line 512.
 Package pdftex.def Info: Requested size: 323.76736pt x 241.81377pt on input lin
-e 504.
+e 512.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -1276,10 +1281,10 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 6pt>
 File: ../Results/Part_g/OLS_full.pdf Graphic file (type pdf)
 <use ../Results/Part_g/OLS_full.pdf>
-Package pdftex.def Info: ../Results/Part_g/OLS_full.pdf  used on input line 511
-. on input line 511.
+Package pdftex.def Info: ../Results/Part_g/OLS_full.pdf  used on input line 519
+. on input line 519.
 Package pdftex.def Info: Requested size: 323.76736pt x 241.81377pt on input lin
-e 511.
+e 519.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
@@ -1288,22 +1293,22 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 File: ../Results/Part_g/OLSr2_terraintest1.pdf Graphic file (type pdf)
 <use ../Results/Part_g/OLSr2_terraintest1.pdf>
 Package pdftex.def Info: ../Results/Part_g/OLSr2_terraintest1.pdf  used on inpu
-t line 518. on input line 518.
+t line 526. on input line 526.
 Package pdftex.def Info: Requested size: 287.01242pt x 215.29564pt on input lin
-e 518.
+e 526.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [21]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 526.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 534.
  [22 <../Results/Part_g/Ridge_full.pdf> <../Results/Part_g/OLS_full.pdf
 
 pdfTeX warning: pdflatex (file ../Results/Part_g/OLS_full.pdf): PDF inclusion: 
 multiple pdfs with page group included in a single page
 >] [23 <../Results/Part_g/OLSr2_terraintest1.pdf>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 526.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 534.
  (FYSSTK4155project1_JN.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 526.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 534.
 
 
  *File List*
@@ -1454,7 +1459,7 @@ FYSSTK4155project1_JN.bbl
 ../Results/Part_g/OLSr2_terraintest1.pdf
  ***********
 
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 526.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 534.
 Package rerunfilecheck Info: File `FYSSTK4155project1_JN.out' has not changed.
 (rerunfilecheck)             Checksum: D544CDF0276DECEC66B63DAF0254EBF8;2303.
 
@@ -1462,13 +1467,13 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 33170 strings out of 493312
- 745772 string characters out of 3144112
+ 33174 strings out of 493312
+ 745818 string characters out of 3144112
  957813 words of memory out of 3000000
  35795 multiletter control sequences out of 15000+200000
- 94729 words of font info for 163 fonts, out of 3000000 for 9000
+ 94942 words of font info for 165 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 69i,17n,98p,1678b,609s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 69i,17n,98p,1660b,609s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Johan/Miktex/fonts/enc/dvips/lm/lm-rm.enc}{C:/Johan/Miktex/fonts/enc/dvip
 s/lm/lm-mathex.enc}{C:/Johan/Miktex/fonts/enc/dvips/lm/lm-mathsy.enc}{C:/Johan/
 Miktex/fonts/enc/dvips/lm/lm-mathit.enc}{C:/Johan/Miktex/fonts/enc/dvips/lm/lm-
@@ -1485,7 +1490,7 @@ iktex/fonts/type1/public/lm/lmr7.pfb><C:/Johan/Miktex/fonts/type1/public/lm/lmr
 type1/public/lm/lmsy10.pfb><C:/Johan/Miktex/fonts/type1/public/lm/lmsy7.pfb><C:
 /Johan/Miktex/fonts/type1/public/lm/lmsy9.pfb><C:/Johan/Miktex/fonts/type1/publ
 ic/amsfonts/symbols/msbm10.pfb>
-Output written on FYSSTK4155project1_JN.pdf (23 pages, 1264667 bytes).
+Output written on FYSSTK4155project1_JN.pdf (23 pages, 1268398 bytes).
 PDF statistics:
  888 PDF objects out of 1000 (max. 8388607)
  104 named destinations out of 1000 (max. 500000)
