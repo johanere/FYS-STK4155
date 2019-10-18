@@ -473,7 +473,7 @@ Leaning on literature such as \citep{HastieTrevor2009TEoS}[p.223], the relations
 \mathbb{E}\left[(\bm{y}-\bm{\tilde{y}})^2\right]&=\frac{1}{n}\sum_i(f_i-\mathbb{E}\left[\bm{\tilde{y}}\right])^2+\frac{1}{n}\sum_i(\tilde{y}_i-\mathbb{E}\left[\bm{\tilde{y}}\right])^2+\sigma^2 \\
 &=\mathit{Bias}^2(\bm{\tilde{y}})+\mathit{Var}(\bm{\tilde{y}})+Error
 \end{align*}
-May be shown as follows:
+May be shown using that $E(f)=f, E(y)=f$:
 
 \begin{align*}
 E[(\bm{y}−\tilde{\bm{y}})^2]
@@ -483,7 +483,6 @@ E[(\bm{y}−\tilde{\bm{y}})^2]
 &=\sigma^2+E[(\bm{f}−\tilde{\bm{y}})^2]+0\\
 &=E[(\bm{f}+E[\tilde{\bm{y}}]−E[\tilde{\bm{y}}]−\tilde{\bm{y}})^2] + \sigma^2\\
 &=E[\bm{f}−E[\tilde{\bm{y}}]]^2+E[\tilde{\bm{y}}−E[\tilde{\bm{y}}]]^2 + \sigma^2\\
-&=[\bm{f}−E[\tilde{\bm{y}}]]^2+E[\tilde{\bm{y}}−E[\tilde{\bm{y}}]]^2 + \sigma^2\\
 &=\frac{1}{n}\sum_i(f_i-\mathbb{E}\left[\bm{\tilde{y}}\right])^2+\frac{1}{n}\sum_i(\tilde{y}_i-\mathbb{E}\left[\bm{\tilde{y}}\right])^2+\sigma^2 \\
 &=Bias^2[\tilde{\bm{y}}]+Var[\tilde{\bm{y}}] + error
 \end{align*}
