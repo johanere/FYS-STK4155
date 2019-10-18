@@ -467,7 +467,26 @@ This project observed that polynomial fits using linear regression of order four
 
 \begin{appendices}
 \section*{Appendix 1.} \label{APP_1}
-I have not had the time to write up the proof of the bias-var relationship. I plan on citing \citep{HastieTrevor2009TEoS}[p.223] while following along in the tracks of: https://stats.stackexchange.com/questions/204115/understanding-bias-variance-tradeoff-derivation
+Leaning on literature such as \citep{HastieTrevor2009TEoS}[p.223], the relationship
+
+\begin{align*}
+\mathbb{E}\left[(\bm{y}-\bm{\tilde{y}})^2\right]&=\frac{1}{n}\sum_i(f_i-\mathbb{E}\left[\bm{\tilde{y}}\right])^2+\frac{1}{n}\sum_i(\tilde{y}_i-\mathbb{E}\left[\bm{\tilde{y}}\right])^2+\sigma^2 \\
+&=\mathit{Bias}^2(\bm{\tilde{y}})+\mathit{Var}(\bm{\tilde{y}})+Error
+\end{align*}
+May be shown as follows:
+
+\begin{align*}
+E[(\bm{y}−\tilde{\bm{y}})^2]
+&=E[(\bm{y}−\bm{f}+\bm{f}−\tilde{\bm{y}})^2]=E[(\bm{y}−\bm{f})^2]+E[(\bm{f}−\tilde{\bm{y}})^2]+2E[(\bm{f}−\tilde{\bm{y}})(\bm{y}−\bm{f})]\\
+&=E[(\bm{f}+\bm{\epsilon}−\bm{f})2]+E[(\bm{f}−\tilde{\bm{y}})^2]+2E[\bm{f}\bm{y}−\bm{f}^2−\tilde{\bm{y}}\bm{y}+\tilde{\bm{y}}\bm{f}]\\
+&=E[\epsilon^2]+E[(\bm{f}−\tilde{\bm{y}})^2]+2(\bm{f}^2−\bm{f}^2−\bm{f}E[\tilde{\bm{y}}]+\bm{f}E[\tilde{\bm{y}}])\\
+&=\sigma^2+E[(\bm{f}−\tilde{\bm{y}})^2]+0\\
+&=E[(\bm{f}+E[\tilde{\bm{y}}]−E[\tilde{\bm{y}}]−\tilde{\bm{y}})^2] + \sigma^2\\
+&=E[\bm{f}−E[\tilde{\bm{y}}]]^2+E[\tilde{\bm{y}}−E[\tilde{\bm{y}}]]^2 + \sigma^2\\
+&=[\bm{f}−E[\tilde{\bm{y}}]]^2+E[\tilde{\bm{y}}−E[\tilde{\bm{y}}]]^2 + \sigma^2\\
+&=\frac{1}{n}\sum_i(f_i-\mathbb{E}\left[\bm{\tilde{y}}\right])^2+\frac{1}{n}\sum_i(\tilde{y}_i-\mathbb{E}\left[\bm{\tilde{y}}\right])^2+\sigma^2 \\
+&=Bias^2[\tilde{\bm{y}}]+Var[\tilde{\bm{y}}] + error
+\end{align*}
 
 \section*{Appendix 2.} \label{APP_2}
 \begin{table}[h!]

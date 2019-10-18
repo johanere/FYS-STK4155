@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.1.3)  17 OCT 2019 19:16
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.1.3)  18 OCT 2019 15:19
 entering extended mode
 **./FYSSTK4155project1_JN.tex
 (FYSSTK4155project1_JN.tex
@@ -1258,22 +1258,22 @@ nclusion: multiple pdfs with page group included in a single page
 >] [17 <../Results/Part_g/predicted_compare.png>] [18
 
 ] [19]
-(FYSSTK4155project1_JN.bbl)
-Overfull \hbox (165.00914pt too wide) in paragraph at lines 470--471
-\T1/lmr/m/n/10 (-20) cit-ing [[]][p.223] while fol-low-ing along in the tracks 
-of: https://stats.stackexchange.com/questions/204115/understanding-
+(FYSSTK4155project1_JN.bbl) [20]
+Overfull \hbox (32.21329pt too wide) detected at line 489
+[]
  []
 
-[20]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
 <../Results/Part_g/Ridge_full.pdf, id=627, pagebox=cropbox, 462.52798pt x 345.4
 506pt>
 File: ../Results/Part_g/Ridge_full.pdf Graphic file (type pdf)
 <use ../Results/Part_g/Ridge_full.pdf>
 Package pdftex.def Info: ../Results/Part_g/Ridge_full.pdf  used on input line 5
-12. on input line 512.
+31. on input line 531.
 Package pdftex.def Info: Requested size: 323.76736pt x 241.81377pt on input lin
-e 512.
-
+e 531.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
@@ -1281,10 +1281,10 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 6pt>
 File: ../Results/Part_g/OLS_full.pdf Graphic file (type pdf)
 <use ../Results/Part_g/OLS_full.pdf>
-Package pdftex.def Info: ../Results/Part_g/OLS_full.pdf  used on input line 519
-. on input line 519.
+Package pdftex.def Info: ../Results/Part_g/OLS_full.pdf  used on input line 538
+. on input line 538.
 Package pdftex.def Info: Requested size: 323.76736pt x 241.81377pt on input lin
-e 519.
+e 538.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
@@ -1293,22 +1293,23 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 File: ../Results/Part_g/OLSr2_terraintest1.pdf Graphic file (type pdf)
 <use ../Results/Part_g/OLSr2_terraintest1.pdf>
 Package pdftex.def Info: ../Results/Part_g/OLSr2_terraintest1.pdf  used on inpu
-t line 526. on input line 526.
+t line 545. on input line 545.
 Package pdftex.def Info: Requested size: 287.01242pt x 215.29564pt on input lin
-e 526.
+e 545.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [21]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 534.
- [22 <../Results/Part_g/Ridge_full.pdf> <../Results/Part_g/OLS_full.pdf
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 553.
+ [22 <../Results/Part_g/Ridge_full.pdf>] [23 <../Results/Part_g/OLS_full.pdf> <
+../Results/Part_g/OLSr2_terraintest1.pdf
 
-pdfTeX warning: pdflatex (file ../Results/Part_g/OLS_full.pdf): PDF inclusion: 
-multiple pdfs with page group included in a single page
->] [23 <../Results/Part_g/OLSr2_terraintest1.pdf>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 534.
+pdfTeX warning: pdflatex (file ../Results/Part_g/OLSr2_terraintest1.pdf): PDF i
+nclusion: multiple pdfs with page group included in a single page
+>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 553.
  (FYSSTK4155project1_JN.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 534.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 553.
 
 
  *File List*
@@ -1459,7 +1460,7 @@ FYSSTK4155project1_JN.bbl
 ../Results/Part_g/OLSr2_terraintest1.pdf
  ***********
 
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 534.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 553.
 Package rerunfilecheck Info: File `FYSSTK4155project1_JN.out' has not changed.
 (rerunfilecheck)             Checksum: D544CDF0276DECEC66B63DAF0254EBF8;2303.
 
@@ -1469,7 +1470,7 @@ LaTeX Warning: There were multiply-defined labels.
 Here is how much of TeX's memory you used:
  33178 strings out of 493312
  745866 string characters out of 3144112
- 957813 words of memory out of 3000000
+ 961433 words of memory out of 3000000
  35795 multiletter control sequences out of 15000+200000
  95202 words of font info for 167 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1490,7 +1491,7 @@ iktex/fonts/type1/public/lm/lmr7.pfb><C:/Johan/Miktex/fonts/type1/public/lm/lmr
 type1/public/lm/lmsy10.pfb><C:/Johan/Miktex/fonts/type1/public/lm/lmsy7.pfb><C:
 /Johan/Miktex/fonts/type1/public/lm/lmsy9.pfb><C:/Johan/Miktex/fonts/type1/publ
 ic/amsfonts/symbols/msbm10.pfb>
-Output written on FYSSTK4155project1_JN.pdf (23 pages, 1268384 bytes).
+Output written on FYSSTK4155project1_JN.pdf (23 pages, 1270284 bytes).
 PDF statistics:
  888 PDF objects out of 1000 (max. 8388607)
  104 named destinations out of 1000 (max. 500000)
