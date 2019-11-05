@@ -1,0 +1,28 @@
+\begin{thebibliography}{1}
+
+\bibitem{HastieTrevor2009TEoS}
+Trevor Hastie, Robert Tibshirani, and Jerome Friedman.
+\newblock {\em The Elements of Statistical Learning: Data Mining, Inference,
+  and Prediction}.
+\newblock Springer Series in Statistics. Springer New York, New York, NY,
+  second edition edition, 2009.
+
+\bibitem{2017introstatlearn}
+Gareth James.
+\newblock {\em An Introduction to statistical learning : with applications in
+  R}.
+\newblock Springer texts in statistics. Springer, New York, corrected at 8th
+  printing 2017. edition, 2017.
+
+\bibitem{MLMurphy}
+Kevin~P. Murphy.
+\newblock {\em Machine learning : a probabilistic perspective}.
+\newblock Adaptive computation and machine learning. MIT Press, Cambridge,
+  2012.
+
+\bibitem{Nielsen15}
+Michael~A. Nielsen.
+\newblock {\em Neural Networks and Deep Learning}.
+\newblock Determination Press, 2015.
+
+\end{thebibliography}

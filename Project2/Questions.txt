@@ -22,3 +22,16 @@ Runger, & Si, 2003) reveals that error rates were often used
 as the measurement of classification accuracy of models.
 However, most records in the data set of credit card customers are non-risky (87.88%); therefore, the error rate is
 insensitive to classification accuracy of models." ?
+
+
+
+-----
+Overflow on cancer data
+Convergence warning from skl
+beta0, predictor? bias?
+gains/lift
+set .56 to 1 etc. what is this called?
+sigmoid function - let output of neuron be organic, or do a treshold evaluation? Does the sigmoind replace the evaluation.
+number of layers - trial and error?
+number of nodes in layer - trial and error? correponding to p?
+look at nodes ?? something morten said

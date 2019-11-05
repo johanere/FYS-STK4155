@@ -1,0 +1,16 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Theory}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Qualitative response modeling}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Logistic Regression for two classes}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{Gradient Decent}{section.2}% 5
+\BOOKMARK [2][-]{subsection.2.4}{Neural Networks}{section.2}% 6
+\BOOKMARK [1][-]{section.3}{Methods}{}% 7
+\BOOKMARK [2][-]{subsection.3.1}{Scaling}{section.3}% 8
+\BOOKMARK [2][-]{subsection.3.2}{Matrix representation, and application of gradient decent}{section.3}% 9
+\BOOKMARK [2][-]{subsection.3.3}{Code Implementation}{section.3}% 10
+\BOOKMARK [2][-]{subsection.3.4}{Evaluating The Implementation}{section.3}% 11
+\BOOKMARK [1][-]{section.4}{Results}{}% 12
+\BOOKMARK [1][-]{section.5}{Discussion of results}{}% 13
+\BOOKMARK [1][-]{section.6}{Conclusions}{}% 14
+\BOOKMARK [1][-]{section*.1}{References}{}% 15
+\BOOKMARK [1][-]{section*.2}{Appendices}{}% 16

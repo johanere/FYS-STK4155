@@ -1,0 +1,277 @@
+\documentclass[%
+oneside,                 % oneside: electronic viewing, twoside: printing
+final,                   % draft: marks overfull hboxes, figures with paths
+10pt]{article}
+
+\listfiles               %  print all files needed to compile this document
+
+%\usepackage[a4paper, total={6in, 8in}]{geometry}
+\usepackage[totoc]{idxlayout}   % for index in the toc
+\usepackage[nottoc]{tocbibind}  % for references/bibliography in the toc
+
+\usepackage{relsize,makeidx,color,setspace,amsmath,amsfonts,amssymb}
+\usepackage[table]{xcolor}
+\usepackage{bm,ltablex,microtype}
+\usepackage{comment} 
+\usepackage[pdftex]{graphicx}
+
+\usepackage{fancyvrb} % packages needed for verbatim environments
+
+\usepackage[T1]{fontenc}
+%\usepackage[latin1]{inputenc}
+\usepackage{ucs}
+\usepackage[utf8x]{inputenc}
+
+\usepackage{lmodern}         % Latin Modern fonts derived from Computer Modern
+
+
+\usepackage{pgfplotstable, booktabs}
+
+\pgfplotstableset{
+    every head row/.style={before row=\toprule,after row=\midrule},
+    every last row/.style={after row=\bottomrule}
+}
+
+
+
+
+
+% Hyperlinks in PDF:
+\definecolor{linkcolor}{rgb}{0,0,0.4}
+\usepackage{hyperref}
+\hypersetup{
+    breaklinks=true,
+    colorlinks=true,
+    linkcolor=linkcolor,
+    urlcolor=linkcolor,
+    citecolor=black,
+    filecolor=black,
+    %filecolor=blue,
+    pdfmenubar=true,
+    pdftoolbar=true,
+    bookmarksdepth=3   % Uncomment (and tweak) for PDF bookmarks with more levels than the TOC
+    }
+%\hyperbaseurl{}   % hyperlinks are relative to this root
+
+\setcounter{tocdepth}{2}  % levels in table of contents
+
+% --- fancyhdr package for fancy headers ---
+\usepackage{fancyhdr}
+\fancyhf{} % sets both header and footer to nothing
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[LE,RO]{\thepage}
+% Ensure copyright on titlepage (article style) and chapter pages (book style)
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[C]{{\footnotesize \copyright\ 1999-2018, "Computational Physics I FYS3150/FYS4150":"http://www.uio.no/studier/emner/matnat/fys/FYS3150/index-eng.html". Released under CC Attribution-NonCommercial 4.0 license}}
+%  \renewcommand{\footrulewidth}{0mm}
+  \renewcommand{\headrulewidth}{0mm}
+}
+% Ensure copyright on titlepages with \thispagestyle{empty}
+\fancypagestyle{empty}{
+  \fancyhf{}
+  \fancyfoot[C]{{ }}
+  \renewcommand{\footrulewidth}{0mm}
+  \renewcommand{\headrulewidth}{0mm}
+}
+
+\pagestyle{fancy}
+
+
+% prevent orhpans and widows
+\clubpenalty = 10000
+\widowpenalty = 10000
+
+% --- end of standard preamble for documents ---
+
+
+% insert custom LaTeX commands...
+
+\raggedbottom
+\makeindex
+\usepackage[totoc]{idxlayout}   % for index in the toc
+\usepackage[nottoc]{tocbibind}  % for references/bibliography in the toc
+\usepackage{listings}
+\usepackage[normalem]{ulem} 	%for tables
+\useunder{\uline}{\ul}{}
+\usepackage{hyperref}
+\usepackage[section]{placeins} %force figs in section
+
+\usepackage{natbib}
+
+\usepackage[toc,page]{appendix} % appenix
+
+
+%-------------------- end preamble ----------------------
+
+\begin{document}
+
+% matching end for #ifdef PREAMBLE
+
+\newcommand{\exercisesection}[1]{\subsection*{#1}}
+
+
+% ------------------- main content ----------------------
+
+
+
+% ----------------- title -------------------------
+
+\thispagestyle{empty}
+
+\begin{center}
+{\LARGE\bf
+\begin{spacing}{1.25}
+Classification and Regression, from linear and logistic regression to neural networks
+\end{spacing}
+}
+\end{center}
+
+% ----------------- author(s) -------------------------
+
+\begin{center}
+{\bf Johan Nereng}
+\end{center}
+
+    \begin{center}
+% List of all institutions:
+\centerline{{\small Department of Physics, University of Oslo, Norway}}
+\end{center}
+    
+% ----------------- end author(s) -------------------------
+
+% --- begin date ---
+\begin{center}
+Nov 13, 2019
+\end{center}
+% --- end date ---
+
+\vspace{5cm}
+\begin{abstract}
+-------
+\end{abstract}
+\newpage
+
+
+
+
+\textit{\textbf{----}} \newline
+
+
+\textit{\textbf{Authors' comment:} -----}
+\newpage
+
+\section{Introduction}
+\hyperref[Section_Methods]{methods sections}
+\hyperref[Section_Results]{Results}
+\hyperref[Section_Discussion_of_results]{discussion of results}
+\hyperref[Section_Conclusions]{conclusions}
+
+\hyperref[Section_M_Scaling]{Scaling}
+\hyperref[Section_M_Logreg]{Logistic Regression}
+\hyperref[Section_M_NN]{Neural Networks}
+\hyperref[Section_M_Codeimpl]{Code Implementation}
+\hyperref[Section_M_eval]{Evaluating The Implementation}
+
+Regression vs classification
+crossvalidation
+mean-squared error and/or the R2
+or the accuracy score (classification problems) 
+
+Assumes prior knowledge of fundamentals of machine learning, such as what a design matrix, predictors and response is.
+\section{Theory} \label{Section_Theory}
+
+\subsection{Qualitative response modeling}
+In this project, both qualitative and quantitative response variables are modeled.  In the case of quantitative \citep{2017introstatlearn}[p.130]. [LOGREG INSTEAD OF LINREG  -EXPLAIN WHY 0-1 etc]
+
+
+\subsection{Logistic Regression for two classes} \label{Section_M_Logreg}
+Logistic regression models the probability that a qualitative response falls within a category. In the case of two mutually exclusive categories or classes, such as "True" ($Y=1$) and "False" ($Y=0$), this translates to modeling the relationship between the probability of $Y=1$ given $X$ as $P(Y=1|X;\beta)=p(X;\beta)$, using the \textit{logistic function} \eqref{eq:logfunc} \citep{2017introstatlearn}[p.132], which due to mutual exclusivity, models $Y=0$ as a function of $X$, or $P(Y=0|X)=p(X';\beta)$, as $1-p(X;\beta)$.
+\begin{equation}
+p(Y=1|X, \bm{\beta})= p(\bm{X};{\beta})=\frac{e^{\bm{\beta}\bm{X}}}{1+e^{\bm{\beta}\bm{X}}}
+\label{eq:logfunc}
+\end{equation}
+where $\bm{\beta}=[\beta_0, \beta_1, ... \beta_p]$, $\bm{X}=[1,X_1, X_2, ... X_p]$, and $p$ is the number of predictors that the the binary response $Y$ is modeled upon. When fitting the model (estimating the $\beta$ coefficients) to a data set $\mathcal{D}=\{y_i,\bm{x}_i\}_{i=1}^n$, of $n$ observations, the desired fit is the one where the predicted probabilities of $p(\bm{x}_i)$  most precisely corresponds to $y_i$. In other words, one seeks the model which has the highest probability of predicting the data set, which is achieved by utilizing the \textit{maximum likelihood} method \eqref{eq:max_likelihood}\citep{2017introstatlearn}[p.133]. 
+
+
+
+\begin{equation}
+P(\bm{\beta})=\displaystyle\prod_{i:y_i=1}p(\bm{x}_i; \bm{\beta}) \displaystyle\prod_{i':y_{i'}=0}(1-p(\bm{x}_{i'}; \bm{\beta}))
+\label{eq:max_likelihood}
+\end{equation}
+
+Taking the log of the maximum likelihood, one obtains the log-likelihood. The (reordered) negative log-likelihood constitutes the cost function, $\mathcal{C}(\hat {{\beta}})$ \eqref{eq:cost_log} \citep{HastieTrevor2009TEoS}[p.120] (in Hastie et al, the log-likelihood is maximized) of the logistic regression, or the \textit{cross entropy}. When minimized, this convex function yields the desired $\beta$ estimates.
+
+\begin{equation}
+\mathcal{C}(\bm{\beta})=-\sum_{i=1}^n \left(y_i({\bm{\beta}}\bm{x}_i)-log(1+e^{{\bm{\beta}}\bm{x}_i})\right)
+\label{eq:cost_log}
+\end{equation}
+
+\subsection{Gradient Decent}
+The minimization of a cost function may in some cases be carried out analytically, for example when using least squares error. For some cost function however, the analytic expression may be inconvenient to use. Factors such as the size of a matrix which requires inverting may be to computationally intensive, and in yet other cases, close form solutions are entirely unavailable. For problems such as these, numerical methods for obtaining the desired model fit is instead applied. One such method is the gradient descent (GD) \eqref{eq:GD} \citep{MLMurphy}[p.247], also known as steepest descent. When utilizing GD, one makes an initial guess for $\bm{\beta}$, evaluates the gradient, $\bm g$ of the cost function in order to obtain an estimate closer to the desired minimizing value. This process is then iteratively repeated till the sufficient convergence of the coefficients is reached. In order to not overshoot the $k+1$'th estimate, a \textit{learning rate} of $\eta$ is applied to the gradient - which may also serve to lengthen the step in an iteration. The value of the learning rate can either be fixed, usually by trial and error, such that it works well for the problem at hand, or it may be adapted to each step. 
+
+\begin{equation}
+\bm{\beta}_{k+1}=\bm{\beta}_{k}-\eta_k  \bm g (\bm{\beta}_k)
+\label{eq:GD}
+\end{equation}
+
+A common improvement on GD is the stochastic gradient descent (SGD), which one may read more about in literature such as Kevin P. Murphy's book on machine learning \citep{MLMurphy}[p.262].
+
+\subsection{Neural Networks} \label{Section_M_NN}
+The feed forward neural network (FFNN), or multi-layer perceptron model (MLP), is an artificial neuron network consisting of an ordered series of regression models with connected inputs and outputs \citep{MLMurphy}[p.563]. The network consists of $L$ layers, with  a number of neurons (regression models), or nodes, in each layer. The neurons are not necessarily of the same type, as one can for example use logistic regression models for all nodes but the ones in $L$, which could be linear regression models if the problem is a regression problem. The outputs of the $M$ nodes in layer 1, the input layer, are fed to the nodes in layer 2, and so on, until the outputs from layer $L-1$ is fed to layer $L$, the output layer. Outputs from layer $L$ are the network's outputs, and predict the target(s) of the model. The layers in-between layer $1$ and layer $L$ are deterministic functions of the input, and are called hidden layers.  Each node in each layer uses weights for each input, similar to the coefficients  corresponding to the predictors described in the \hyperref[Section_M_Logreg]{logistic regression subsection}. 
+
+\subsubsection{Neuron Output}
+The output of each node is decided by it's activation function, $f(z)$. An common activation function is the sigmoid function
+\begin{equation}
+
+\end{equation}
+
+. A common activation function is the sigmoid function
+
+ \citep{Nielsen15}[Ch.1]
+
+
+predicted likelihood for each node results in an output from that node of either $1$ or $0$, depending on whether or not it reaches a certain threshold or not.
+
+
+
+\[ \text{ output } = \begin{cases} 
+      0 \text{ if } \sum_j w_j x_j \leq threshold\\
+      1 \text{ if } \sum_j w_j x_j \geq threshold \\
+   \end{cases}
+\]
+
+In a fully-connected FFNN, all the nodes in a layer $l$ are feed the outputs from layer $l-1$.
+
+An MLP is a universal approximator, which means that it can approximate any suitably smooth with arbitrary accuracy \citep{MLMurphy}[p.564].
+
+
+
+\section{Methods}\label{Section_Methods}
+\subsection{Scaling} \label{Section_M_Scaling}
+\subsection{Matrix representation, and application of gradient decent} \label{Section_M_Matrixrep}
+In order to write a program using logistic regression with gradient decent, matrix representation greatly greatly improves readability and effectiveness. The gradient, $\bm g$ of cost function, $\mathcal{C}(\bm{\beta})$ \eqref{eq:cost_log}, may be expressed as \citep{MLMurphy}[p.247]:
+\begin{equation}
+\bm g (\bm \beta)= \frac{\partial \mathcal{C}(\bm{\beta})}{\partial \bm \beta}= -\hat{X}^T(\bm y-\bm p )
+\end{equation}
+Where $\hat{X}$, is the design matrix, and $\bm p$ a vector with elements $p(y_i|x_i;\bm \beta)$.
+
+
+
+\subsection{Code Implementation} \label{Section_M_Codeimpl}
+\subsection{Evaluating The Implementation} \label{Section_M_eval}
+
+\section{Results} \label{Section_Results}
+\section{Discussion of results} \label{Section_Discussion_of_results}
+\section{Conclusions} \label{Section_Conclusions}
+
+
+\bibliography{ref}
+\bibliographystyle{plain}
+
+
+\begin{appendices}
+
+\end{appendices}
+
+\end{document}
