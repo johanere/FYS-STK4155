@@ -220,13 +220,15 @@ A common improvement on GD is the stochastic gradient descent (SGD), which one m
 \subsection{Neural Networks} \label{Section_M_NN}
 The feed forward neural network (FFNN), or multi-layer perceptron model (MLP), is an artificial neuron network consisting of an ordered series of regression models with connected inputs and outputs \citep{MLMurphy}[p.563]. The network consists of $L$ layers, with  a number of neurons (regression models), or nodes, in each layer. The neurons are not necessarily of the same type, as one can for example use logistic regression models for all nodes but the ones in $L$, which could be linear regression models if the problem is a regression problem. The outputs of the $M$ nodes in layer 1, the input layer, are fed to the nodes in layer 2, and so on, until the outputs from layer $L-1$ is fed to layer $L$, the output layer. Outputs from layer $L$ are the network's outputs, and predict the target(s) of the model. The layers in-between layer $1$ and layer $L$ are deterministic functions of the input, and are called hidden layers.  Each node in each layer uses weights for each input, similar to the coefficients  corresponding to the predictors described in the \hyperref[Section_M_Logreg]{logistic regression subsection}. 
 
+
 \subsubsection{Neuron Output}
-The output of each node is decided by it's activation function, $f(z)$. An common activation function is the sigmoid function
-\begin{equation}
+The output of each node is decided by it's activation function, $f(z)$, which for example may be the sigmoid function. The activation of the neurons in layer $l$ may be express as a vector $\bm z=(\hat{X}^l)^T \bm a^{l-1}+\bm b^l$, where $\hat{X}
 
-\end{equation}
+ $z_j^l=\sum_{i=1}^{M_{l-1}} w^l_{ij}a_i^{l-1}+b_j^l$
 
-. A common activation function is the sigmoid function
+
+
+
 
  \citep{Nielsen15}[Ch.1]
 
@@ -261,6 +263,9 @@ Where $\hat{X}$, is the design matrix, and $\bm p$ a vector with elements $p(y_i
 \subsection{Code Implementation} \label{Section_M_Codeimpl}
 \subsection{Evaluating The Implementation} \label{Section_M_eval}
 
+\subsubsection{Preprocessing}
+Scaling, before and after
+Stratification, before and after
 \section{Results} \label{Section_Results}
 \section{Discussion of results} \label{Section_Discussion_of_results}
 \section{Conclusions} \label{Section_Conclusions}
