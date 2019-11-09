@@ -53,13 +53,13 @@ class NeuralNetwork:
         self.n_inputs = X_data.shape[0]
         self.n_features = X_data.shape[1]
         self.n_categories = n_categories
-        self.n_hidden_neurons = int(np.mean([self.n_features,self.n_categories]))
-
+        self.n_hidden_neurons =  int(np.mean([self.n_features,self.n_categories]))
         self.epochs = epochs
         self.batch_size = batch_size
         self.iterations = self.n_inputs // self.batch_size
         self.eta = eta
         self.lmbd = lmbd
+
 
         self.create_biases_and_weights()
 
@@ -72,13 +72,13 @@ class NeuralNetwork:
 
     def feed_forward(self):
         # feed-forward for training
-        self.z_h = np.matmul(self.X_data, self.hidden_weights) + self.hidden_bias
+        self.z_h = self.X_data @ self.hidden_weights + self.hidden_bias
+
         self.a_h = sigmoid(self.z_h)
-
-        self.z_o = np.matmul(self.a_h, self.output_weights) + self.output_bias #w_ij^L a_i^l
-
+        self.z_o =  self.a_h @ self.output_weights + self.output_bias #w_ij^L a_i^l
         exp_term = np.exp(self.z_o)
         self.probabilities = exp_term / np.sum(exp_term, axis=1, keepdims=True)
+
     def feed_forward_out(self, X):
         # feed-forward for output
         z_h = np.matmul(X, self.hidden_weights) + self.hidden_bias
@@ -88,29 +88,29 @@ class NeuralNetwork:
 
         exp_term = np.exp(z_o)
         probabilities = exp_term / np.sum(exp_term, axis=1, keepdims=True)
+
         return probabilities
 
     def backpropagation(self):
         n_datapoint=float(np.shape(self.Y_data)[0])
 
-        error_output = self.probabilities - self.Y_data
+        error_output = self.probabilities - self.Y_data #delta
         error_hidden = np.matmul(error_output, self.output_weights.T) * self.a_h * (1 - self.a_h)
 
-        self.output_weights_gradient = np.matmul(self.a_h.T, error_output)*1/n_datapoint
-        self.output_bias_gradient = np.sum(error_output, axis=0)*1/n_datapoint
+        self.output_weights_gradient = np.matmul(self.a_h.T, error_output)
+        self.output_bias_gradient = np.sum(error_output, axis=0)
 
-        self.hidden_weights_gradient = np.matmul(self.X_data.T, error_hidden)*1/n_datapoint
-        self.hidden_bias_gradient = np.sum(error_hidden, axis=0)*1/n_datapoint
+        self.hidden_weights_gradient = np.matmul(self.X_data.T, error_hidden)
+        self.hidden_bias_gradient = np.sum(error_hidden, axis=0)
 
         if self.lmbd > 0.0:
             self.output_weights_gradient += self.lmbd * self.output_weights
             self.hidden_weights_gradient += self.lmbd * self.hidden_weights
 
-        self.output_weights -= self.eta * self.output_weights_gradient
-        self.output_bias -= self.eta * self.output_bias_gradient
-        self.hidden_weights -= self.eta * self.hidden_weights_gradient
-        self.hidden_bias -= self.eta * self.hidden_bias_gradient
-
+        self.output_weights -= self.eta * self.output_weights_gradient*1/n_datapoint
+        self.output_bias -= self.eta * self.output_bias_gradient*1/n_datapoint
+        self.hidden_weights -= self.eta * self.hidden_weights_gradient*1/n_datapoint
+        self.hidden_bias -= self.eta * self.hidden_bias_gradient*1/n_datapoint
     def predict(self, X):
         probabilities = self.feed_forward_out(X)
         return np.argmax(probabilities, axis=1)
@@ -141,7 +141,7 @@ class NeuralNetwork:
             self.X_data = self.X_data_full
             self.Y_data = self.Y_data_full
             self.feed_forward()
-            costfunc[i] = 1/2*np.sum((self.probabilities-self.Y_data )**2) ###
+            costfunc[i] = 1/2*np.sum((self.probabilities[:,0]-self.Y_data[:,0])**2) ###
         plt.plot(np.arange(0,self.epochs,1)[:],costfunc[:]) #############
         plt.show() ########################
 """Load data"""
@@ -162,7 +162,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33,random_
 X_train,X_test=scale_data_standard(X_train,X_test)
 
 """SKL NN"""
-
+"""
 # store models for later use
 eta_vals = np.logspace(-4, 1, 6) #-5, 1,7
 lmbd_vals = np.logspace(-4, 1, 6)
@@ -182,7 +182,7 @@ for i, eta in enumerate(eta_vals):
         print("Lambda = ", lmbd)
         print("Accuracy score on test set: ", dnn.score(X_test, y_test))
         print()
-
+"""
 def to_categorical_numpy(integer_vector):
     n_inputs = len(integer_vector)
     n_categories = np.max(integer_vector) + 1
@@ -191,13 +191,17 @@ def to_categorical_numpy(integer_vector):
 
     return onehot_vector
 
+
 y_train_onehot, y_test_onehot = to_categorical_numpy(y_train), to_categorical_numpy(y_test)
+print(np.shape(X_train))
+
+NN=NeuralNetwork(X_train,y_train_onehot,n_categories=2,epochs=3000,batch_size=20,eta=0.1,lmbd=0.0)
 
 
-NN=NeuralNetwork(X_train,y_train_onehot,n_categories=2,epochs=1000,batch_size=4,eta=0.1,lmbd=0.1)
 NN.train()
-y_pred=NN.predict(X_train)
-y_true=y_train # set targets to compare with
-own_Confusion, own_accuracy=Confusion_and_accuracy(y_true,y_pred)
+X=X_test
+y=y_test
+y_pred=NN.predict(X)
+own_Confusion, own_accuracy=Confusion_and_accuracy(y,y_pred)
 print("Confusion: \n",own_Confusion)
 print("GD Own accuracy: ",own_accuracy)
