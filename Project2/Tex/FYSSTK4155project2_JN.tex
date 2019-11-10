@@ -179,6 +179,8 @@ mean-squared error and/or the R2
 or the accuracy score (classification problems) 
 
 Assumes prior knowledge of fundamentals of machine learning, such as what a design matrix, predictors and response is.
+
+A network such as this is a universal approximator, which means that it can approximate any suitably smooth with arbitrary accuracy \citep{MLMurphy}[p.564].
 \section{Theory} \label{Section_Theory}
 
 \subsection{Qualitative response modeling}
@@ -218,36 +220,14 @@ The minimization of a cost function may in some cases be carried out analyticall
 A common improvement on GD is the stochastic gradient descent (SGD), which one may read more about in literature such as Kevin P. Murphy's book on machine learning \citep{MLMurphy}[p.262].
 
 \subsection{Neural Networks} \label{Section_M_NN}
-The feed forward neural network (FFNN), or multi-layer perceptron model (MLP), is an artificial neuron network consisting of an ordered series of regression models with connected inputs and outputs \citep{MLMurphy}[p.563]. The network consists of $L$ layers, with  a number of neurons (regression models), or nodes, in each layer. The neurons are not necessarily of the same type, as one can for example use logistic regression models for all nodes but the ones in $L$, which could be linear regression models if the problem is a regression problem. The outputs of the $M$ nodes in layer 1, the input layer, are fed to the nodes in layer 2, and so on, until the outputs from layer $L-1$ is fed to layer $L$, the output layer. Outputs from layer $L$ are the network's outputs, and predict the target(s) of the model. The layers in-between layer $1$ and layer $L$ are deterministic functions of the input, and are called hidden layers.  Each node in each layer uses weights for each input, similar to the coefficients  corresponding to the predictors described in the \hyperref[Section_M_Logreg]{logistic regression subsection}. 
+\textit{For simplicity's sake, matrices are denoted without bold font or hats from here on forwards.} The feed forward neural network (FFNN), or multi-layer perceptron model (MLP), is an artificial neuron network consisting of an ordered series of regression models with connected inputs and outputs \citep{MLMurphy}[p.563]. The network consists of $L$ layers, with  a number of neurons (regression models), or nodes, in each layer. The neurons are not necessarily of the same type, as one can for example use logistic regression models for all nodes but the ones in $L$, which could be linear regression models if the problem is a regression problem. The outputs, $a^1$, of the $M_1$ nodes in layer $l=1$ (one), the input layer, are fed to the nodes in layer $l=2$, and so on, until the outputs, $a^{L-1}$, from layer $l=L-1$ is fed to layer $l=L$, the output layer. Outputs from layer $L$, $a^L$ are the network's outputs, and predict the target(s) of the model. The layers in-between layer $1$ and layer $L$, are deterministic functions of the input, and are called hidden layers.  Each node in each layer uses weights for each input, similar to the coefficients  corresponding to the predictors described in the \hyperref[Section_M_Logreg]{logistic regression subsection}. In addition, each node has it's own \textit{bias}, $b$, which regulates the output tendency of neuron. The sum of the weighted inputs and the bias, $z$, is usually called the activation of the neuron, not to be confused with it's output. The output is however a function of the activation, such that $a^l=f^l(z^l)$, where $f(z)$ is called an activation function. 
 
 
-\subsubsection{Neuron Output}
-The output of each node is decided by it's activation function, $f(z)$, which for example may be the sigmoid function. The activation of the neurons in layer $l$ may be express as a vector $\bm z=(\hat{X}^l)^T \bm a^{l-1}+\bm b^l$, where $\hat{X}
+\subsubsection{Feed forward}
+The propagation of neuron outputs in the network, resulting in prediction, is called feed forward. The network used in this project is set up such that it takes  $n_{inputs}$ observations, of $n_{predictors}$ predictors, thus working through the entirety of the data in one go. As with other regression methods, the design matrix $X$ ($n_{inputs} \times n_{predictors}$) is the input, which in the end outputs a matrix $ y$ ($n_{inputs} \times n_{targets}$) of predicted values for the $n_{targets}$ targets. By arranging the weights of layer $l$, $w^l$ ($M_{l-1} \times M_l$), the activations of layer $l$ is calculated by $z_l=X w^l$ ($n_{inputs} \times M_l$). Taking $a^l=f^l(z^l)$ ($n_{inputs} \times M_l$), means that $a^l$ holds the output for every neuron in $l$. 
 
- $z_j^l=\sum_{i=1}^{M_{l-1}} w^l_{ij}a_i^{l-1}+b_j^l$
-
-
-
-
-
- \citep{Nielsen15}[Ch.1]
-
-
-predicted likelihood for each node results in an output from that node of either $1$ or $0$, depending on whether or not it reaches a certain threshold or not.
-
-
-
-\[ \text{ output } = \begin{cases} 
-      0 \text{ if } \sum_j w_j x_j \leq threshold\\
-      1 \text{ if } \sum_j w_j x_j \geq threshold \\
-   \end{cases}
-\]
-
-In a fully-connected FFNN, all the nodes in a layer $l$ are feed the outputs from layer $l-1$.
-
-An MLP is a universal approximator, which means that it can approximate any suitably smooth with arbitrary accuracy \citep{MLMurphy}[p.564].
-
-
+\subsubsection{Cost function and backpropagation}
+Once $a^L$ is obtained through the feed forward process, the network has made a prediction on the target(s), $y$, for each of the $n_{inputs}$ observations. However, unless one has divine insights, initiating the weights and biases just so that $a^L \approx y$ with sufficient accuracy is unlikely. The quality of these  predictions is quantified by the cost function $C(W,b)$, which as indicated is a function of the weights and biases of network. The effect on prediction quality when adjusting $w$ and $b$ is thus measurable by the cost function, which as in the case of the logistic regression is to be minimized. Backpropagation uses four , the error of each layer,
 
 \section{Methods}\label{Section_Methods}
 \subsection{Scaling} \label{Section_M_Scaling}

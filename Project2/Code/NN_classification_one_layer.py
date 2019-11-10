@@ -128,7 +128,7 @@ class NeuralNetwork:
         print("Cost function NN at last epoch:", costfunc[-1])
 
 #-----set parameters
-epochs_NN=3000
+epochs_NN=1500
 batch_size_NN=20
 eta_NN=0.1
 lmd_NN=0.0

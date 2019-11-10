@@ -10,6 +10,7 @@ from sklearn.neural_network import MLPClassifier
 
 from metrics_and_preprocessing import gains_plot_area, Confusion_and_accuracy, scale_data_standard,scale_data_minmax,to_categorical_numpy
 
+from functions_regression import FrankeFunction, create_X
 
 def sigmoid(x):
     return 1/(1 + np.exp(-x))
@@ -21,7 +22,7 @@ class NeuralNetwork:
             X_data,
             Y_data,
             #n_hidden_neurons=50,
-            n_categories=2, #binary
+            n_targets=1, #regression
             epochs=10,
             batch_size=100,
             eta=0.1,
@@ -32,8 +33,8 @@ class NeuralNetwork:
 
         self.n_inputs = X_data.shape[0]
         self.n_features = X_data.shape[1]
-        self.n_categories = n_categories
-        self.n_hidden_neurons =  int(np.mean([self.n_features,self.n_categories]))
+        self.n_targets = n_targets
+        self.n_hidden_neurons =  int(np.mean([self.n_features,self.n_targets]))
         self.epochs = epochs
         self.batch_size = batch_size
         self.iterations = self.n_inputs // self.batch_size
@@ -47,8 +48,8 @@ class NeuralNetwork:
         self.hidden_weights = np.random.randn(self.n_features, self.n_hidden_neurons) #W
         self.hidden_bias = np.zeros(self.n_hidden_neurons) + 0.01
 
-        self.output_weights = np.random.randn(self.n_hidden_neurons, self.n_categories)
-        self.output_bias = np.zeros(self.n_categories) + 0.01
+        self.output_weights = np.random.randn(self.n_hidden_neurons, self.n_targets)
+        self.output_bias = np.zeros(self.n_targets) + 0.01
 
     def feed_forward(self):
         # feed-forward for training
@@ -56,8 +57,8 @@ class NeuralNetwork:
 
         self.a_h = sigmoid(self.z_h)
         self.z_o =  self.a_h @ self.output_weights + self.output_bias #w_ij^L a_i^l
-        exp_term = np.exp(self.z_o)
-        self.probabilities = exp_term / np.sum(exp_term, axis=1, keepdims=True)
+
+        self.output = self.z_o #activation
 
     def feed_forward_out(self, X):
         # feed-forward for output
@@ -65,11 +66,9 @@ class NeuralNetwork:
         a_h = sigmoid(z_h)
 
         z_o = np.matmul(a_h, self.output_weights) + self.output_bias
+        output=z_0 #activation function f(x)=x
 
-        exp_term = np.exp(z_o)
-        probabilities = exp_term / np.sum(exp_term, axis=1, keepdims=True)
-
-        return probabilities
+        return output
 
     def backpropagation(self):
         n_datapoint=float(np.shape(self.Y_data)[0])
@@ -133,19 +132,25 @@ batch_size_NN=20
 eta_NN=0.1
 lmd_NN=0.0
 #-----Load data
-cancer = load_breast_cancer()
-X = cancer.data
-y=  cancer.target
-#X, y = make_moons(100, noise=0.2, random_state=7)
+n = 4
+N = 100
+x,y=np.meshgrid(np.sort(np.random.uniform(0, 1, N)),  np.sort(np.random.uniform(0, 1, N)))
+x = np.ravel(x)  # Generate x vector
+y = np.ravel(y)  # Generate y vector
+z = FrankeFunction(x, y)
+X = create_X(x, y, n=n)
+
+
 #-----split data
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33,random_state=1,stratify=y) #split with stratification
 
 #-----pre process data
 X_train,X_test=scale_data_standard(X_train,X_test)
-y_train_onehot, y_test_onehot = to_categorical_numpy(y_train), to_categorical_numpy(y_test)
+
 
 #-----initiate and train network
-NN=NeuralNetwork(X_train,y_train_onehot,n_categories=2,epochs=epochs_NN,batch_size=batch_size_NN,eta=eta_NN,lmbd=lmd_NN)
+NN=NeuralNetwork(X_train,y_train,n_targets=1,epochs=epochs_NN,batch_size=batch_size_NN,eta=eta_NN,lmbd=lmd_NN)
+"""
 NN.train()
 
 #----- Predict
@@ -162,7 +167,7 @@ area_score_NN1=gains_plot_area(y_true,y_pred_NN1,"NN")
 print("NN")
 print("epochs:", epochs_NN,"batch_size:", batch_size_NN,"eta",eta_NN,"lmd",lmd_NN)
 print("Confusion\n",Confusion_NN1,"acc",accuracy_NN1,"area score",area_score_NN1)
-
+"""
 
 #-----SKL NN
 """

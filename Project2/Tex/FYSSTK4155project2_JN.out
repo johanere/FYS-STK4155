@@ -4,15 +4,16 @@
 \BOOKMARK [2][-]{subsection.2.2}{Logistic Regression for two classes}{section.2}% 4
 \BOOKMARK [2][-]{subsection.2.3}{Gradient Decent}{section.2}% 5
 \BOOKMARK [2][-]{subsection.2.4}{Neural Networks}{section.2}% 6
-\BOOKMARK [3][-]{subsubsection.2.4.1}{Neuron Output}{subsection.2.4}% 7
-\BOOKMARK [1][-]{section.3}{Methods}{}% 8
-\BOOKMARK [2][-]{subsection.3.1}{Scaling}{section.3}% 9
-\BOOKMARK [2][-]{subsection.3.2}{Matrix representation, and application of gradient decent}{section.3}% 10
-\BOOKMARK [2][-]{subsection.3.3}{Code Implementation}{section.3}% 11
-\BOOKMARK [2][-]{subsection.3.4}{Evaluating The Implementation}{section.3}% 12
-\BOOKMARK [3][-]{subsubsection.3.4.1}{Preprocessing}{subsection.3.4}% 13
-\BOOKMARK [1][-]{section.4}{Results}{}% 14
-\BOOKMARK [1][-]{section.5}{Discussion of results}{}% 15
-\BOOKMARK [1][-]{section.6}{Conclusions}{}% 16
-\BOOKMARK [1][-]{section*.1}{References}{}% 17
-\BOOKMARK [1][-]{section*.2}{Appendices}{}% 18
+\BOOKMARK [3][-]{subsubsection.2.4.1}{Feed forward}{subsection.2.4}% 7
+\BOOKMARK [3][-]{subsubsection.2.4.2}{Cost function and backpropagation}{subsection.2.4}% 8
+\BOOKMARK [1][-]{section.3}{Methods}{}% 9
+\BOOKMARK [2][-]{subsection.3.1}{Scaling}{section.3}% 10
+\BOOKMARK [2][-]{subsection.3.2}{Matrix representation, and application of gradient decent}{section.3}% 11
+\BOOKMARK [2][-]{subsection.3.3}{Code Implementation}{section.3}% 12
+\BOOKMARK [2][-]{subsection.3.4}{Evaluating The Implementation}{section.3}% 13
+\BOOKMARK [3][-]{subsubsection.3.4.1}{Preprocessing}{subsection.3.4}% 14
+\BOOKMARK [1][-]{section.4}{Results}{}% 15
+\BOOKMARK [1][-]{section.5}{Discussion of results}{}% 16
+\BOOKMARK [1][-]{section.6}{Conclusions}{}% 17
+\BOOKMARK [1][-]{section*.1}{References}{}% 18
+\BOOKMARK [1][-]{section*.2}{Appendices}{}% 19
