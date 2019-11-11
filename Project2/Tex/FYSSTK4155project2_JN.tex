@@ -282,6 +282,12 @@ The accuracy score of a classifier \eqref{eq:accuracy}, where $I$ is the indicat
 \end{equation}
 area ratio score
 \subsection{Preprocessing}
+Invalid entries in the categorical predictors are removed from the data all together. Then, the categorical predictors that may take on more other values than $0$ and $1$ are one-hot encoded - the remaining categorical predictors are kept as they are with the intention of limiting the number of predictors. After having done so, the features are standardized by substracting the mean and scaling to unit variance.  Having done so, the dat is split into test and training, using a stratified split, ensuring integrity of target category ratio in training and test sets. Before training the model however, there is the accute issue of skewness - the number of observations on default is too low for their effect on 
+
+with/without smote!
+
+
+In order to better train the machine learning algorithms, a number of methods a
 remove outliers,  one hot encoding categories, stratified split, Scaling, smote (upsampling of y), train, predict
 \subsection{Scaling} \label{Section_M_Scaling}
  \label{Section_M_Matrixrep}
