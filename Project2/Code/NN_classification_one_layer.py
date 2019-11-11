@@ -77,10 +77,10 @@ class NeuralNetwork:
         error_output = self.probabilities - self.Y_data #delta
         error_hidden = np.matmul(error_output, self.output_weights.T) * self.a_h * (1 - self.a_h)
 
-        self.output_weights_gradient = np.matmul(self.a_h.T, error_output)
+        self.output_weights_gradient = np.matmul(self.a_h.T, error_output) #grad WL
         self.output_bias_gradient = np.sum(error_output, axis=0)
 
-        self.hidden_weights_gradient = np.matmul(self.X_data.T, error_hidden)
+        self.hidden_weights_gradient = np.matmul(self.X_data.T, error_hidden) #grad Wl-1
         self.hidden_bias_gradient = np.sum(error_hidden, axis=0)
 
         if self.lmbd > 0.0:
@@ -122,7 +122,7 @@ class NeuralNetwork:
             self.X_data = self.X_data_full
             self.Y_data = self.Y_data_full
             self.feed_forward()
-            costfunc[i] = 1/2*np.sum((self.probabilities[:,0]-self.Y_data[:,0])**2) ###
+            costfunc[i] =-np.sum(self.Y_data[:,0] *np.log(self.probabilities[:,0]) + (1-self.Y_data[:,0])*np.log(1-self.probabilities[:,0]))
         plt.plot(np.arange(0,self.epochs,1)[200:],costfunc[200:])
         plt.show()
         print("Cost function NN at last epoch:", costfunc[-1])

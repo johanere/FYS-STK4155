@@ -8,12 +8,15 @@ from sklearn.metrics import confusion_matrix
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.neural_network import MLPClassifier
 
-from metrics_and_preprocessing import gains_plot_area, Confusion_and_accuracy, scale_data_standard,scale_data_minmax,to_categorical_numpy
+from metrics_and_preprocessing import MSE, r2, scale_data_standard,scale_data_minmax,to_categorical_numpy
 
 from functions_regression import FrankeFunction, create_X
 
 def sigmoid(x):
     return 1/(1 + np.exp(-x))
+
+def tanh(x):
+    return np.tanh(x)
 
 #hidden neurons mean of input and output
 class NeuralNetwork:
@@ -42,6 +45,7 @@ class NeuralNetwork:
         self.lmbd = lmbd
 
 
+
         self.create_biases_and_weights()
 
     def create_biases_and_weights(self):
@@ -54,28 +58,24 @@ class NeuralNetwork:
     def feed_forward(self):
         # feed-forward for training
         self.z_h = self.X_data @ self.hidden_weights + self.hidden_bias
-
-        self.a_h = sigmoid(self.z_h)
+        self.a_h = tanh(self.z_h)
         self.z_o =  self.a_h @ self.output_weights + self.output_bias #w_ij^L a_i^l
-
         self.output = self.z_o #activation
 
     def feed_forward_out(self, X):
         # feed-forward for output
         z_h = np.matmul(X, self.hidden_weights) + self.hidden_bias
-        a_h = sigmoid(z_h)
-
+        a_h = tanh(z_h)
         z_o = np.matmul(a_h, self.output_weights) + self.output_bias
-        output=z_0 #activation function f(x)=x
+        output=z_o #activation function f(z)
 
         return output
 
     def backpropagation(self):
         n_datapoint=float(np.shape(self.Y_data)[0])
+        error_output = self.output - self.Y_data #delta
 
-        error_output = self.probabilities - self.Y_data #delta
-        error_hidden = np.matmul(error_output, self.output_weights.T) * self.a_h * (1 - self.a_h)
-
+        error_hidden = np.matmul(error_output, self.output_weights.T)*(1-tanh(self.z_h)**2)
         self.output_weights_gradient = np.matmul(self.a_h.T, error_output)
         self.output_bias_gradient = np.sum(error_output, axis=0)
 
@@ -92,12 +92,12 @@ class NeuralNetwork:
         self.hidden_bias -= self.eta * self.hidden_bias_gradient*1/n_datapoint
 
     def predict(self, X):
-        probabilities = self.feed_forward_out(X)
-        return np.argmax(probabilities, axis=1)
+        output = self.feed_forward_out(X)
+        return np.argmax(output, axis=1)
 
     def predict_probabilities(self, X):
-        probabilities = self.feed_forward_out(X)
-        return probabilities
+        output = self.feed_forward_out(X)
+        return output
 
     def train(self):
         data_indices = np.arange(self.n_inputs)
@@ -121,28 +121,28 @@ class NeuralNetwork:
             self.X_data = self.X_data_full
             self.Y_data = self.Y_data_full
             self.feed_forward()
-            costfunc[i] = 1/2*np.sum((self.probabilities[:,0]-self.Y_data[:,0])**2) ###
-        plt.plot(np.arange(0,self.epochs,1)[200:],costfunc[200:])
+            costfunc[i] = 0.5*np.sum(self.output - self.Y_data)**2 ###
+        plt.plot(np.arange(0,self.epochs,1)[20:],costfunc[20:])
         plt.show()
         print("Cost function NN at last epoch:", costfunc[-1])
 
 #-----set parameters
-epochs_NN=3000
-batch_size_NN=20
+epochs_NN=600
+batch_size_NN=60
 eta_NN=0.1
-lmd_NN=0.0
+lmd_NN=0.1
 #-----Load data
 n = 4
-N = 100
+N = 30
 x,y=np.meshgrid(np.sort(np.random.uniform(0, 1, N)),  np.sort(np.random.uniform(0, 1, N)))
 x = np.ravel(x)  # Generate x vector
 y = np.ravel(y)  # Generate y vector
-z = FrankeFunction(x, y)
+y = FrankeFunction(x, y)
 X = create_X(x, y, n=n)
-
+y=np.row_stack(y)
 
 #-----split data
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33,random_state=1,stratify=y) #split with stratification
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33,random_state=1) #split with stratification
 
 #-----pre process data
 X_train,X_test=scale_data_standard(X_train,X_test)
@@ -150,8 +150,8 @@ X_train,X_test=scale_data_standard(X_train,X_test)
 
 #-----initiate and train network
 NN=NeuralNetwork(X_train,y_train,n_targets=1,epochs=epochs_NN,batch_size=batch_size_NN,eta=eta_NN,lmbd=lmd_NN)
-"""
 NN.train()
+
 
 #----- Predict
 X_true=X_test #set predictors and data to use as true X
@@ -159,16 +159,15 @@ y_true=y_test #set targets to use as true y
 y_pred_NN1=NN.predict(X_true)
 
 #----- Eevaluate model fit
-Confusion_NN1, accuracy_NN1=Confusion_and_accuracy(y_true,y_pred_NN1)
-area_score_NN1=gains_plot_area(y_true,y_pred_NN1,"NN")
+
 
 
 #----- Print parameters and scores to terminal
 print("NN")
 print("epochs:", epochs_NN,"batch_size:", batch_size_NN,"eta",eta_NN,"lmd",lmd_NN)
-print("Confusion\n",Confusion_NN1,"acc",accuracy_NN1,"area score",area_score_NN1)
-"""
 
+mse_score=MSE(y_true,y_pred_NN1)
+print(mse_score)
 #-----SKL NN
 """
 # store models for later use

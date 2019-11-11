@@ -1,6 +1,28 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+def gains_area(y_true, y_pred):
+    N=float(len(y_true)) #Number of entries
+    index_true = np.argsort(y_true)[::-1]
+    index_pred = np.argsort(y_pred)[::-1]
+
+    y_true_sorted_pred = y_true[index_pred] #predict index
+    y_true_sorted_true = y_true[index_true] #test index
+
+    gains_optimal = np.cumsum(y_true_sorted_pred)/np.sum(y_true_sorted_pred)
+    gains_model = np.cumsum(y_true_sorted_true)/np.sum(y_true_sorted_true)
+    baserate = np.arange(1, N+1)/N
+
+    A1 = np.trapz(gains_model, baserate) #Area under model curve
+    A2 = np.trapz(gains_optimal, baserate) #Area under optimal curve
+    A3 = np.trapz(baserate, baserate) #Area under base rate
+
+    score = (A1-A3)/(A2-A3) #Area opt and brate / Area model and brate
+
+    prediction_to_binary=np.where(y_pred>0.5,1,0)
+    Confusion=confusion_matrix(y_true, prediction_to_binary, labels=None, sample_weight=None)
+    accuracy = (Confusion[0,0]+Confusion[1,1])/(np.sum(Confusion))
+    return score, accuracy
 
 def gains_plot_area(y_true, y_pred,model):
     N=float(len(y_true)) #Number of entries
@@ -14,8 +36,8 @@ def gains_plot_area(y_true, y_pred,model):
     gains_model = np.cumsum(y_true_sorted_true)/np.sum(y_true_sorted_true)
     baserate = np.arange(1, N+1)/N
 
-    A1 = np.trapz(gains_optimal, baserate) #Area under optimal curv
-    A2 = np.trapz(gains_model, baserate) #Area under optimal curv
+    A1 = np.trapz(gains_model, baserate) #Area under model curve
+    A2 = np.trapz(gains_optimal, baserate) #Area under optimal curve
     A3 = np.trapz(baserate, baserate) #Area under base rate
 
     score = (A1-A3)/(A2-A3) #Area opt and brate / Area model and brate
@@ -63,6 +85,18 @@ def to_categorical_numpy(integer_vector):
     onehot_vector[range(n_inputs), integer_vector] = 1
 
     return onehot_vector
+
+from sklearn.metrics import r2_score, mean_squared_error
+def r2(z1, z2): #true pred
+    r2 = r2_score(z1, z2, sample_weight=None, multioutput="uniform_average")
+    return r2
+
+
+def MSE(z1, z2): #true pred
+    MSE = mean_squared_error(z1, z2, sample_weight=None, multioutput="uniform_average")
+    return MSE
+
+
 """
 def Gains_plot(y_true,y_prob):
     index=np.argsort(y_true)[::-1]
