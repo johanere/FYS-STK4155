@@ -33,7 +33,7 @@ def load_CC_data(which_onehot = 1): #load with outlier deletion and onehot encod
     X = np.delete(X, outlier_rows, axis=0)
     y = np.delete(y, outlier_rows, axis=0)
 
-
+    
 
     #split data into categorical and continuous features
     if which_onehot==1: #marriage, sex and education one-hot

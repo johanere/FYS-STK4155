@@ -280,7 +280,7 @@ The accuracy score of a classifier \eqref{eq:accuracy}, where $I$ is the indicat
 \text{Accuracy}=\frac{\sum_{i=1}^{i=n}I(t_i=y_i)}{n}
 \label{eq:accuracy}
 \end{equation}
-
+area ratio score
 \subsection{Preprocessing}
 remove outliers,  one hot encoding categories, stratified split, Scaling, smote (upsampling of y), train, predict
 \subsection{Scaling} \label{Section_M_Scaling}
@@ -296,9 +296,17 @@ In order to write a program using logistic regression with gradient decent, matr
 Scaling, before and after
 Stratification, before and after
 \section{Results} \label{Section_Results}
+\ref{fig:logreg_no_pp} shows the gains chart produced by the logistic regression program on the credit card data with no other pre-processing of the data than one-hot encoding of categorical predictors with values other than 0/1. As the plot suggests, the model performs the same as a random classifier.  
+\begin{figure}[!h]
+        \centering 
+         \includegraphics[scale=0.7]{../Results/CC_logreg_no_pp/gains_gd.pdf} 
+        \caption{Gains plot for logistic regression using GD with $5000$ iterations and $\eta=0.1$ on credit card data, no pre-processing of data other than one-hot encoding. Accuracy score=$0.78$, Area ratio score=$0.00$}
+        \label{fig:logreg_no_pp}   
+\end{figure}  
+
 \section{Discussion of results} \label{Section_Discussion_of_results}
 \subsection{Implementation, testing, and evaluation}
-As potatoes point out, accuracy will not be a very gfood indicator afaokso for skewed data sets.
+The accuracy score of the logistic regression model on the raw credit card data (with one-hot encoding) is $0.78$, a deceivingly high score, considering that the area ratio score is $0.00$. This indicates that that the model is classifying all the test data as $0$ ($1$ being defaulting on payment) - which the confusion matrix  \hyperref[Section_M_NNclass]{(see appendix 1.)} confirms. The discrepancy  in evaluation scores shows hat accuracy is not necessarily a meaningful measurement on model performance, especially when the whole goal of the operation is to, in the case of the credit card data, evaluate who will default. It is not unreasonable to imagine that one would prefer a model which produces a few false default flags over on which produces too few.
 \section{Conclusions} \label{Section_Conclusions}
 
 
@@ -307,7 +315,13 @@ As potatoes point out, accuracy will not be a very gfood indicator afaokso for s
 
 
 \begin{appendices}
-
+\section*{Appendix 1.} \label{APP_1}
 \end{appendices}
-
+Confusion matrix for linear regression classifier on un-processed credit card data.
+\begin{equation}
+\bm{X}=\begin{bmatrix}
+tn=7591 & fp=0 \\
+fn=2178  &tp= 0 \\
+\end{bmatrix}
+\end{equation}
 \end{document}

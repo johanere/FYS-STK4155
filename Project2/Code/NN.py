@@ -20,7 +20,7 @@ class NeuralNetwork:
             self,
             X_data,
             Y_data,
-            #n_hidden_neurons=50,
+            h_layers=,
             n_categories=2, #binary
             epochs=10,
             batch_size=100,
@@ -33,7 +33,9 @@ class NeuralNetwork:
         self.n_inputs = X_data.shape[0]
         self.n_features = X_data.shape[1]
         self.n_categories = n_categories
-        self.n_hidden_neurons =  int(np.mean([self.n_features,self.n_categories]))
+
+        self.n_hidden_neurons=h_layers
+
         self.epochs = epochs
         self.batch_size = batch_size
         self.iterations = self.n_inputs // self.batch_size
@@ -77,10 +79,10 @@ class NeuralNetwork:
         error_output = self.probabilities - self.Y_data #delta
         error_hidden = np.matmul(error_output, self.output_weights.T) * self.a_h * (1 - self.a_h)
 
-        self.output_weights_gradient = np.matmul(self.a_h.T, error_output)
+        self.output_weights_gradient = np.matmul(self.a_h.T, error_output) #grad WL
         self.output_bias_gradient = np.sum(error_output, axis=0)
 
-        self.hidden_weights_gradient = np.matmul(self.X_data.T, error_hidden)
+        self.hidden_weights_gradient = np.matmul(self.X_data.T, error_hidden) #grad Wl-1
         self.hidden_bias_gradient = np.sum(error_hidden, axis=0)
 
         if self.lmbd > 0.0:
@@ -122,13 +124,13 @@ class NeuralNetwork:
             self.X_data = self.X_data_full
             self.Y_data = self.Y_data_full
             self.feed_forward()
-            costfunc[i] = 1/2*np.sum((self.probabilities[:,0]-self.Y_data[:,0])**2) ###
+            costfunc[i] =-np.sum(self.Y_data[:,0] *np.log(self.probabilities[:,0]) + (1-self.Y_data[:,0])*np.log(1-self.probabilities[:,0]))
         plt.plot(np.arange(0,self.epochs,1)[200:],costfunc[200:])
         plt.show()
         print("Cost function NN at last epoch:", costfunc[-1])
 
 #-----set parameters
-epochs_NN=3000
+epochs_NN=1500
 batch_size_NN=20
 eta_NN=0.1
 lmd_NN=0.0
@@ -145,7 +147,8 @@ X_train,X_test=scale_data_standard(X_train,X_test)
 y_train_onehot, y_test_onehot = to_categorical_numpy(y_train), to_categorical_numpy(y_test)
 
 #-----initiate and train network
-NN=NeuralNetwork(X_train,y_train_onehot,n_categories=2,epochs=epochs_NN,batch_size=batch_size_NN,eta=eta_NN,lmbd=lmd_NN)
+NN=NeuralNetwork(X_train,y_train_onehot,h_layers=2,n_categories=2,epochs=epochs_NN,batch_size=batch_size_NN,eta=eta_NN,lmbd=lmd_NN)
+"""
 NN.train()
 
 #----- Predict
@@ -162,27 +165,4 @@ area_score_NN1=gains_plot_area(y_true,y_pred_NN1,"NN")
 print("NN")
 print("epochs:", epochs_NN,"batch_size:", batch_size_NN,"eta",eta_NN,"lmd",lmd_NN)
 print("Confusion\n",Confusion_NN1,"acc",accuracy_NN1,"area score",area_score_NN1)
-
-
-#-----SKL NN
-"""
-# store models for later use
-eta_vals = np.logspace(-4, 1, 6) #-5, 1,7
-lmbd_vals = np.logspace(-4, 1, 6)
-n_hidden_neurons = 50
-epochs=1000
-DNN_scikit = np.zeros((len(eta_vals), len(lmbd_vals)), dtype=object)
-
-for i, eta in enumerate(eta_vals):
-    for j, lmbd in enumerate(lmbd_vals):
-        dnn = MLPClassifier(hidden_layer_sizes=(n_hidden_neurons), activation='logistic',
-                            alpha=lmbd, learning_rate_init=eta, max_iter=epochs)
-        dnn.fit(X_train, y_train)
-
-        DNN_scikit[i][j] = dnn
-
-        print("Learning rate  = ", eta)
-        print("Lambda = ", lmbd)
-        print("Accuracy score on test set: ", dnn.score(X_test, y_test))
-        print()
 """

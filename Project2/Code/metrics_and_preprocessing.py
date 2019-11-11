@@ -32,8 +32,8 @@ def gains_plot_area(y_true, y_pred,model):
     y_true_sorted_pred = y_true[index_pred] #predict index
     y_true_sorted_true = y_true[index_true] #test index
 
-    gains_optimal = np.cumsum(y_true_sorted_pred)/np.sum(y_true_sorted_pred)
-    gains_model = np.cumsum(y_true_sorted_true)/np.sum(y_true_sorted_true)
+    gains_optimal = np.cumsum(y_true_sorted_true)/np.sum(y_true_sorted_true)
+    gains_model = np.cumsum(y_true_sorted_pred)/np.sum(y_true_sorted_true)
     baserate = np.arange(1, N+1)/N
 
     A1 = np.trapz(gains_model, baserate) #Area under model curve
@@ -44,8 +44,8 @@ def gains_plot_area(y_true, y_pred,model):
 
     plt.figure()
     plt.style.use("seaborn-whitegrid")
-    plt.plot(baserate*100, gains_model*100,'--k',label="Optimal",color = '0.4')
-    plt.plot(baserate*100, gains_optimal*100,'k',label="Model")
+    plt.plot(baserate*100, gains_optimal*100,'--k',label="Optimal",color = '0.4')
+    plt.plot(baserate*100, gains_model*100,'k',label="Model")
     plt.plot(baserate*100, baserate*100,'k',label="Baseline",color = '0.75')
     plt.legend(loc=0)
     plt.ylabel("Percentage of positive outcomes [%]")
@@ -97,29 +97,19 @@ def MSE(z1, z2): #true pred
     return MSE
 
 
-"""
-def Gains_plot(y_true,y_prob):
-    index=np.argsort(y_true)[::-1]
-    y_pred=np.where(y_prob>0.5,1,0)
-    y_true_sorted=y_true[index]
-    y_pred_sorted=y_pred[index]
+def table_parameters_measurements(filename,accuracy_GD,area_score_GD,max_iters,eta_gd,accuracy_SGD,area_score_SGD,n_epochs, batch_size, eta_sgd,lmd,accuracy_SKL,area_score_SKL,max_iter_SK):
+    f= open(filename,"w+")
+    f.write("GD - iters: %.2f eta: %.2f\n" %(max_iters,eta_gd))
+    f.write("Accuracy: %.2f "%accuracy_GD)
+    f.write("Area score: %.2f \n"%area_score_GD)
 
-    print(y_true)
-    print(y_true_sorted)
-    print(y_pred)
-    print(y_pred_sorted)
 
-    n_inputs=len(y_true)
-    N=n_inputs-10
-    wizard=np.zeros(n_inputs)
-    model=np.zeros(n_inputs)
-    population=np.linspace(0,n_inputs,n_inputs)
-    baserate=np.linspace(0,np.sum(y_true_sorted),n_inputs)
-    for i in range(10,n_inputs):
-        wizard[i]=np.sum(y_true_sorted[:i])
-        model[i]=np.sum(y_pred_sorted[:i])
-    plt.plot(population,wizard)
-    plt.plot(population,baserate)
-    plt.plot(population,model)
-    plt.show()
-"""
+    f.write("GDS - n_epochs: %.2f, batch size: %.2f, eta: %.2f, lambda: %.2f \n" %(n_epochs, batch_size, eta_sgd,lmd))
+    f.write("Accuracy: %.2f "%accuracy_SGD)
+    f.write("Area score: %.2f \n"%area_score_SGD)
+
+
+    f.write("SK - iters: %.2f \n"%max_iter_SK)
+    f.write("Accuracy: %.2f "%accuracy_SKL)
+    f.write("Area score: %.2f \n"%area_score_SKL)
+    f.close()
