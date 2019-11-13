@@ -1,7 +1,3 @@
-"""
-currently not working as intended
-"""
-
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -13,23 +9,16 @@ from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.neural_network import MLPClassifier
 
 from metrics_and_preprocessing import (
-    r2,
-    MSE,
     gains_plot_area,
     Confusion_and_accuracy,
     scale_data_standard,
     scale_data_minmax,
     to_categorical_numpy,
 )
-from functions_regression import FrankeFunction, create_X
 
 
 def sigmoid(x):
     return 1 / (1 + np.exp(-x))
-
-
-def tanh(x):
-    return np.tanh(x)
 
 
 # hidden neurons mean of input and output
@@ -39,7 +28,7 @@ class NeuralNetwork:
         X_data,
         Y_data,
         n_hidden_layers=2,
-        n_categories=1,  # binary
+        n_categories=2,  # binary
         epochs=10,
         batch_size=100,
         eta=0.1,
@@ -87,14 +76,14 @@ class NeuralNetwork:
     def feed_forward(self):
         # feed-forward for training
         z = self.X_data @ self.w[0] + self.b[0]
-        self.a[0] = tanh(z)
+        self.a[0] = sigmoid(z)
         for layer in range(1, self.n_hidden_layers):
             z = self.a[layer - 1] @ self.w[layer] + self.b[layer]
-            self.a[layer] = tanh(z)
+            self.a[layer] = sigmoid(z)
 
         self.z_o = self.a[-1] @ self.w_o + self.b_o  # w_ij^L a_i^l
-
-        self.output = self.z_o
+        exp_term = np.exp(self.z_o)
+        self.probabilities = exp_term / np.sum(exp_term, axis=1, keepdims=True)
 
     def feed_forward_out(self, X):
         # feed-forward for training
@@ -105,19 +94,20 @@ class NeuralNetwork:
             self.a[layer] = sigmoid(z)
 
         z_o = self.a[-1] @ self.w_o + self.b_o  # w_ij^L a_i^l
-
-        output = z_o
-        return output
+        exp_term = np.exp(z_o)
+        probabilities = exp_term / np.sum(exp_term, axis=1, keepdims=True)
+        print(np.shape(probabilities))
+        return probabilities
 
     def backpropagation(self):
         n_datapoint = float(np.shape(self.Y_data)[0])
 
-        error_layer = self.output - self.Y_data  # delta
+        error_layer = self.probabilities - self.Y_data  # delta
 
         w_g = np.matmul(self.a[-1].T, error_layer)  # grad WL
         b_g = np.sum(error_layer, axis=0)
 
-        error_layer = np.matmul(error_layer, self.w_o.T) * (1 - tanh(self.a[-1]) ** 2)
+        error_layer = np.matmul(error_layer, self.w_o.T) * self.a[-1] * (1 - self.a[-1])
 
         self.w_o -= self.eta * w_g * 1 / n_datapoint
         self.b_o -= self.eta * b_g * 1 / n_datapoint
@@ -126,8 +116,8 @@ class NeuralNetwork:
         b_g = np.sum(error_layer, axis=0)
 
         for i in range(self.n_hidden_layers - 2, 0, -1):
-            error_layer = np.matmul(error_layer, self.w[i + 1].T) * (
-                1 - tanh(self.a[i]) ** 2
+            error_layer = (
+                np.matmul(error_layer, self.w[i + 1].T) * self.a[i] * (1 - self.a[i])
             )
             self.w[i + 1] -= self.eta * w_g * 1 / n_datapoint
             self.b[i + 1] -= self.eta * b_g * 1 / n_datapoint
@@ -135,8 +125,8 @@ class NeuralNetwork:
             b_g = np.sum(error_layer, axis=0)
 
         i = 0
-        error_layer = np.matmul(error_layer, self.w[i + 1].T) * (
-            1 - tanh(self.a[i]) ** 2
+        error_layer = (
+            np.matmul(error_layer, self.w[i + 1].T) * self.a[i] * (1 - self.a[i])
         )
         self.w[i + 1] -= self.eta * w_g * 1 / n_datapoint
         self.b[i + 1] -= self.eta * b_g * 1 / n_datapoint
@@ -146,12 +136,12 @@ class NeuralNetwork:
         self.b[0] -= self.eta * b_g * 1 / n_datapoint
 
     def predict(self, X):
-        output = self.feed_forward_out(X)
-        return output
+        probabilities = self.feed_forward_out(X)
+        return np.argmax(probabilities, axis=1)
 
     def predict_probabilities(self, X):
-        output = self.feed_forward_out(X)
-        return output
+        probabilities = self.feed_forward_out(X)
+        return probabilities
 
     def train(self):
         data_indices = np.arange(self.n_inputs)
@@ -159,6 +149,7 @@ class NeuralNetwork:
         costfunc = np.zeros(self.epochs)
 
         for i in range(self.epochs):
+            print(i)
             for j in range(self.iterations):
                 # pick datapoints with replacement
                 chosen_datapoints = np.random.choice(
@@ -175,40 +166,40 @@ class NeuralNetwork:
             self.X_data = self.X_data_full
             self.Y_data = self.Y_data_full
             self.feed_forward()
-            costfunc[i] = costfunc[i] = 0.5 * np.sum(self.output - self.Y_data) ** 2
+            costfunc[i] = -np.sum(
+                self.Y_data[:, 0] * np.log(self.probabilities[:, 0])
+                + (1 - self.Y_data[:, 0]) * np.log(1 - self.probabilities[:, 0])
+            )
         plt.plot(np.arange(0, self.epochs, 1)[200:], costfunc[200:])
         plt.show()
         print("Cost function NN at last epoch:", costfunc[-1])
 
 
 # -----set parameters
-CC = False  # set to false to use cancer data
-gridsearch_eta = False  # use gridsearch for eta and lambda
-gridsearch_epoch = False  # use gridsearch for epochs and batch size
+CC = True  # set to false to use cancer data
+gridsearch_eta = False  # use parallel gridsearch for eta and lambda
+gridsearch_epoch = False
 np.random.seed(3)
-epochs_NN = 1500
-batch_size_NN = 20
+epochs_NN = 1000
+batch_size_NN = 1000
 eta_NN = 0.1
-lmd_NN = 0.1
+lmd_NN = 0.001
 
 PP_Stratify = False
 PP_Scaling = True
-PP_Smote = False
+PP_Smote = True
 
 # -----Load data
-m = 30
-n = 30
-p = 5
-y = np.random.uniform(0, 1, m)
-x = np.random.uniform(0, 1, n)
-x, y = np.meshgrid(x, y)
-x = np.ravel(x)  # Generate x vector
-y = np.ravel(y)  # Generate y vector
-y = FrankeFunction(x, y)
-X = create_X(x, y, p)
-y = np.row_stack(y)
+if CC == True:
+    from load_credit_data import load_CC_data
 
-print(np.shape(X))
+    X, y, col = load_CC_data(1)
+
+if CC == False:
+    cancer = load_breast_cancer()
+    X = cancer.data
+    y = cancer.target
+
 # -----split data
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.33, random_state=1
@@ -232,7 +223,10 @@ if PP_Smote == True:
     sm = SMOTE(random_state=12, ratio=1.0)
     X_train, y_train = sm.fit_sample(X_train, y_train)
 
-# y_train,y_test=scale_data_minmax(y_train,y_test)
+y_train_onehot, y_test_onehot = (
+    to_categorical_numpy(y_train),
+    to_categorical_numpy(y_test),
+)
 
 # -----initiate and train network
 
@@ -240,9 +234,9 @@ if PP_Smote == True:
 if gridsearch_eta == False and gridsearch_epoch == False:
     NN = NeuralNetwork(
         X_train,
-        y_train,
+        y_train_onehot,
         n_hidden_layers=2,
-        n_categories=1,
+        n_categories=2,
         epochs=epochs_NN,
         batch_size=batch_size_NN,
         eta=eta_NN,
@@ -256,11 +250,15 @@ if gridsearch_eta == False and gridsearch_epoch == False:
     y_true = y_test  # set targets to use as true y
     y_pred_NN1 = NN.predict(X_true)
 
+    # ----- Eevaluate model fit
+    Confusion_NN1, accuracy_NN1 = Confusion_and_accuracy(y_true, y_pred_NN1)
+    area_score_NN1 = gains_plot_area(y_true, y_pred_NN1, "NN")
+
     # ----- Print parameters and scores to terminal
     print("NN")
     print(
         "epochs:", epochs_NN, "batch_size:", batch_size_NN, "eta", eta_NN, "lmd", lmd_NN
     )
-
-    mse_score = MSE(y_true, y_pred_NN1)
-    print(mse_score)
+    print(
+        "Confusion\n", Confusion_NN1, "acc", accuracy_NN1, "area score", area_score_NN1
+    )

@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{HastieTrevor2009TEoS}
 Trevor Hastie, Robert Tibshirani, and Jerome Friedman.
@@ -40,6 +40,11 @@ Johan Nereng.
 Michael~A. Nielsen.
 \newblock {\em Neural Networks and Deep Learning}.
 \newblock Determination Press, 2015.
+
+\bibitem{numpy}
+Travis Oliphant.
+\newblock {\em Guide to NumPy}.
+\newblock 01 2006.
 
 \bibitem{sklearn}
 F.~Pedregosa, G.~Varoquaux, A.~Gramfort, V.~Michel, B.~Thirion, O.~Grisel,
