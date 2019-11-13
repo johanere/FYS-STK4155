@@ -12,6 +12,8 @@ from metrics_and_preprocessing import MSE, r2, scale_data_standard,scale_data_mi
 
 from functions_regression import FrankeFunction, create_X
 
+from sklearn.linear_model import LinearRegression
+
 def sigmoid(x):
     return 1/(1 + np.exp(-x))
 
@@ -24,7 +26,6 @@ class NeuralNetwork:
             self,
             X_data,
             Y_data,
-            #n_hidden_neurons=50,
             n_targets=1, #regression
             epochs=10,
             batch_size=100,
@@ -68,7 +69,6 @@ class NeuralNetwork:
         a_h = tanh(z_h)
         z_o = np.matmul(a_h, self.output_weights) + self.output_bias
         output=z_o #activation function f(z)
-
         return output
 
     def backpropagation(self):
@@ -93,7 +93,7 @@ class NeuralNetwork:
 
     def predict(self, X):
         output = self.feed_forward_out(X)
-        return np.argmax(output, axis=1)
+        return output
 
     def predict_probabilities(self, X):
         output = self.feed_forward_out(X)
@@ -121,72 +121,82 @@ class NeuralNetwork:
             self.X_data = self.X_data_full
             self.Y_data = self.Y_data_full
             self.feed_forward()
-            costfunc[i] = 0.5*np.sum(self.output - self.Y_data)**2 ###
-        plt.plot(np.arange(0,self.epochs,1)[20:],costfunc[20:])
-        plt.show()
-        print("Cost function NN at last epoch:", costfunc[-1])
+        #    costfunc[i] = 0.5*np.sum(self.output - self.Y_data)**2 ###
+    #    plt.plot(np.arange(0,self.epochs,1)[20:],costfunc[20:])
+    #    plt.show()
+    #    print("Cost function NN at last epoch:", costfunc[-1])
 
 #-----set parameters
-epochs_NN=600
-batch_size_NN=60
+nosplit=False
+
+epochs_NN=1000
+batch_size_NN=50
 eta_NN=0.1
 lmd_NN=0.1
 #-----Load data
-n = 4
-N = 30
-x,y=np.meshgrid(np.sort(np.random.uniform(0, 1, N)),  np.sort(np.random.uniform(0, 1, N)))
+m =30
+n= 30
+p= 5
+noise_val=0.3
+
+
+y = np.random.uniform(0, 1, m)
+x = np.random.uniform(0, 1, n)
+x, y = np.meshgrid(x, y)
 x = np.ravel(x)  # Generate x vector
 y = np.ravel(y)  # Generate y vector
-y = FrankeFunction(x, y)
-X = create_X(x, y, n=n)
-y=np.row_stack(y)
+X = create_X(x, y, p)
+z= FrankeFunction(x, y) + noise_val * np.random.normal(0, 1, m*n)
+z=np.row_stack(y)
 
 #-----split data
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33,random_state=1) #split with stratification
+if nosplit==True:
+    X_train=X
+    X_test=X
+    y_train=z
+    y_test=z
+
+else:
+    X_train, X_test, y_train, y_test = train_test_split(X, z, test_size=0.25,random_state=1) #split with stratification
 
 #-----pre process data
-X_train,X_test=scale_data_standard(X_train,X_test)
+X_train,X_test=scale_data_minmax(X_train,X_test)
 
+#---
+MSE_score_best=1
+eta_best=0
+lmd_best=0
+eta_vals = np.logspace(-1, -0.5, 3)
+lmbd_vals = np.logspace(-2, 0, 4)
+for i in range(len(eta_vals)):
+    print("on eta: " ,eta_vals[i])
+    for j in range(len(lmbd_vals)):
+        #-----initiate and train network
+        NN=NeuralNetwork(X_train,y_train,n_targets=1,epochs=epochs_NN,batch_size=batch_size_NN,eta=eta_vals[i],lmbd=lmbd_vals[j])
+        NN.train()
+        y_pred_NN1=NN.predict(X_test)
+        MSE_score=MSE(y_test,y_pred_NN1)
+        print(MSE_score)
+        if MSE_score<MSE_score_best:
+            MSE_score_best=MSE_score
+            eta_best=eta_vals[i]
+            lmd_best=lmbd_vals[j]
 
-#-----initiate and train network
-NN=NeuralNetwork(X_train,y_train,n_targets=1,epochs=epochs_NN,batch_size=batch_size_NN,eta=eta_NN,lmbd=lmd_NN)
-NN.train()
-
-
+reg = LinearRegression().fit(X_train, y_train)
+y_skl=reg.predict(X_test)
+MSE_score_sk=MSE(y_test,y_skl)
 #----- Predict
-X_true=X_test #set predictors and data to use as true X
-y_true=y_test #set targets to use as true y
-y_pred_NN1=NN.predict(X_true)
 
+y_pred_NN1=NN.predict(X_test)
+MSE_score=MSE(y_test,y_pred_NN1)
 #----- Eevaluate model fit
 
 
 
 #----- Print parameters and scores to terminal
-print("NN")
-print("epochs:", epochs_NN,"batch_size:", batch_size_NN,"eta",eta_NN,"lmd",lmd_NN)
 
-mse_score=MSE(y_true,y_pred_NN1)
-print(mse_score)
+
+print("NN averaged MSE",MSE_score_best, "at eta,lambda",eta_best,lmd_best)
+
+print("Sklearn ols MSE",MSE_score_sk)
 #-----SKL NN
-"""
-# store models for later use
-eta_vals = np.logspace(-4, 1, 6) #-5, 1,7
-lmbd_vals = np.logspace(-4, 1, 6)
-n_hidden_neurons = 50
-epochs=1000
-DNN_scikit = np.zeros((len(eta_vals), len(lmbd_vals)), dtype=object)
-
-for i, eta in enumerate(eta_vals):
-    for j, lmbd in enumerate(lmbd_vals):
-        dnn = MLPClassifier(hidden_layer_sizes=(n_hidden_neurons), activation='logistic',
-                            alpha=lmbd, learning_rate_init=eta, max_iter=epochs)
-        dnn.fit(X_train, y_train)
-
-        DNN_scikit[i][j] = dnn
-
-        print("Learning rate  = ", eta)
-        print("Lambda = ", lmbd)
-        print("Accuracy score on test set: ", dnn.score(X_test, y_test))
-        print()
-"""

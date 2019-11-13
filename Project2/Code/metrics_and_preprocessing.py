@@ -9,8 +9,8 @@ def gains_area(y_true, y_pred):
     y_true_sorted_pred = y_true[index_pred] #predict index
     y_true_sorted_true = y_true[index_true] #test index
 
-    gains_optimal = np.cumsum(y_true_sorted_pred)/np.sum(y_true_sorted_pred)
-    gains_model = np.cumsum(y_true_sorted_true)/np.sum(y_true_sorted_true)
+    gains_optimal = np.cumsum(y_true_sorted_true)/np.sum(y_true_sorted_true)
+    gains_model = np.cumsum(y_true_sorted_pred)/np.sum(y_true_sorted_true)
     baserate = np.arange(1, N+1)/N
 
     A1 = np.trapz(gains_model, baserate) #Area under model curve

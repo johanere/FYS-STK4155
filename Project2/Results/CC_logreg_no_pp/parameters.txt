@@ -1,6 +1,13 @@
 GD - iters: 5000.00 eta: 0.10
 Accuracy: 0.78 Area score: 0.00 
-GDS - n_epochs: 5000.00, batch size: 500.00, eta: 0.10, lambda: 0.00 
+GDS - n_epochs: 5000.00, batch size: 50.00, eta: 0.10, lambda: 0.00 
 Accuracy: 0.00 Area score: 0.00 
 SK - iters: 5000.00 
 Accuracy: 0.78 Area score: 0.00 
+
+
+7591 0
+2178 0
+
+7590 1
+2178 0

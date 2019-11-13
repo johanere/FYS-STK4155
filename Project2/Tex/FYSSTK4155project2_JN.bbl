@@ -19,11 +19,22 @@ Gareth James.
 \newblock Springer texts in statistics. Springer, New York, corrected at 8th
   printing 2017. edition, 2017.
 
+\bibitem{imblearn}
+Guillaume Lema{{\^i}}tre, Fernando Nogueira, and Christos~K. Aridas.
+\newblock Imbalanced-learn: A python toolbox to tackle the curse of imbalanced
+  datasets in machine learning.
+\newblock {\em Journal of Machine Learning Research}, 18(17):1--5, 2017.
+
 \bibitem{MLMurphy}
 Kevin~P. Murphy.
 \newblock {\em Machine learning : a probabilistic perspective}.
 \newblock Adaptive computation and machine learning. MIT Press, Cambridge,
   2012.
+
+\bibitem{P1_JN}
+Johan Nereng.
+\newblock Project 1 in fys-stk4155: Regression analysis and re-sampling
+  methods, Oct 8 2019.
 
 \bibitem{Nielsen15}
 Michael~A. Nielsen.
@@ -36,5 +47,11 @@ F.~Pedregosa, G.~Varoquaux, A.~Gramfort, V.~Michel, B.~Thirion, O.~Grisel,
   D.~Cournapeau, M.~Brucher, M.~Perrot, and E.~Duchesnay.
 \newblock Scikit-learn: Machine learning in {P}ython.
 \newblock {\em Journal of Machine Learning Research}, 12:2825--2830, 2011.
+
+\bibitem{YCCC}
+I-Cheng Yeh and Che-Hui Lien.
+\newblock The comparisons of data mining techniques for the predictive accuracy
+  of probability of default of credit card clients.
+\newblock {\em Expert Systems With Applications}, 36(2):2473--2480, 2009.
 
 \end{thebibliography}

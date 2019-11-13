@@ -1,22 +1,29 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
-\BOOKMARK [1][-]{section.2}{Methods}{}% 2
-\BOOKMARK [2][-]{subsection.2.1}{Qualitative response modeling}{section.2}% 3
-\BOOKMARK [2][-]{subsection.2.2}{Logistic Regression for two classes}{section.2}% 4
-\BOOKMARK [2][-]{subsection.2.3}{Gradient Decent}{section.2}% 5
-\BOOKMARK [2][-]{subsection.2.4}{Neural Networks}{section.2}% 6
-\BOOKMARK [3][-]{subsubsection.2.4.1}{Feed forward}{subsection.2.4}% 7
-\BOOKMARK [3][-]{subsubsection.2.4.2}{Cost function and backpropagation}{subsection.2.4}% 8
-\BOOKMARK [3][-]{subsubsection.2.4.3}{Neural network for classification}{subsection.2.4}% 9
-\BOOKMARK [3][-]{subsubsection.2.4.4}{Neural network for regression}{subsection.2.4}% 10
-\BOOKMARK [2][-]{subsection.2.5}{Implementation, testing, and evaluation}{section.2}% 11
-\BOOKMARK [2][-]{subsection.2.6}{Preprocessing}{section.2}% 12
-\BOOKMARK [2][-]{subsection.2.7}{Scaling}{section.2}% 13
-\BOOKMARK [2][-]{subsection.2.8}{Code Implementation}{section.2}% 14
-\BOOKMARK [2][-]{subsection.2.9}{Evaluating The Implementation}{section.2}% 15
-\BOOKMARK [3][-]{subsubsection.2.9.1}{Preprocessing}{subsection.2.9}% 16
-\BOOKMARK [1][-]{section.3}{Results}{}% 17
-\BOOKMARK [1][-]{section.4}{Discussion of results}{}% 18
-\BOOKMARK [2][-]{subsection.4.1}{Implementation, testing, and evaluation}{section.4}% 19
-\BOOKMARK [1][-]{section.5}{Conclusions}{}% 20
-\BOOKMARK [1][-]{section*.3}{References}{}% 21
-\BOOKMARK [1][-]{section*.4}{Appendices}{}% 22
+\BOOKMARK [2][-]{subsection.1.1}{Qualitative response modeling}{section.1}% 2
+\BOOKMARK [1][-]{section.2}{Methods}{}% 3
+\BOOKMARK [2][-]{subsection.2.1}{Logistic Regression for two classes}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.2}{Gradient Decent}{section.2}% 5
+\BOOKMARK [2][-]{subsection.2.3}{Neural Networks}{section.2}% 6
+\BOOKMARK [3][-]{subsubsection.2.3.1}{Feed forward}{subsection.2.3}% 7
+\BOOKMARK [3][-]{subsubsection.2.3.2}{Cost function and backpropagation}{subsection.2.3}% 8
+\BOOKMARK [3][-]{subsubsection.2.3.3}{Neural network for classification}{subsection.2.3}% 9
+\BOOKMARK [3][-]{subsubsection.2.3.4}{Neural network for regression}{subsection.2.3}% 10
+\BOOKMARK [2][-]{subsection.2.4}{Implementation, pre-processing data, testing, and evaluation}{section.2}% 11
+\BOOKMARK [3][-]{subsubsection.2.4.1}{Pre-processing of data}{subsection.2.4}% 12
+\BOOKMARK [3][-]{subsubsection.2.4.2}{Model evaluation and quality measurements}{subsection.2.4}% 13
+\BOOKMARK [3][-]{subsubsection.2.4.3}{Initial testing of the logistic regression implementation}{subsection.2.4}% 14
+\BOOKMARK [3][-]{subsubsection.2.4.4}{Initial testing of neural network implementation}{subsection.2.4}% 15
+\BOOKMARK [3][-]{subsubsection.2.4.5}{Logistic regression on credit card data}{subsection.2.4}% 16
+\BOOKMARK [3][-]{subsubsection.2.4.6}{Neural network on credit card data}{subsection.2.4}% 17
+\BOOKMARK [3][-]{subsubsection.2.4.7}{Neural network on Franke's Frunction}{subsection.2.4}% 18
+\BOOKMARK [1][-]{section.3}{Results}{}% 19
+\BOOKMARK [2][-]{subsubsection.3.0.1}{Logistic regression on credit card data}{section.3}% 20
+\BOOKMARK [3][-]{subsubsection.3.0.2}{Neural network on credit card data}{subsubsection.3.0.1}% 21
+\BOOKMARK [3][-]{subsubsection.3.0.3}{Neural network on Franke's Frunction}{subsubsection.3.0.1}% 22
+\BOOKMARK [1][-]{section.4}{Discussion of results}{}% 23
+\BOOKMARK [2][-]{subsection.4.1}{Implementation, testing, and evaluation}{section.4}% 24
+\BOOKMARK [2][-]{subsection.4.2}{Neural network on credit card data}{section.4}% 25
+\BOOKMARK [2][-]{subsection.4.3}{Neural network on Franke's Frunction}{section.4}% 26
+\BOOKMARK [1][-]{section.5}{Conclusions}{}% 27
+\BOOKMARK [1][-]{section*.8}{References}{}% 28
+\BOOKMARK [1][-]{section*.9}{Appendices}{}% 29

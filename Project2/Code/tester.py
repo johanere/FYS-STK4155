@@ -1,12 +1,6 @@
 import numpy as np
 
-p=50
-cat=2
-h_layers=4
-
-a=(p-cat)//h_layers
-
-neuron=p
-for i in range(h_layers):
-    neuron-=a
-    print(neuron)
+eta_vals = np.logspace(-1, 0, 5)
+ll = np.logspace(-3, 0, 5)
+print(eta_vals)
+print(ll)

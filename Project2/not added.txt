@@ -1,0 +1,12 @@
+Evaluation and measurements
+indepth desription of gains analysis
+MSE and R2 for regression
+
+
+Intro
+Describe credit card data
+
+further improvement:
+add PCA
+
+part on choice of activation and cost - a lot of options

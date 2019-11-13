@@ -8,7 +8,7 @@ from sklearn.metrics import confusion_matrix
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.neural_network import MLPClassifier
 
-from metrics_and_preprocessing import gains_plot_area, Confusion_and_accuracy, scale_data_standard,scale_data_minmax,to_categorical_numpy
+from metrics_and_preprocessing import gains_plot_area, Confusion_and_accuracy, scale_data_standard,scale_data_minmax,to_categorical_numpy, gains_area
 
 
 def sigmoid(x):
@@ -100,7 +100,7 @@ class NeuralNetwork:
         probabilities = self.feed_forward_out(X)
         return probabilities
 
-    def train(self):
+    def train(self,plot=False):
         data_indices = np.arange(self.n_inputs)
 
         costfunc=np.zeros(self.epochs)
@@ -123,66 +123,147 @@ class NeuralNetwork:
             self.Y_data = self.Y_data_full
             self.feed_forward()
             costfunc[i] =-np.sum(self.Y_data[:,0] *np.log(self.probabilities[:,0]) + (1-self.Y_data[:,0])*np.log(1-self.probabilities[:,0]))
-        plt.plot(np.arange(0,self.epochs,1)[200:],costfunc[200:])
-        plt.show()
-        print("Cost function NN at last epoch:", costfunc[-1])
+        if plot==True:
+            plt.figure()
+            plt.style.use("seaborn-whitegrid")
+            plt.plot(np.arange(0,self.epochs,1)[200:],costfunc[200:],'k')
+            plt.xlabel("epochs")
+            plt.ylabel("cost function")
+            plt.savefig("../Results/cost_NN.pdf")
+            print("Cost function NN at last epoch:", costfunc[-1])
+            plt.show()
+
 
 #-----set parameters
-epochs_NN=1500
-batch_size_NN=20
+CC=True #set to false to use cancer data
+gridsearch_eta=False #use parallel gridsearch for eta and lambda
+gridsearch_epoch=True
+np.random.seed(3)
+epochs_NN=1000
+batch_size_NN=1000
 eta_NN=0.1
-lmd_NN=0.0
+lmd_NN=1
+
+PP_Stratify=False
+PP_Scaling=True
+PP_Smote=True
+
 #-----Load data
-cancer = load_breast_cancer()
-X = cancer.data
-y=  cancer.target
-#X, y = make_moons(100, noise=0.2, random_state=7)
+if CC==True:
+    from load_credit_data import load_CC_data
+    X,y,col=load_CC_data(1)
+
+if CC==False:
+    cancer = load_breast_cancer()
+    X = cancer.data
+    y=  cancer.target
+
 #-----split data
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33,random_state=1,stratify=y) #split with stratification
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33,random_state=1)#,stratify=y) #split with stratification
 
 #-----pre process data
-X_train,X_test=scale_data_standard(X_train,X_test)
+if PP_Stratify==True:
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33,random_state=1,stratify=y)
+else:
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33,random_state=1)
+#-----pre process data
+if PP_Scaling==True:
+    X_train,X_test=scale_data_standard(X_train,X_test) #scale with standard scaler
+if PP_Smote==True:
+    from imblearn.over_sampling import SMOTE
+    sm = SMOTE(random_state=12, ratio = 1.0)
+    X_train, y_train = sm.fit_sample(X_train, y_train)
+
 y_train_onehot, y_test_onehot = to_categorical_numpy(y_train), to_categorical_numpy(y_test)
 
 #-----initiate and train network
-NN=NeuralNetwork(X_train,y_train_onehot,n_categories=2,epochs=epochs_NN,batch_size=batch_size_NN,eta=eta_NN,lmbd=lmd_NN)
-NN.train()
+if gridsearch_eta==False and gridsearch_epoch==False:
+    NN=NeuralNetwork(X_train,y_train_onehot,n_categories=2,epochs=epochs_NN,batch_size=batch_size_NN,eta=eta_NN,lmbd=lmd_NN)
+    NN.train(plot=True)
 
-#----- Predict
-X_true=X_test #set predictors and data to use as true X
-y_true=y_test #set targets to use as true y
-y_pred_NN1=NN.predict(X_true)
+    #----- Predict
+    X_true=X_test #set predictors and data to use as true X
+    y_true=y_test #set targets to use as true y
+    y_pred_NN1=NN.predict(X_true)
 
-#----- Eevaluate model fit
-Confusion_NN1, accuracy_NN1=Confusion_and_accuracy(y_true,y_pred_NN1)
-area_score_NN1=gains_plot_area(y_true,y_pred_NN1,"NN")
+    #----- Eevaluate model fit
+    Confusion_NN1, accuracy_NN1=Confusion_and_accuracy(y_true,y_pred_NN1)
+    area_score_NN1=gains_plot_area(y_true,y_pred_NN1,"NN")
+
+    #----- Print parameters and scores to terminal
+    print("NN")
+    print("epochs:", epochs_NN,"batch_size:", batch_size_NN,"eta",eta_NN,"lmd",lmd_NN)
+    print("Confusion\n",Confusion_NN1,"acc",accuracy_NN1,"area score",area_score_NN1)
+
+# visual representation of grid search - uses seaborn heatmap
+if gridsearch_eta==True: #not parallel
+
+    X_true=X_test #set predictors and data to use as true X
+    y_true=y_test #set targets to use as true y
+
+    import seaborn as sns
+    eta_vals = np.logspace(-4, 1, 6)
+    lmbd_vals = np.logspace(-4, 1, 6)
+    sns.set()
+
+    train_area = np.zeros((len(eta_vals), len(lmbd_vals)))
+    test_accuracy = np.zeros((len(eta_vals), len(lmbd_vals)))
+
+    for i in range(len(eta_vals)):
+        print("on eta: " ,eta_vals[i])
+        for j in range(len(lmbd_vals)):
+            NN=NeuralNetwork(X_train,y_train_onehot,n_categories=2,epochs=epochs_NN,batch_size=batch_size_NN,eta=eta_vals[i],lmbd=lmbd_vals[j])
+            NN.train(plot=False)
+            y_pred_NN1=NN.predict(X_true)
+            area_sc,accuracy_sc = gains_area(y_true,y_pred_NN1)
+            train_area[i][j] = area_sc
+            test_accuracy[i][j] = accuracy_sc
 
 
-#----- Print parameters and scores to terminal
-print("NN")
-print("epochs:", epochs_NN,"batch_size:", batch_size_NN,"eta",eta_NN,"lmd",lmd_NN)
-print("Confusion\n",Confusion_NN1,"acc",accuracy_NN1,"area score",area_score_NN1)
+    fig, ax = plt.subplots(figsize = (10, 10))
+    sns.heatmap(train_area, annot=True, ax=ax, cmap="viridis",xticklabels=eta_vals, yticklabels=lmbd_vals)
+    ax.set_title("Gains area ratio")
+    ax.set_xlabel("$\lambda$")
+    ax.set_ylabel("$\eta$")
+    plt.savefig("../Results/gridsearch_NN_area.pdf")
+    plt.show()
 
+    fig, ax = plt.subplots(figsize = (10, 10))
+    sns.heatmap(test_accuracy, annot=True, ax=ax, cmap="viridis",xticklabels=eta_vals, yticklabels=lmbd_vals )
+    ax.set_title("Test Accuracy")
+    ax.set_xlabel("$\lambda$")
+    ax.set_ylabel("$\eta$")
+    plt.savefig("../Results/gridsearch_NN_acc.pdf")
+    plt.show()
 
-#-----SKL NN
-"""
-# store models for later use
-eta_vals = np.logspace(-4, 1, 6) #-5, 1,7
-lmbd_vals = np.logspace(-4, 1, 6)
-n_hidden_neurons = 50
-epochs=1000
-DNN_scikit = np.zeros((len(eta_vals), len(lmbd_vals)), dtype=object)
+if gridsearch_epoch==True: #not parallel
 
-for i, eta in enumerate(eta_vals):
-    for j, lmbd in enumerate(lmbd_vals):
-        dnn = MLPClassifier(hidden_layer_sizes=(n_hidden_neurons), activation='logistic',
-                            alpha=lmbd, learning_rate_init=eta, max_iter=epochs)
-        dnn.fit(X_train, y_train)
+    X_true=X_test #set predictors and data to use as true X
+    y_true=y_test #set targets to use as true y
 
-        DNN_scikit[i][j] = dnn
+    import seaborn as sns
+    epochs = np.asarray([100,500,1000,1500])
+    batch_size = np.asarray([ 500, 1000, 1500,2000])
+    sns.set()
 
-        print("Learning rate  = ", eta)
-        print("Lambda = ", lmbd)
-        print("Accuracy score on test set: ", dnn.score(X_test, y_test))
-        print()
-"""
+    train_area = np.zeros((len(epochs), len(batch_size)))
+    test_accuracy = np.zeros((len(epochs), len(batch_size)))
+
+    for i in range(len(epochs)):
+        print("on epoch: " ,epochs[i])
+        for j in range(len(batch_size)):
+            NN=NeuralNetwork(X_train,y_train_onehot,n_categories=2,epochs=epochs[i],batch_size=batch_size[j],eta=eta_NN,lmbd=lmd_NN)
+            NN.train(plot=False)
+            y_pred_NN1=NN.predict(X_true)
+            area_sc,accuracy_sc = gains_area(y_true,y_pred_NN1)
+            train_area[i][j] = area_sc
+            test_accuracy[i][j] = accuracy_sc
+            print("on batch: " ,epochs[j])
+
+    fig, ax = plt.subplots(figsize = (10, 10))
+    sns.heatmap(train_area, annot=True, ax=ax, cmap="viridis",xticklabels=epochs, yticklabels=batch_size)
+    ax.set_title("Gains area ratio, $\eta=%.2f$, $\lambda=%.2f$"%(eta_NN,lmd_NN))
+    ax.set_xlabel("epochs")
+    ax.set_ylabel("batch size")
+    plt.savefig("../Results/gridsearch_NN_area_epocs.pdf")
+    plt.show()

@@ -22,6 +22,7 @@ def GD(X,y,max_iters=1000,eta=0.1,plot=False): #Gradient decent
         beta -= eta*gradient
         costfunc[iter] = -np.sum(y*(X@beta)-np.log(1+np.exp(X@beta)))
     if plot==True:
+        plt.figure()
         print("Cost function GD at last epoch:", costfunc[-1])
         plt.style.use("seaborn-whitegrid")
         plt.plot(np.arange(0,max_iters,1)[200:],costfunc[200:],"k")
@@ -38,7 +39,9 @@ def learning_schedule(t): #Learning schedule for SGD
 
 def SGD(X,y,n_epochs=1000,batch_size=20,eta=0.1,lmd=0.0,plot=False): #stochastic GD
     n = np.size(y) #number of data point
-    m=int(n/batch_size) #number of batches
+    m=int(n//batch_size) #number of batches
+    if m<1:
+        print("match size too large")
     random_index = np.random.randint(m)
     beta=np.ones(np.size(X,1)) #initalize beta vector
     data_indices = np.arange(n)
@@ -59,6 +62,7 @@ def SGD(X,y,n_epochs=1000,batch_size=20,eta=0.1,lmd=0.0,plot=False): #stochastic
         if plot==True:
             costfunc[epoch] = -np.sum(y*(X@beta)-np.log(1+np.exp(X_train@beta)))
     if plot==True:
+        plt.figure()
         plt.style.use("seaborn-whitegrid")
         plt.plot(np.arange(0,n_epochs,1)[200:],costfunc[200:],"k")
         plt.xlabel("epochs")
@@ -71,35 +75,47 @@ def SGD(X,y,n_epochs=1000,batch_size=20,eta=0.1,lmd=0.0,plot=False): #stochastic
 initial=True #set to true for initial testing
 gridsearch=False #set to true for grid search
 costplots=True #set to true for cost function plots
+CC=False #set to false to use cancer data
+#Set true for different aspects of pre processing IOT include them in fitting
+PP_Stratify=True
+PP_Scaling=True
+PP_Smote=True
 
-max_iters=5000
+use_SGD=False #True to re-fit using SGD
+
+max_iters=10000
 eta_gd=0.1
+
 n_epochs=5000
-batch_size=500
+batch_size=1000
 eta_sgd=0.1
 lmd=0.0
+
 max_iter_SK=5000
 solver_SK="lbfgs"
 
-from load_credit_data import load_CC_data
-
-X,y,col=load_CC_data(1)
 
 #-----Load data
-"""
-cancer = load_breast_cancer()
-X = cancer.data
-y=  cancer.target
-"""
+if CC==True:
+    from load_credit_data import load_CC_data
+    X,y,col=load_CC_data(1)
+
+if CC==False:
+    cancer = load_breast_cancer()
+    X = cancer.data
+    y=  cancer.target
 
 #-----split data
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33,random_state=1,stratify=y)
-
+if PP_Stratify==True:
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33,random_state=1,stratify=y)
+else:
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33,random_state=1)
 #-----pre process data
-
-X_train,X_test=scale_data_standard(X_train,X_test) #scale with standard scaler
-sm = SMOTE(random_state=12, ratio = 1.0)
-X_train, y_train = sm.fit_sample(X_train, y_train)
+if PP_Scaling==True:
+    X_train,X_test=scale_data_standard(X_train,X_test) #scale with standard scaler
+if PP_Smote==True:
+    sm = SMOTE(random_state=12, ratio = 1.0)
+    X_train, y_train = sm.fit_sample(X_train, y_train)
 
 
 X_true=X_test #set predictors and data to use as true X
@@ -110,21 +126,19 @@ accuracy_GD=0;area_score_GD=0;accuracy_SGD=0;area_score_SGD=0;accuracy_SKL=0;are
 
 if initial==True:
     beta_GD= GD(X_train,y_train,max_iters,eta_gd,plot=costplots)
-    #beta_SGD=SGD(X_train,y_train,n_epochs,batch_size,eta_sgd,lmd,plot=costplots)
+
+
     #----- make SKL fit for comparison-----
     clf = linear_model.LogisticRegressionCV(cv=5,max_iter=max_iter_SK,solver=solver_SK,n_jobs=-1) #use all available cores for CV
     clf.fit(X_train,y_train)
 
     #----- Predict
     y_predicted_GD = 1/(1+np.exp(-X_true@beta_GD))
-    #y_predicted_SGD = 1/(1+np.exp(-X_true@beta_SGD))
     y_predicted_SKL=clf.predict(X_test)
     #----- Eevaluate model fits
     Confusion_GD, accuracy_GD=Confusion_and_accuracy(y_true,y_predicted_GD)
     area_score_GD=gains_plot_area(y_true,y_predicted_GD,"gd")
 
-    #Confusion_SGD, accuracy_SGD=Confusion_and_accuracy(y_true,y_predicted_SGD)
-    #area_score_SGD=gains_plot_area(y_true,y_predicted_SGD,"sgd")
 
     Confusion_SKL, accuracy_SKL=Confusion_and_accuracy(y_true,y_predicted_SKL)
     area_score_SKL=gains_plot_area(y_true,y_predicted_SKL,"skl")
@@ -133,9 +147,14 @@ if initial==True:
     print("Fit GD using")
     print("iters:", max_iters,"eta:", eta_gd)
     print("Confusion\n",Confusion_GD,"acc",accuracy_GD,"area score",area_score_GD)
-    #print("Fit SGD using")
-    #print("n_epochs:", n_epochs,"batch_size:", batch_size, "eta_sgd",eta_sgd,"lmd",lmd)
-    #print("Confusion\n",Confusion_SGD,"acc",accuracy_SGD,"area score",area_score_SGD)
+    if use_SGD==True:
+        beta_SGD=SGD(X_train,y_train,n_epochs,batch_size,eta_sgd,lmd,plot=costplots)
+        y_predicted_SGD = 1/(1+np.exp(-X_true@beta_SGD))
+        Confusion_SGD, accuracy_SGD=Confusion_and_accuracy(y_true,y_predicted_SGD)
+        area_score_SGD=gains_plot_area(y_true,y_predicted_SGD,"sgd")
+        print("Fit SGD using")
+        print("n_epochs:", n_epochs,"batch_size:", batch_size, "eta_sgd",eta_sgd,"lmd",lmd)
+        print("Confusion\n",Confusion_SGD,"acc",accuracy_SGD,"area score",area_score_SGD)
     print("Fit SKL using")
     print("max_iter:", max_iter_SK,"solver",solver_SK )
     print("Confusion\n",Confusion_SKL,"acc",accuracy_SKL,"area score",area_score_SKL)

@@ -1,0 +1,8 @@
+2 hidden layers 
+
+epochs_NN=1000
+batch_size_NN=1000
+eta_NN=0.1
+lmd_NN=1
+
+area score 0.39
