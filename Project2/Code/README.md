@@ -1,4 +1,4 @@
-file						description
+#file						#description
 default_of_credit_card_client.xls		CC data
 functions_regression.py				contains franke's function and associated design matrix setup 
 load_credit_data.py				loads CC data, removes outliers, one-hot encodes certain predictors
