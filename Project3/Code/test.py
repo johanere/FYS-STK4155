@@ -57,4 +57,4 @@ from keras.layers import Dense, Activation
 
 model = Sequential()
 
-#asd
+#asd asa
