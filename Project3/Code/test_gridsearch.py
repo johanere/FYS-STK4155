@@ -69,7 +69,7 @@ np.random.seed(3)
 
 # load data
 df = pd.read_csv("winequality-white.csv", sep=";")
-X = df.drop("quality", axis=1)
+X = df.drop("quality", axis=1)sklms
 y = df["quality"]
 
 # stratified split
