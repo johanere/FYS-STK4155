@@ -108,11 +108,12 @@ n_categories = np.shape(y_train)
 
 model = KerasClassifier(build_fn=create_model, epochs=10, batch_size=10, verbose=1)
 
-model.fit(X_train, y_train)
-ypred=model.predict(X_train) #feil form på!
+model.fit(X_train.values, y_train.values)
+ypred=model.predict_classes(X_train.values, verbose=1) #feil form på!
 print(ypred)
 print(y_train)
-"""
+print(np.shape(ypred),np.shape(y_train))
+
 # learning rate
 lr = [1e-2, 1e-3]  # , 1e-4]
 # deacy ???

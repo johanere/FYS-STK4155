@@ -20,15 +20,15 @@ X_train, X_test, y_train, y_test = sklms.train_test_split(
 )
 
 print("Category count")
-print(df["quality"].value_counts())
+print(df["quality"].value_counts().sort_index())
 
 # plot
 fig, ax = plt.subplots(figsize=(10 * 1.618, 10))
-y_train.hist(ax=ax, density=False)
+plt.bar([3,4,5,6,7,8,9],df["quality"].value_counts().sort_index().values)
 plt.xlabel("Quality")
 plt.ylabel("Observations")
 plt.savefig("../Results/hist_y_train.pdf")
-
+plt.show()
 # plot
 fig, ax = plt.subplots(figsize=(10 * 1.618, 10))
 y.hist(ax=ax, density=False)
