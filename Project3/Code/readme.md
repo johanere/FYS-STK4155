@@ -1,4 +1,4 @@
-### programs
+### Programs
 - combine_plots.py 			- 	Combines confusion matrix plots in one figure
 - gridsearch_nn.py			-	Grid-search program for neural network 
 - gridsearch_SVM.py			-	Grid-search program for support vector machine
@@ -8,6 +8,6 @@
 - SVM_model.py				-	Train and test SVM model based on grid-search parameters, plots correlation
 
 
-### folders		
+### Folders		
 - NN_gridsearch_results 		- 	Contains results from gridsearch neural network
 - SVM_gridsearch_results 		- 	Contains results from gridsearch SVM
