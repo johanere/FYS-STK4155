@@ -1,0 +1,3 @@
+Best parameters: {'C': 0.5, 'coef0': 0.7, 'degree': 3, 'gamma': 'scale', 'kernel': 'rbf', 'shrinking': True}
+Best score: -0.94392312
+Best test score: 0.9065015479876161

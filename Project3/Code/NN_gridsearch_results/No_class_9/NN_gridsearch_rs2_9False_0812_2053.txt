@@ -1,0 +1,3 @@
+Best parameters: {'act': 'relu', 'batch_size': 1100, 'decay': 1e-06, 'dropout': 0.1, 'epochs': 50, 'lr': 0.01, 'nl1': 1, 'nl2': 1, 'nl3': 0, 'nn1': 9, 'nn2': 7, 'nn3': 0}
+Best score: 0.0518648
+Best test score: 2.873684210526316

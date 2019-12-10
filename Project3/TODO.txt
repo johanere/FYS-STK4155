@@ -1,7 +1,0 @@
-find out why is skl.NN mlp working so badly
-
-MAD as score on grid
-
-F1 on all categories after mad.
-
-find out what T is for accu, then accu on grid

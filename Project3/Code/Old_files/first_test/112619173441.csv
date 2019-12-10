@@ -1,2 +1,0 @@
-round_epochs,val_loss,val_acc,loss,acc,activation,batch_size,dropout,emb_output_dims,epochs,first_neuron,hidden_layers,last_activation,losses,lr,optimizer,weight_regulizer
-300,0.01101092199487002,0.9555555582046509,0.0023567973893472683,0.9904762,<function elu at 0x7f685d9ae680>,2,0.32,None,300,16,4,<function softmax at 0x7f685d9a8c20>,<function logcosh at 0x7f685d9c4cb0>,6,adam,None
