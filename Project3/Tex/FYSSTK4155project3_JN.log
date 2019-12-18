@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.1.3)  10 DEC 2019 23:19
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.1.3)  18 DEC 2019 15:21
 entering extended mode
 **./FYSSTK4155project3_JN.tex
 (FYSSTK4155project3_JN.tex
@@ -1166,7 +1166,7 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <7> on input line 178.
  [3]
-<../Results/bar_y.pdf, id=105, pagebox=cropbox, 1169.32857pt x 722.7pt>
+<../Results/bar_y.pdf, id=104, pagebox=cropbox, 1169.32857pt x 722.7pt>
 File: ../Results/bar_y.pdf Graphic file (type pdf)
 <use ../Results/bar_y.pdf>
 Package pdftex.def Info: ../Results/bar_y.pdf  used on input line 191. on input
@@ -1174,7 +1174,7 @@ Package pdftex.def Info: ../Results/bar_y.pdf  used on input line 191. on input
 Package pdftex.def Info: Requested size: 350.80127pt x 216.81166pt on input lin
 e 191.
  [4 <../Results/bar_y.pdf>]
-<confusion.jpg, id=150, 231.9867pt x 216.81pt>
+<confusion.jpg, id=149, 231.9867pt x 216.81pt>
 File: confusion.jpg Graphic file (type jpg)
 <use confusion.jpg>
 Package pdftex.def Info: confusion.jpg  used on input line 210. on input line 2
@@ -1183,7 +1183,7 @@ Package pdftex.def Info: Requested size: 185.58958pt x 173.44823pt on input lin
 e 210.
 
 [5 <./confusion.jpg>] [6]
-<../Results/confusions_SVM.pdf, id=183, pagebox=cropbox, 857.2025pt x 492.84125
+<../Results/confusions_SVM.pdf, id=182, pagebox=cropbox, 857.2025pt x 492.84125
 pt>
 File: ../Results/confusions_SVM.pdf Graphic file (type pdf)
 <use ../Results/confusions_SVM.pdf>
@@ -1192,7 +1192,7 @@ Package pdftex.def Info: ../Results/confusions_SVM.pdf  used on input line 240.
 Package pdftex.def Info: Requested size: 428.6002pt x 246.42001pt on input line
  240.
  [7 <../Results/confusions_SVM.pdf>]
-<../Results/confusions_NN_grid.pdf, id=205, pagebox=cropbox, 857.2025pt x 492.8
+<../Results/confusions_NN_grid.pdf, id=204, pagebox=cropbox, 857.2025pt x 492.8
 4125pt>
 File: ../Results/confusions_NN_grid.pdf Graphic file (type pdf)
 <use ../Results/confusions_NN_grid.pdf>
@@ -1201,7 +1201,7 @@ Package pdftex.def Info: ../Results/confusions_NN_grid.pdf  used on input line
 Package pdftex.def Info: Requested size: 428.6002pt x 246.42001pt on input line
  253.
  [8 <../Results/confusions_NN_grid.pdf>]
-<../Results/confusions_NN.pdf, id=214, pagebox=cropbox, 857.2025pt x 492.84125p
+<../Results/confusions_NN.pdf, id=213, pagebox=cropbox, 857.2025pt x 492.84125p
 t>
 File: ../Results/confusions_NN.pdf Graphic file (type pdf)
 <use ../Results/confusions_NN.pdf>
@@ -1220,7 +1220,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
  [10])
-<../Results/corrolation_X.pdf, id=230, pagebox=cropbox, 1169.32857pt x 722.7pt>
+<../Results/corrolation_X.pdf, id=229, pagebox=cropbox, 1169.32857pt x 722.7pt>
 
 File: ../Results/corrolation_X.pdf Graphic file (type pdf)
 <use ../Results/corrolation_X.pdf>
@@ -1233,7 +1233,7 @@ Overfull \hbox (92.573pt too wide) in paragraph at lines 286--287
  [][] 
  []
 
-<../Results/inital_hyperparam.pdf, id=231, pagebox=cropbox, 1169.32857pt x 722.
+<../Results/inital_hyperparam.pdf, id=230, pagebox=cropbox, 1169.32857pt x 722.
 7pt>
 File: ../Results/inital_hyperparam.pdf Graphic file (type pdf)
 <use ../Results/inital_hyperparam.pdf>
@@ -1408,13 +1408,13 @@ Package rerunfilecheck Info: File `FYSSTK4155project3_JN.out' has not changed.
 (rerunfilecheck)             Checksum: 737A18293ED00471FC5DA384F9443C37;687.
  ) 
 Here is how much of TeX's memory you used:
- 32975 strings out of 493312
- 743748 string characters out of 3144112
+ 32977 strings out of 493312
+ 743774 string characters out of 3144112
  964100 words of memory out of 3000000
  35670 multiletter control sequences out of 15000+200000
- 87492 words of font info for 154 fonts, out of 3000000 for 9000
+ 87534 words of font info for 155 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 69i,12n,98p,1740b,609s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 69i,12n,98p,1757b,609s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Johan/Miktex/fonts/enc/dvips/lm/lm-ec.enc}{C:/Johan/Miktex/fonts/enc/dvip
 s/lm/lm-mathit.enc}{C:/Johan/Miktex/fonts/enc/dvips/lm/lm-mathsy.enc}{C:/Johan/
 Miktex/fonts/enc/dvips/lm/lm-rm.enc}<C:/Johan/Miktex/fonts/type1/public/amsfont
@@ -1427,9 +1427,9 @@ ublic/lm/lmr10.pfb><C:/Johan/Miktex/fonts/type1/public/lm/lmr7.pfb><C:/Johan/Mi
 ktex/fonts/type1/public/lm/lmr9.pfb><C:/Johan/Miktex/fonts/type1/public/lm/lmri
 10.pfb><C:/Johan/Miktex/fonts/type1/public/lm/lmsy10.pfb><C:/Johan/Miktex/fonts
 /type1/public/lm/lmsy7.pfb><C:/Johan/Miktex/fonts/type1/public/lm/lmtt10.pfb>
-Output written on FYSSTK4155project3_JN.pdf (12 pages, 505907 bytes).
+Output written on FYSSTK4155project3_JN.pdf (12 pages, 504330 bytes).
 PDF statistics:
- 390 PDF objects out of 1000 (max. 8388607)
+ 389 PDF objects out of 1000 (max. 8388607)
  47 named destinations out of 1000 (max. 500000)
  23176 words of extra memory for PDF output out of 24883 (max. 10000000)
 
